@@ -25,11 +25,16 @@
         </div>
 
         <div class="text-center mb-4">
-            <span class="text-4xl" id="moodEmoji">😊</span>
+            <span class="text-4xl" id="moodEmoji">😔</span>
         </div>
 
         <div class="bg-gray-100 p-4 rounded-lg mb-4 min-h-[200px]">
-            <p id="noteText" class="text-gray-800">This is a sample note. Click edit to change it!</p>
+            <p id="noteText" class="text-gray-800">Belum ada satu bulan
+                Ku yakin masih ada sisa wangiku di bajumu
+                Namun kau tampak baik saja
+                Bahkan senyummu lebih lepas
+                Sedang aku di sini hampir gila
+                </p>
         </div>
 
         <button onclick="toggleEdit()" class="bg-[#76aeb8] text-white px-4 py-2 rounded-lg w-full hover:bg-[#5a8d96] transition duration-300 flex items-center justify-center mb-4">

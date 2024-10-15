@@ -20,6 +20,79 @@
 // <<<<<<<<<<<<<<<<<<---------- ladning page dose animasi munculnya hasil pencarian ---------------->>>>>>>>>>>>>>>>>>>> //
 
 // <<<<<<<<<<<<<<<<<<---------- navbar 2 dan 3 menu ---------------->>>>>>>>>>>>>>>>>>>> //
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     const menuItems = document.querySelectorAll('.menu-item');
+//     const mobileMenuButton = document.getElementById('mobile-menu-button');
+//     const mobileMenu = document.getElementById('mobile-menu');
+//     const slider = document.getElementById('slider');
+
+//     function moveSlider(item) {
+//         const itemRect = item.getBoundingClientRect();
+//         const containerRect = document.querySelector('.nav-container').getBoundingClientRect();
+//         slider.style.left = `${itemRect.left - containerRect.left}px`;
+//         slider.style.width = `${itemRect.width}px`;
+//     }
+
+//     function setActiveMenuItem(menuName) {
+//         menuItems.forEach(item => {
+//             if (item.getAttribute('data-menu') === menuName) {
+//                 item.classList.add('active', 'active-menu-item');
+//                 item.style.color = '#76aeb8';
+//             } else {
+//                 item.classList.remove('active', 'active-menu-item');
+//                 item.style.color = '';
+//             }
+//         });
+
+//         const activeDesktopItem = document.querySelector(`.nav-container .menu-item[data-menu="${menuName}"]`);
+//         if (activeDesktopItem && window.innerWidth > 768) {
+//             moveSlider(activeDesktopItem);
+//         }
+
+//         localStorage.setItem('activeMenu', menuName);
+//     }
+
+//     function handleSliderVisibility() {
+//         if (window.innerWidth <= 768) {
+//             slider.style.display = 'none';
+//         } else {
+//             slider.style.display = 'block';
+//             const activeMenu = localStorage.getItem('activeMenu') || 'home';
+//             setActiveMenuItem(activeMenu);
+//         }
+//     }
+
+//     // Set default active menu to 'home' when in mobile view
+//     function setDefaultMobileActive() {
+//         if (window.innerWidth <= 768) {
+//             setActiveMenuItem('home'); // Default to 'home'
+//         }
+//     }
+
+//     menuItems.forEach(item => {
+//         item.addEventListener('click', function(e) {
+//             const menuName = this.getAttribute('data-menu');
+//             setActiveMenuItem(menuName);
+
+//             // Close mobile menu on click, if on a mobile screen
+//             if (window.innerWidth <= 768) {
+//                 mobileMenu.classList.add('hidden');
+//             }
+//         });
+//     });
+
+//     mobileMenuButton.addEventListener('click', () => {
+//         mobileMenu.classList.toggle('hidden');
+//     });
+
+//     window.addEventListener('resize', handleSliderVisibility);
+//     handleSliderVisibility();
+
+//     // Set default active item on load for mobile view
+//     setDefaultMobileActive();
+// });
+
 document.addEventListener('DOMContentLoaded', function() {
     const menuItems = document.querySelectorAll('.menu-item');
     const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -85,6 +158,24 @@ document.addEventListener('DOMContentLoaded', function() {
     handleSliderVisibility();
 });
 
+menuItems.forEach(item => {
+    item.addEventListener('click', function(e) {
+        e.preventDefault(); // Keep preventDefault for SPA behavior
+        const menuName = this.getAttribute('data-menu');
+        setActiveMenuItem(menuName);
+
+        // Simulate loading a new page by changing content
+        document.querySelector('#content').innerHTML = `You clicked on ${menuName}`;
+
+        // Close mobile menu on mobile view
+        if (window.innerWidth <= 768) {
+            mobileMenu.classList.add('hidden');
+        }
+
+        // Update browser history
+        history.pushState(null, '', `/${menuName}`);
+    });
+});
 // <<<<<<<<<<<<<<<<<<---------- navbar 2 dan 3 menu ---------------->>>>>>>>>>>>>>>>>>>> //
 
 
@@ -242,3 +333,82 @@ function showAlert(alertId) {
     // Di sini bisa diletakkan logika untuk melakukan logout
   });
 // <<<<<<<<<<<<<<<<<<---------- allert logout  ---------------->>>>>>>>>>>>>>>>>>>> //
+
+
+
+// <<<<<<<<<<<<<<<<<<---------- form otp  ---------------->>>>>>>>>>>>>>>>>>>> //
+// Menunggu hingga DOM sepenuhnya dimuat
+// document.addEventListener('DOMContentLoaded', () => {
+//     // Mendapatkan elemen form dan semua input teks di dalamnya
+//     const form = document.getElementById('otp-form')
+//     const inputs = [...form.querySelectorAll('input[type=text]')]
+//     const submit = form.querySelector('button[type=submit]')
+
+//     // Fungsi untuk menangani event keydown (saat tombol ditekan)
+//     const handleKeyDown = (e) => {
+//         // Mencegah input selain angka, backspace, delete, tab, dan tombol meta (command atau ctrl)
+//         if (
+//             !/^[0-9]{1}$/.test(e.key) // Hanya menerima angka
+//             && e.key !== 'Backspace' // Mengizinkan backspace
+//             && e.key !== 'Delete' // Mengizinkan delete
+//             && e.key !== 'Tab' // Mengizinkan tab
+//             && !e.metaKey // Mengizinkan tombol meta (command atau ctrl)
+//         ) {
+//             e.preventDefault() // Mencegah input karakter selain yang diizinkan
+//         }
+
+//         // Jika tombol 'Delete' atau 'Backspace' ditekan, hapus input sebelumnya dan fokus ke input sebelumnya
+//         if (e.key === 'Delete' || e.key === 'Backspace') {
+//             const index = inputs.indexOf(e.target); // Mendapatkan indeks input saat ini
+//             if (index > 0) { // Jika bukan input pertama
+//                 inputs[index - 1].value = ''; // Hapus nilai input sebelumnya
+//                 inputs[index - 1].focus(); // Fokus ke input sebelumnya
+//             }
+//         }
+//     }
+
+//     // Fungsi untuk menangani event input (saat ada perubahan nilai input)
+//     const handleInput = (e) => {
+//         const { target } = e // Elemen target yang terpengaruh event
+//         const index = inputs.indexOf(target) // Mendapatkan indeks input saat ini
+//         if (target.value) { // Jika input memiliki nilai
+//             if (index < inputs.length - 1) { // Jika bukan input terakhir
+//                 inputs[index + 1].focus() // Fokus ke input berikutnya
+//             } else {
+//                 submit.focus() // Jika input terakhir, fokus ke tombol submit
+//             }
+//         }
+//     }
+
+//     // Fungsi untuk menangani event focus (saat input difokuskan)
+//     const handleFocus = (e) => {
+//         e.target.select() // Secara otomatis memilih teks di dalam input saat difokuskan
+//     }
+
+//     // Fungsi untuk menangani event paste (saat pengguna menempelkan teks)
+//     const handlePaste = (e) => {
+//         e.preventDefault() // Mencegah tindakan default paste
+//         const text = e.clipboardData.getData('text') // Mendapatkan teks dari clipboard
+//         // Hanya melanjutkan jika teks yang ditempel berisi angka sebanyak jumlah input
+//         if (!new RegExp(`^[0-9]{${inputs.length}}$`).test(text)) {
+//             return
+//         }
+//         const digits = text.split('') // Memecah teks menjadi array digit
+//         inputs.forEach((input, index) => input.value = digits[index]) // Memasukkan setiap digit ke input yang sesuai
+//         submit.focus() // Setelah paste, fokuskan ke tombol submit
+//     }
+
+//     // Menambahkan event listener untuk setiap input
+//     inputs.forEach((input) => {
+//         input.addEventListener('input', handleInput) // Saat ada input
+//         input.addEventListener('keydown', handleKeyDown) // Saat tombol ditekan
+//         input.addEventListener('focus', handleFocus) // Saat input difokuskan
+//         input.addEventListener('paste', handlePaste) // Saat teks ditempel
+//     })
+// })
+
+
+// <<<<<<<<<<<<<<<<<<---------- form otp  ---------------->>>>>>>>>>>>>>>>>>>> //
+
+
+

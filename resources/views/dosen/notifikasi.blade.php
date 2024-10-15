@@ -15,7 +15,7 @@
                     <p class="text-sm text-yellow-600">
                         <span>Nama</span>
                         <span>:</span>
-                        <span>John Doe</span>
+                        <span>Mamang jon</span>
                     </p>
                     <p class="text-sm text-yellow-600">
                         <span>NIM</span>
@@ -36,7 +36,7 @@
                     <p class="text-sm text-green-600">
                         <span>Nama</span>
                         <span>:</span>
-                        <span>John Doe</span>
+                        <span>Mamang saep</span>
                     </p>
                     <p class="text-sm text-green-600">
                         <span>NIM</span>
@@ -63,7 +63,7 @@
                     <p class="text-sm text-red-600">
                         <span>Nama</span>
                         <span>:</span>
-                        <span>John Doe</span>
+                        <span>Mamang cepot</span>
                     </p>
                     <p class="text-sm text-red-600">
                         <span>NIM</span>

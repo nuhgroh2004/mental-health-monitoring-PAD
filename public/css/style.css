@@ -185,6 +185,37 @@ body {
     transition: all 0.3s ease; /* Smooth transition for slider */
 }
 
+/*
+.menu-item {
+    font-family: 'Fenix', serif;
+}
+.nav-container {
+    position: relative;
+}
+.nav-item.active {
+    color: #76aeb8;
+}
+#slider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background-color: #76aeb8;
+    transition: all 0.3s ease;
+}
+.nav-item {
+    transition: all 0.3s ease;
+}
+@media (max-width: 768px) {
+    .active-menu-item {
+        background-color: #E5E7EB;
+        color: #76aeb8;
+    }
+    #slider {
+        display: none;
+    }
+} */
+
 /* <<<<<<<<<<-------------------------------------- tombol slaider navbar 2 --------------------------->>>>>>>>>> */
 
 
@@ -197,20 +228,78 @@ body {
 
 
 /* <<<<<<<<<<-------------------------------------- landing page mahasiswa --------------------------->>>>>>>>>> */
-.startBtn {
-    display: flex;
-}
 
-.stopBtn {
-    display: flex;
-}
-
-.submitBtn {
-    display: flex;
-}
 
 .confirmDialog {
     display: flex;
 }
 
 /* <<<<<<<<<<-------------------------------------- landing page mahasiswa --------------------------->>>>>>>>>> */
+
+/* <<<<<<<<<<-------------------------------------- animasi jam  --------------------------->>>>>>>>>> */
+@keyframes borderAnimation {
+    0% { border-color: #76aeb8; }
+    50% { border-color: #5a8d96; }
+    100% { border-color: #76aeb8; }
+}
+.timer-circle {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: 10px solid #76aeb8;
+    position: relative;
+    animation: borderAnimation 5s linear infinite;
+}
+.timer-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+}
+.hourglass {
+    width: 50px;
+    height: 70px;
+    animation: flip 2s infinite;
+    margin: 0 auto;
+}
+@keyframes flip {
+    0%, 100% { transform: rotate(0); }
+    50% { transform: rotate(180deg); }
+}
+/* <<<<<<<<<<-------------------------------------- animasi jam  --------------------------->>>>>>>>>> */
+
+
+/* <<<<<<<<<<-------------------------------------- tombol login register  --------------------------->>>>>>>>>> */
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes pulseSlower {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+@keyframes bounceSlow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+    animation: pulseSlower 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-bounce-slow {
+    animation: bounceSlow 2s infinite;
+}
+
+/* <<<<<<<<<<-------------------------------------- tombol login register  --------------------------->>>>>>>>>> */

@@ -37,7 +37,7 @@
                     <p class="font-medium text-gray-800 mb-2">
                         <span class="inline-block w-16">Nama</span>
                         <span class="font-medium text-gray-800">:</span>
-                        <span class="ml-2" id="resultName">John Doe</span>
+                        <span class="ml-2" id="resultName">Mamang jon</span>
                     </p>
                     <p class="font-medium text-gray-800">
                         <span class="inline-block w-16">NIM</span>

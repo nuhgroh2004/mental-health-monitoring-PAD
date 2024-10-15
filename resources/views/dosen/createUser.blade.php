@@ -87,7 +87,7 @@
 
                     <!-- Tombol untuk menghapus user -->
                     <button type="button" @click="removeUser(index)" class="mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform duration-300 ease-in-out transform hover:scale-105">
-                        Remove User
+                        Remove
                     </button>
                 </div>
             </template>

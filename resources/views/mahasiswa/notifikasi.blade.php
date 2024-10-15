@@ -1,5 +1,6 @@
 @extends('navbar/navbar3')
 @section('content')
+<title>Notifikasi</title>
 <div class="bg-[#76aeb8] min-h-screen p-4">
     <div class="w-[100%] mx-auto">
         <div class="bg-white rounded-lg shadow-md p-4 mb-4">
@@ -12,8 +13,8 @@
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-sm text-gray-500">6/04/2024</span>
                 </div>
-                <p class="font-semibold mb-1">Hasan Dabukke ingin melihat laporan anda</p>
-                <p class="text-sm text-gray-600 mb-4">hasanajbd1277@mail.ugm</p>
+                <p class="font-semibold mb-1">Nuhgroh ganteng ingin melihat laporan anda</p>
+                <p class="text-sm text-gray-600 mb-4">nuhgroh ganteng@mail.ugm</p>
                 <div class="flex justify-end space-x-2 button-container">
                     <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition duration-300 ease-in-out transform hover:scale-105 approve-btn">
                         Izinkan

@@ -52,6 +52,19 @@ Route::get('/dosen/notifikasi',function(){
     return view('dosen.notifikasi');
 })->name('dosen.notifikasi');
 
+Route::get('/dosen/profil',function(){
+    return view('dosen.profil');
+})->name('dosen.profil');
+
+Route::get('/dosen/editProfil',function(){
+    return view('dosen.editProfil');
+})->name('dosen.editProfil');
+
+Route::get('/dosen/otp',function(){
+    return view('dosen.otp');
+})->name('dosen.otp');
+
+
 // ------------------------ route untuk dosen ------------------------- //
 
 
@@ -88,10 +101,20 @@ Route::get('/mahasiswa/report',function(){
 Route::get('/mahasiswa/notifikasi',function(){
     return view('mahasiswa.notifikasi');
 })->name('mahasiswa.notifikasi');
+
+Route::get('/mahasiswa/profil',function(){
+    return view('mahasiswa.profil');
+})->name('mahasiswa.profil');
+
+Route::get('/mahasiswa/editProfil',function(){
+    return view('mahasiswa.editProfil');
+})->name('mahasiswa.editProfil');
 // ------------------------ route untuk mahasiswa ------------------------- //
 
 
 // Route::get('/captcha/refresh', function() {
 //     return response()->json(['captcha'=> captcha_img('flat')]);
 // });
+
+
 
