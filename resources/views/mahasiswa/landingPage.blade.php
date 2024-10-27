@@ -1,5 +1,27 @@
 @extends('navbar/navbar3')
 @section('content')
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>GamaPulse</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <!-- Favicons -->
+    <link rel="icon" href="{{ asset('asset/logo.png') }}" type="image/png">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/aos/aos.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+    <!-- Main CSS File -->
+    <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
+    @vite('resources/css/app.css')
+</head>
 <title>Home</title>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
 <section class="bg-[#76aeb8] min-h-screen flex flex-col items-center justify-center p-4">
@@ -18,6 +40,27 @@
             <a href="{{ route('mahasiswa.notes') }}" class="emoji-btn inline-block transition-transform transform" data-emotion="Senang">
                 <img src="{{ asset('asset/svg/emoji/happy.svg') }}" alt="Happy Emoji" class="inline-block">
             </a>
+        </div>
+    </div>
+    <!-- Popup Modal -->
+    <div id="emotion-level-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full m-4">
+            <h3 class="text-xl font-bold mb-4 text-center">Seberapa <span id="selected-emotion-text"></span> kamu?</h3>
+
+            <!-- Level Buttons -->
+            <div class="flex justify-between mb-6">
+                <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="1">1</button>
+                <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="2">2</button>
+                <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="3">3</button>
+                <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="4">4</button>
+                <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="5">5</button>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-center space-x-4">
+                <button id="modal-back" class="w-24 px-6 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors text-center">Kembali</button>
+                <button id="modal-ok" class="w-24 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">OK</button>
+            </div>
         </div>
     </div>
     <!-- Tombol Reset -->
@@ -76,7 +119,8 @@
         <div class="flex justify-center space-x-6 mb-8">
             <button x-show="timerStarted" @click="toggleTimer()"
                     x-text="isRunning ? 'Pause' : 'Play'"
-                    class="bg-[#76aeb8] hover:bg-[#5a8d96] text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 text-lg">
+                    class="bg-[#76aeb8] hover:bg-[#5a8d96] text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 text-lg"
+                    style="min-width: 100px;">
             </button>
             <button x-show="timerStarted" @click="finishTimer()"
                     class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 text-lg">
@@ -138,114 +182,147 @@
 //     });
 // });
 
-document.querySelectorAll('.emoji-btn').forEach(btn => {
-        btn.addEventListener('click', function(event) {
-            event.preventDefault(); // Mencegah pindah halaman langsung
-
-            const selectedEmotion = this.getAttribute('data-emotion');
-            localStorage.setItem('selectedEmotion', selectedEmotion); // Simpan di localStorage
-
-            // Sembunyikan semua emoji
-            document.querySelectorAll('.emoji-btn').forEach(el => el.style.display = 'none');
-
-            // Tampilkan hanya emoji yang dipilih di tengah
-            this.style.display = 'block';
-            this.style.margin = '0 auto';
-            this.classList.add('mx-auto'); // Tempatkan di tengah layar
-
-            // Setelah menampilkan emoji, arahkan ke halaman tujuan
-            setTimeout(() => {
-                window.location.href = "{{ route('mahasiswa.notes') }}";
-            }, 500); // Tambahkan delay jika diperlukan
-        });
-    });
-
-    // Tombol Reset untuk mengembalikan tampilan semula
-    document.getElementById('reset-btn').addEventListener('click', function() {
-        // Hapus data dari localStorage
-        localStorage.removeItem('selectedEmotion');
-
-        // Kembalikan semua emoji ke tampilan semula
-        document.querySelectorAll('.emoji-btn').forEach(el => {
-            el.style.display = 'inline-block';
-            el.style.margin = ''; // Hapus margin auto
-            el.classList.remove('mx-auto', 'selected'); // Hapus kelas mx-auto dan selected
-        });
-
-        // Kembalikan teks ke keadaan semula
-        document.getElementById('feeling-text').textContent = 'HALLO BAGAIMANA PERSAANMU HARI INI';
-    });
-
-    // Jika ada data tersimpan, tampilkan emoji yang sudah dipilih sebelumnya
-    const savedEmotion = localStorage.getItem('selectedEmotion');
-    if (savedEmotion) {
-        document.querySelectorAll('.emoji-btn').forEach(btn => {
-            if (btn.getAttribute('data-emotion') !== savedEmotion) {
-                btn.style.display = 'none';
-            } else {
-                btn.style.display = 'block';
-                btn.style.margin = '0 auto'; // Tambahkan margin auto untuk memastikan di tengah
-                btn.classList.add('mx-auto'); // Tempatkan di tengah
-            }
-        });
-    }
-
-document.querySelectorAll('.emoji-btn').forEach(button => {
-    button.addEventListener('click', function() {
-        // Tambahkan kelas Tailwind untuk memperbesar
-        this.classList.add('scale-105');
-
-        // Hapus kelas setelah animasi selesai (200ms, sesuai dengan durasi transisi)
-        setTimeout(() => {
-            this.classList.remove('scale-105');
-        }, 250);
-    });
-});
-
 document.addEventListener('DOMContentLoaded', function() {
     const emojiButtons = document.querySelectorAll('.emoji-btn');
+    const modal = document.getElementById('emotion-level-modal');
+    const levelButtons = document.querySelectorAll('.level-btn');
+    const modalOkButton = document.getElementById('modal-ok');
+    const modalBackButton = document.getElementById('modal-back');
     const feelingText = document.getElementById('feeling-text');
     const resetButton = document.getElementById('reset-btn');
 
-    // Fungsi untuk mengatur emoji yang dipilih dan menyimpan di localStorage
+    let selectedEmotion = '';
+    let selectedLevel = null;
+    let isAnimating = false;
+
+    // Fungsi untuk animasi pembesaran emoji
+    function animateEmoji(emojiButton) {
+        if (isAnimating) return;
+        isAnimating = true;
+
+        // Simpan ukuran dan posisi awal
+        const originalScale = 1;
+        const targetScale = 1.2; // Perkecil skala animasi
+
+        // Tambahkan transition untuk animasi yang smooth
+        emojiButton.style.transition = 'transform 0.2s ease-in-out'; // Perpendek durasi animasi
+
+        // Efek membesar
+        emojiButton.style.transform = `scale(${targetScale})`;
+
+        // Kembali ke ukuran semula setelah animasi selesai
+        setTimeout(() => {
+            emojiButton.style.transform = `scale(${originalScale})`;
+            setTimeout(() => {
+                emojiButton.style.transition = '';
+                isAnimating = false;
+                showModal(emojiButton.getAttribute('data-emotion'));
+            }, 120);
+        }, 120);
+    }
+
+    // Fungsi untuk menampilkan modal
+    function showModal(emotion) {
+        selectedEmotion = emotion;
+        document.getElementById('selected-emotion-text').textContent = emotion;
+        modal.classList.remove('hidden');
+        // Reset level selection
+        levelButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
+        selectedLevel = null;
+    }
+
+    // Event listener untuk emoji buttons
     emojiButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const emotion = this.dataset.emotion;
-
-            // Set text sesuai dengan emoji yang dipilih
-            feelingText.textContent = `Saya merasa ${emotion} hari ini!`;
-
-            // Hapus kelas 'selected' dari semua emoji dan tambahkan ke yang dipilih
-            emojiButtons.forEach(b => b.classList.remove('selected'));
-            this.classList.add('selected');
-
-            // Simpan emoji yang dipilih di localStorage
-            localStorage.setItem('selectedEmotion', emotion);
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            animateEmoji(this);
         });
     });
 
-    // Fungsi untuk mereset emoji yang dipilih dan teks
+    // Event listener untuk level buttons
+    levelButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove selected class from all buttons
+            levelButtons.forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
+            // Add selected class to clicked button
+            this.classList.add('bg-blue-500', 'text-white');
+            selectedLevel = this.getAttribute('data-level');
+        });
+    });
+
+    // Event listener untuk tombol Kembali
+    modalBackButton.addEventListener('click', function() {
+        modal.classList.add('hidden');
+        selectedLevel = null;
+    });
+
+    // Event listener untuk tombol OK
+    modalOkButton.addEventListener('click', function() {
+        if (selectedLevel) {
+            // Simpan data di localStorage
+            const data = {
+                emotion: selectedEmotion,
+                level: selectedLevel
+            };
+            localStorage.setItem('selectedEmotion', JSON.stringify(data));
+
+            // Update UI
+            feelingText.textContent = `Saya merasa ${selectedEmotion} level ${selectedLevel} hari ini!`;
+
+            // Sembunyikan emoji lain dan tampilkan hanya yang dipilih
+            emojiButtons.forEach(btn => {
+                if (btn.getAttribute('data-emotion') !== selectedEmotion) {
+                    btn.style.display = 'none';
+                } else {
+                    btn.style.display = 'block';
+                    btn.style.margin = '0 auto';
+                    btn.classList.add('mx-auto', 'pointer-events-none');
+                    btn.style.cursor = 'default';
+                }
+            });
+
+            // Tutup modal
+            modal.classList.add('hidden');
+
+            // Redirect setelah delay
+            setTimeout(() => {
+                window.location.href = "{{ route('mahasiswa.notes') }}";
+            }, 500);
+        }
+    });
+
+    // Event listener untuk tombol Reset
     resetButton.addEventListener('click', function() {
         // Hapus data dari localStorage
         localStorage.removeItem('selectedEmotion');
 
-        // Kembalikan teks ke keadaan semula
+        // Reset UI
         feelingText.textContent = 'HALLO BAGAIMANA PERSAANMU HARI INI';
 
-        // Hapus kelas 'selected' dari semua emoji
-        emojiButtons.forEach(b => b.classList.remove('selected'));
+        // Reset tampilan emoji
+        emojiButtons.forEach(btn => {
+            btn.style.display = 'inline-block';
+            btn.style.margin = '';
+            btn.classList.remove('mx-auto', 'pointer-events-none');
+            btn.style.cursor = 'pointer';
+            btn.style.transform = 'scale(1)';  // Reset scale
+        });
     });
 
-    // Cek apakah ada pilihan emoji yang tersimpan di localStorage
-    const savedEmotion = localStorage.getItem('selectedEmotion');
-    if (savedEmotion) {
-        // Tampilkan emoji yang dipilih sebelumnya
-        feelingText.textContent = `Saya merasa ${savedEmotion} hari ini!`;
+    // Check localStorage saat halaman dimuat
+    const savedData = localStorage.getItem('selectedEmotion');
+    if (savedData) {
+        const data = JSON.parse(savedData);
+        feelingText.textContent = `Saya merasa ${data.emotion} level ${data.level} hari ini!`;
 
-        // Tambahkan kelas 'selected' ke emoji yang sesuai
         emojiButtons.forEach(btn => {
-            if (btn.dataset.emotion === savedEmotion) {
-                btn.classList.add('selected');
+            if (btn.getAttribute('data-emotion') !== data.emotion) {
+                btn.style.display = 'none';
+            } else {
+                btn.style.display = 'block';
+                btn.style.margin = '0 auto';
+                btn.classList.add('mx-auto', 'pointer-events-none');
+                btn.style.cursor = 'default';
             }
         });
     }

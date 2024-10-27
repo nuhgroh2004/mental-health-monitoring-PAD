@@ -1,0 +1,71 @@
+.btn-mood {
+    background-color: rgba(30 30 30 / 20%);
+    backdrop-filter: blur(10px);
+}
+.btn-target {
+    background-color: rgba(30 30 30 / 20%);
+    backdrop-filter: blur(10px);
+}
+.sidebar, .top-bar, .emotion-level {
+    display: flex;
+}
+
+/* tampilan mobile*/
+@media (max-width: 768px) {
+   .text-emoji{
+        margin-bottom: 80px;
+        margin-top: 30px;
+   }
+
+    .btn-tambah {
+    width: 80px;
+    height: 40px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+}
+
+@media (min-width: 768px) {
+    .text-emoji{
+        margin-bottom: 100px;
+        margin-top: 20px;
+   }
+   .top-bar {
+    margin-top: 60px;
+    }
+}
+
+
+
+
+
+/* animasi timer */
+/* Timer text styling */
+.timer-text {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #3ad1ff;
+    font-family: 'Courier New', Courier, monospace;
+    animation: blink 1s step-end infinite;
+}
+
+/* Blink animation for the timer text */
+
+/* Fade-in animation when the timer first appears */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.timer-text {
+    animation: fadeIn 1s ease-in-out, blink 1s step-end infinite;
+}
+
+/* animasi timer */

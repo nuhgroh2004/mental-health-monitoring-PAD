@@ -7,8 +7,30 @@
     <title>Mood Note</title>
     @vite('resources/css/app.css')
 </head>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>GamaPulse</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <!-- Favicons -->
+    <link rel="icon" href="{{ asset('asset/logo.png') }}" type="image/png">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/aos/aos.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+    <!-- Main CSS File -->
+    <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
+    @vite('resources/css/app.css')
+</head>
 <body class="bg-[#76aeb8] flex justify-center items-center h-[800px]">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-[90%]">
+    <div class="container bg-white p-6 rounded-lg shadow-lg w-[90%]">
         <div class="flex justify-between items-center mb-4 text-[#76aeb8]">
             <div class="flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -25,7 +47,9 @@
         </div>
 
         <div class="text-center mb-4">
-            <span class="text-4xl" id="moodEmoji">😔</span>
+            <span class="text-4xl" id="moodEmoji">
+                <img src="{{ asset('asset/svg/emojiKecil/marah.svg') }}" alt="Mood Emoji" class="inline-block h-10 w-10">
+            </span>
         </div>
 
         <div class="bg-gray-100 p-4 rounded-lg mb-4 min-h-[200px]">
@@ -45,9 +69,9 @@
         </button>
 
         <!-- Tombol Kembali -->
-        <button onclick="goBack()" class="bg-gray-500 text-white px-4 py-2 rounded-lg w-full hover:bg-gray-600 transition duration-300 flex items-center justify-center">
+        <button onclick="goBack()" herf="{{ route('mahasiswa.register') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg w-full hover:bg-gray-600 transition duration-300 flex items-center justify-center">
             <svg class="h-5 w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                <path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            <path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
             Kembali
         </button>
@@ -56,19 +80,39 @@
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Select Mood:</label>
                 <div class="flex justify-between">
-                    <button onclick="selectMood('😊')" class="text-3xl p-2 rounded hover:bg-gray-200">😊</button>
-                    <button onclick="selectMood('😐')" class="text-3xl p-2 rounded hover:bg-gray-200">😐</button>
-                    <button onclick="selectMood('😔')" class="text-3xl p-2 rounded hover:bg-gray-200">😔</button>
-                    <button onclick="selectMood('😄')" class="text-3xl p-2 rounded hover:bg-gray-200">😄</button>
+                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/marah.svg') }}')" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
+                        <img src="{{ asset('asset/svg/emojiKecil/marah.svg') }}" alt="Marah" class="h-10 w-10">
+                    </button>
+                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/sedih.svg') }}')" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
+                        <img src="{{ asset('asset/svg/emojiKecil/sedih.svg') }}" alt="Sedih" class="h-10 w-10">
+                    </button>
+                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/biasaSaja.svg') }}')" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
+                        <img src="{{ asset('asset/svg/emojiKecil/biasaSaja.svg') }}" alt="Senyum" class="h-10 w-10">
+                    </button>
+                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/senang.svg') }}')" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
+                        <img src="{{ asset('asset/svg/emojiKecil/senang.svg') }}" alt="Tertawa" class="h-10 w-10">
+                    </button>
                 </div>
+                <style>
+                    .selected {
+                        background-color: #3399ab;
+                        color: white;
+                    }
+                </style>
             </div>
-            <textarea id="noteInput" placeholder="Enter your note" class="w-full p-2 mb-2 border rounded min-h-[200px] "></textarea>
-            <button onclick="saveChanges()" class="bg-[#76aeb8] text-white px-4 py-2 rounded-lg w-full hover:bg-[#5a8d96] transition duration-300">Save</button>
+            <textarea id="noteInput" placeholder="Enter your note" class="w-full p-2 mb-2 border rounded min-h-[200px]"></textarea>
+            <button onclick="saveChanges()" class="bg-[#76aeb8] text-white px-4 py-2 rounded-lg w-full hover:bg-[#5a8d96] transition duration-300 flex items-center justify-center">
+                <svg class="h-5 w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M5 13l4 4L19 7"></path>
+                </svg>
+                Save
+            </button>
         </div>
     </div>
 
     <script>
-        let selectedMood = '😊';
+        let selectedMood = '{{ asset('asset/svg/emojiKecil/marah.svg') }}';
+        let selectedButton = null; // To track the selected button
 
         function toggleEdit() {
             const editForm = document.getElementById('editForm');
@@ -80,28 +124,33 @@
             }
         }
 
-        function selectMood(mood) {
+        function selectMood(button, mood) {
+            // Remove 'selected' class from previously selected button, if any
+            if (selectedButton) {
+                selectedButton.classList.remove('selected');
+            }
+
+            // Add 'selected' class to the currently clicked button
+            button.classList.add('selected');
+
+            // Update the selected mood and selectedButton reference
             selectedMood = mood;
-            const buttons = document.querySelectorAll('#editForm button');
-            buttons.forEach(button => {
-                button.classList.remove('bg-gray-200');
-                if (button.innerText === mood) {
-                    button.classList.add('bg-gray-200');
-                }
-            });
+            selectedButton = button;
         }
 
         function saveChanges() {
             const noteText = document.getElementById('noteInput').value;
 
-            document.getElementById('moodEmoji').innerText = selectedMood;
+            // Update the displayed mood emoji and note
+            document.querySelector('#moodEmoji img').src = selectedMood;
             document.getElementById('noteText').innerText = noteText;
 
+            // Hide the edit form
             toggleEdit();
         }
 
         function goBack() {
-            window.history.back(); // Fungsi untuk kembali ke halaman sebelumnya
+            window.location.href = "{{ route('mahasiswa.viewMoodCalender') }}"; // Fungsi untuk kembali ke halaman register
         }
     </script>
 </body>

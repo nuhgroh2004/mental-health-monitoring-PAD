@@ -147,3 +147,38 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 // <<<<<<<<<<<<<<<<<<---------- captha generator ---------------->>>>>>>>>>>>>>>>>>>> //
+
+
+// <<<<<<<<<<<<<<<<<<---------- animasi refseres register ---------------->>>>>>>>>>>>>>>>>>>> //
+const refreshButton = document.getElementById("refreshButton");
+const refreshIcon = document.getElementById("refreshIcon");
+
+refreshButton.addEventListener("click", () => {
+    refreshIcon.classList.add("rotate");
+
+    // Remove the class after animation to allow repeating the animation on next click
+    setTimeout(() => {
+        refreshIcon.classList.remove("rotate");
+    }, 500);
+});
+// <<<<<<<<<<<<<<<<<<---------- animasi refseres register ---------------->>>>>>>>>>>>>>>>>>>> //
+
+// <<<<<<<<<<<<<<<<<<---------- melihat password register ---------------->>>>>>>>>>>>>>>>>>>> //
+const passwordInput = document.getElementById('password');
+const togglePasswordButton = document.getElementById('togglePassword');
+const eyeClosedIcon = document.getElementById('eyeClosed');
+const eyeOpenIcon = document.getElementById('eyeOpen');
+
+// Atur kondisi awal
+let isPasswordHidden = true; // Password tersembunyi di awal
+
+togglePasswordButton.addEventListener('click', function () {
+    // Toggle the type attribute between 'password' and 'text'
+    isPasswordHidden = !isPasswordHidden;
+    passwordInput.type = isPasswordHidden ? 'password' : 'text';
+
+    // Toggle icon visibility
+    eyeClosedIcon.classList.toggle('hidden', !isPasswordHidden);
+    eyeOpenIcon.classList.toggle('hidden', isPasswordHidden);
+});
+// <<<<<<<<<<<<<<<<<<---------- melihat password register ---------------->>>>>>>>>>>>>>>>>>>> //

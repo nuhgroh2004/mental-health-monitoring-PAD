@@ -12,7 +12,7 @@
                         <img class="h-12 w-auto" src="{{ asset('asset/logo.png') }}" alt="Your Company">
                     </a>
                     <a href="{{ route('landingPage') }}">
-                        <span class="ml-2 text-lg font-bold text-gray-900">GamaPlus</span>
+                        <span class="ml-2 text-lg font-bold text-gray-900">GamaPulse</span>
                     </a>
                 </div>
             </div>

@@ -26,6 +26,15 @@ Route::get('/login',function(){
     return view('login');
 })-> name('login');
 
+Route::get('/login1',function(){
+    return view('login1');
+})-> name('login1');
+
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
+
+
 // ------------------------ lading page utama ------------------------- //
 
 
@@ -73,6 +82,9 @@ Route::get('/dosen/otp',function(){
 Route::get('/navbar/navbar3',function(){
     return view('navbar.navbar3');
 });
+Route::get('/navbar/navbar-mahasiswa',function(){
+    return view('navbar.navbar-mahasiswa');
+});
 
 Route::get('/mahasiswa/register',function(){
     return view('mahasiswa.register');
@@ -109,6 +121,11 @@ Route::get('/mahasiswa/profil',function(){
 Route::get('/mahasiswa/editProfil',function(){
     return view('mahasiswa.editProfil');
 })->name('mahasiswa.editProfil');
+
+
+Route::get('/mahasiswa/home',function(){
+    return view('mahasiswa.home');
+})->name('mahasiswa.home');
 // ------------------------ route untuk mahasiswa ------------------------- //
 
 
@@ -118,3 +135,5 @@ Route::get('/mahasiswa/editProfil',function(){
 
 
 
+// kirim email
+Route :: get('/KirimEmail',[]);

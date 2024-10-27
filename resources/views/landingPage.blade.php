@@ -2,13 +2,15 @@
 @section('content')
 <title>GamaPlus</title>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
 <section class="bagian1 bg-[#76aeb8] flex justify-center items-end">
     <div class="relative flex justify-center items-center w-full max-w-4xl">
         <!-- Image Section -->
-        <img src="{{ asset('asset/Gambar1.png') }}" alt="hero image" class="w-full h-full object-cover" loading="lazy">
+        <img src="{{ asset('asset/Gambar1.png') }}" alt="hero image" class="w-full h-full object-cover animate__animated opacity-0 translate-y-10" data-animate="animate__fadeInUp">
         <!-- Overlay Text: Judul besar untuk branding -->
         <h1 class="absolute top-10 text-5xl font-extrabold text-white px-4 leading-tight md:text-9xl animate-float" style="font-family: 'Irish Grover', cursive;">
-            GamaPelus
+            GamaPulse
         </h1>
         <!-- Buttons Container -->
         <div class="absolute inset-x-0 bottom-1/3 flex justify-center space-x-16">
@@ -17,8 +19,8 @@
                 Login
             </a>
             <!-- Register Dropdown -->
-            <div class="relative group">
-                <button class="px-4 py-2 bg-[#ff9800] text-white rounded-full font-bold text-base transform hover:scale-110 transition duration-300 ease-in-out animate-bounce-slow md:px-8 md:py-4 md:text-xl">
+            <div class="relative group"> 
+                <button class="px-4 py-2 bg-[#ff9800] text-white rounded-full font-bold text-base transform hover:scale-110 transition duration-300 ease-in-out animate-bounce-slow md:px-8 md:py-4 md:text-xl ">
                     Register
                 </button>
                 <div class="absolute p-3 left-1/2 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out transform group-hover:translate-y-0 translate-y-2 -translate-x-1/2">
@@ -36,9 +38,9 @@
 {{---------------------------------------------------------------- section ke dua ----------------------------------------------------------------}}
 <section class="bagian2 bg-[#e9f5f9] min-h-screen flex justify-center items-center p-4 sm:p-6 md:p-8">
     <div class="w-full max-w-6xl mx-auto">
-        <div class="flex flex-col-reverse lg:flex-row justify-between items-center">
+        <div class="flex flex-col-reverse lg:flex-row justify-between items-center gap-5">
             <!-- Text Section -->
-            <div class="w-full lg:w-1/2">
+            <div class="w-full lg:w-1/2 animate__animated opacity-0 translate-y-4" data-animate="animate__fadeInLeft">
                 <div class="space-y-4 text-[#247786] text-justify">
                     <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-center lg:text-left">Pemantauan Kesehatan Mental</h2>
                     <p class="text-base sm:text-lg">Platform kami membantu Anda melacak kesehatan mental dan kesejahteraan Anda melalui berbagai fitur seperti pelacakan suasana hati, penetapan tujuan, dan penulisan jurnal.</p>
@@ -48,8 +50,8 @@
             </div>
 
             <!-- Image Section -->
-            <div class="w-full lg:w-1/2 mt-8 lg:mt-0">
-                <img src="{{ asset('asset/Gambar2.png') }}" alt="hero image" class="w-full h-auto object-cover"  loading="lazy">
+            <div class="w-full lg:w-1/2 mt-8 lg:mt-0 animate__animated opacity-0 translate-y-4" data-animate="animate__fadeInRight">
+                <img src="{{ asset('asset/Gambar3.png') }}" alt="hero image" class="w-full h-auto object-cover">
             </div>
         </div>
     </div>
@@ -61,11 +63,11 @@
 <section class="bagian3 bg-[#76aeb8] flex justify-center items-center min-h-screen p-4 sm:p-6 md:p-8">
     <div class="flex flex-col lg:flex-row w-full max-w-6xl justify-between items-center px-4 sm:px-6 md:px-8">
         <!-- Image Section -->
-        <div class="w-full lg:w-1/2 order-1 lg:order-1">
-            <img src="{{ asset('asset/Gambar3.png') }}" alt="hero image" class="w-full h-auto object-cover rounded-lg"  loading="lazy">
+        <div class="w-full lg:w-1/2 order-1 lg:order-1 animate__animated opacity-0 translate-y-4" data-animate="animate__fadeInLeft">
+            <img src="{{ asset('asset/Gambar2.png') }}" alt="hero image" class="w-full h-auto object-cover rounded-lg">
         </div>
         <!-- Text Section -->
-        <div class="w-full lg:w-1/2 order-2 lg:order-2 mt-8 lg:mt-0">
+        <div class="w-full lg:w-1/2 order-2 lg:order-2 mt-8 lg:mt-0 animate__animated opacity-0 translate-y-4" data-animate="animate__fadeInRight">
             <div class="space-y-4 text-white">
                 <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-center lg:text-left">Pemantauan Kesehatan Mental</h2>
                 <p class="text-base sm:text-lg text-justify">Platform kami membantu Anda melacak kesehatan mental dan kesejahteraan Anda melalui berbagai fitur seperti pelacakan suasana hati, penetapan tujuan, dan penulisan jurnal.</p>
@@ -95,11 +97,11 @@
 
                 <!-- Tombol Emoji -->
                 <div class="flex justify-around">
-                    <button class="text-4xl hover:transform hover:scale-110 transition-transform">😠</button>
-                    <button class="text-4xl hover:transform hover:scale-110 transition-transform">😢</button>
-                    <button class="text-4xl hover:transform hover:scale-110 transition-transform">😐</button>
-                    <button class="text-4xl hover:transform hover:scale-110 transition-transform">😊</button>
-                    <button class="text-4xl hover:transform hover:scale-110 transition-transform">😍</button>
+                    <a class="text-4xl hover:transform hover:scale-110 transition-transform">😠</a>
+                    <a class="text-4xl hover:transform hover:scale-110 transition-transform">😢</a>
+                    <a class="text-4xl hover:transform hover:scale-110 transition-transform">😐</a>
+                    <a class="text-4xl hover:transform hover:scale-110 transition-transform">😊</a>
+                    <a class="text-4xl hover:transform hover:scale-110 transition-transform">😍</a>
                 </div>
 
                 <!-- Deskripsi Fitur -->
@@ -124,10 +126,10 @@
 
                 <!-- Tombol Start dan Submit -->
                 <div class="flex justify-center space-x-4">
-                    <button id="startBtn" onclick="startTimer()" class="bg-green-500 text-white px-6 py-2 rounded-full transition duration-300">START</button>
+                    <a id="startBtn" class="bg-green-500 text-white px-6 py-2 rounded-full transition duration-300">START</a>
                 </div>
                 <div class="mt-6">
-                    <button onclick="submitGoal()" class="mt-2 bg-purple-500 text-white px-4 py-2 rounded-md transition duration-300">Submit</button>
+                    <a class="mt-2 bg-purple-500 text-white px-4 py-2 rounded-md transition duration-300">Submit</a>
                 </div>
             </div>
 
@@ -141,8 +143,8 @@
                     @foreach (['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $day)
                         <div class="text-center font-semibold">{{ $day }}</div>
                     @endforeach
-                    @for ($i = 1; $i <= 35; $i++)
-                        <div class="aspect-square bg-gray-100 rounded-md flex flex-col items-center justify-center {{ $i <= 30 ? 'cursor-pointer hover:bg-gray-200' : 'text-gray-400' }}">
+                    @for ($i = 1; $i <= 30; $i++)
+                        <div class="aspect-square bg-gray-100 rounded-md flex flex-col items-center justify-center {{ $i <= 30 ? '' : 'text-gray-400' }}">
                             @if ($i <= 30)
                                 <span class="text-xl mb-1">{{ ['😍', '😊', '😐', '😢', '😠'][rand(0, 4)] }}</span>
                                 <span class="text-sm">{{ $i }}</span>
@@ -160,18 +162,17 @@
                 <div class="flex justify-between items-center mb-4">
                     <div class="flex items-center">
                         <span class="mr-2">📅</span>
-                        <input type="date" class="border rounded px-2 py-1" value="{{ date('Y-m-d') }}" readonly>
+                        <input type="date" class="border rounded px-2 py-1 focus:outline-none" value="{{ date('Y-m-d') }}" readonly>
                     </div>
                     <div class="flex items-center">
                         <span class="mr-2">🕒</span>
-                        <input type="time" class="border rounded px-2 py-1" value="{{ date('H:i') }}" readonly>
+                        <input type="time" class="border rounded px-2 py-1 focus:outline-none" value="{{ date('H:i') }}" readonly>
                     </div>
                     <span class="text-4xl">😊</span>
                 </div>
 
                 <!-- Area untuk menulis jurnal harian -->
-                <textarea class="w-full h-32 p-2 border rounded resize-none" placeholder="Write your thoughts here..." readonly></textarea>
-                <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save Entry</button>
+                <textarea class="w-full h-32 p-2 border rounded resize-none focus:outline-none" placeholder="Write your thoughts here..." readonly></textarea>
             </div>
 
             <!-- Progress Tracker Tugas Akhir -->
@@ -221,8 +222,8 @@
     <div class="w-full max-w-6xl mx-auto">
         <div class="flex flex-col-reverse lg:flex-row justify-between items-center gap-5">
             <!-- Text Section -->
-            <div class="w-full lg:w-1/2">
-                <div class="space-y-4 text-white text-justify">
+            <div class="w-full lg:w-1/2 animate__animated opacity-0 translate-y-4" data-animate="animate__fadeInLeft">
+                <div class="space-y-4 text-white text-justify ">
                     <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-center lg:text-left">Daftar Sekarang</h2>
                     <p class="text-base sm:text-lg">Bergabunglah dengan platform kami untuk melacak kesehatan mental dan kesejahteraan Anda melalui berbagai fitur seperti pelacakan suasana hati, penetapan tujuan, dan penulisan jurnal.</p>
                     <p class="text-base sm:text-lg">Daftar sekarang dan pantau kesehatan mental Anda dengan alat kami yang mudah digunakan, dirancang untuk memberikan wawasan dan dukungan bagi kesejahteraan emosional Anda.</p>
@@ -231,7 +232,7 @@
             </div>
 
             <!-- Image Section -->
-            <div class="w-full lg:w-1/2 mt-8 lg:mt-0">
+            <div class="w-full lg:w-1/2 mt-8 lg:mt-0 animate__animated opacity-0 translate-y-4" data-animate="animate__fadeInRight">
                 <img src="{{ asset('asset/Gambar4.png') }}" alt="hero image" class="w-full h-auto object-cover rounded-lg"  loading="lazy">
             </div>
         </div>
@@ -290,5 +291,25 @@
     </div>
 </footer>
 {{---------------------------------------------------------------- footer ----------------------------------------------------------------}}
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const animatedElements = document.querySelectorAll('[data-animate]'); // Pilih elemen dengan atribut 'data-animate'
+
+    // Buat observer untuk memantau elemen saat masuk ke viewport
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add(entry.target.getAttribute('data-animate')); // Tambahkan kelas animasi
+                entry.target.classList.remove('opacity-0', 'translate-y-10'); // Hapus kelas opacity-0 dan translate-y-4 untuk memulai animasi
+                observer.unobserve(entry.target); // Hentikan pengamatan untuk elemen yang sudah di-animate
+            }
+        });
+    }, { threshold: 0.20 }); // Memulai animasi saat 50% elemen masuk ke viewport
+
+    // Mulai mengamati setiap elemen dengan 'data-animate'
+    animatedElements.forEach(el => observer.observe(el));
+});
+</script>
 @endsection
 

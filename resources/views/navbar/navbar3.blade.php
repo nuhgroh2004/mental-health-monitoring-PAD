@@ -34,7 +34,7 @@
     <div class="sm:hidden hidden" id="mobile-menu">
         <div class="px-2 pt-2 pb-3 space-y-1">
             <a href="{{ route('mahasiswa.landingPage') }}" class="menu-item block px-3 py-2 rounded-md text-base font-medium" data-menu="Home">Home</a>
-            <a href="{{ route('mahasiswa.report') }}" class="menu-item block px-3 py-2 rounded-md text-base font-medium" data-menu="view-mood">View Mood</a>
+            <a href="{{ route('mahasiswa.viewMoodCalendar') }}" class="menu-item block px-3 py-2 rounded-md text-base font-medium" data-menu="view-mood">View Mood</a>
             <a href="{{ route('mahasiswa.report') }}" class="menu-item block px-3 py-2 rounded-md text-base font-medium" data-menu="report">Report</a>
             <a href="{{ route('mahasiswa.notifikasi') }}" class="menu-item block px-3 py-2 rounded-md text-base font-medium" data-menu="notifikasi">Notifikasi</a>
             <a href="{{ route('mahasiswa.profil') }}" class="menu-item block px-3 py-2 rounded-md text-base font-medium" data-menu="profil">profil</a>
