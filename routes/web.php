@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginRegisterController;
 use Mews\Captcha\Captcha;
 /*
 |--------------------------------------------------------------------------
@@ -116,5 +117,17 @@ Route::get('/mahasiswa/editProfil',function(){
 //     return response()->json(['captcha'=> captcha_img('flat')]);
 // });
 
+// ------------------------ route untuk login & register ------------------------- //
+
+Route::controller(LoginRegisterController::class)->group(function() {
+    Route::get('/register', 'register')->name('register');
+    Route::post('/store/mahasiswa', 'store_mahasiswa')->name('store.mahasiswa');
+    Route::post('/store/dosen', 'store_dosen')->name('store.dosen');
+    Route::get('/login', 'login')->name('login');
+    Route::post('/authenticate', 'authenticate')->name('authenticate');
+    Route::post('/logout', 'logout')->name('logout');
+});
+
+// ------------------------ route untuk login & register ------------------------- //
 
 

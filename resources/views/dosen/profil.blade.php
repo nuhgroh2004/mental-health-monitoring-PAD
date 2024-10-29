@@ -5,7 +5,7 @@
     <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8 w-full max-w-[95%] sm:max-w-[90%] md:max-w-[80%] lg:max-w-[1000px] fixed top-1/2 transform -translate-y-1/2 mt-5 overflow-y-auto max-h-[90vh]">
         <div class="mb-6">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-                Email
+                {{$}}
             </label>
             <div class="border rounded-md p-2 bg-gray-100">
                 <span id="email" class="text-gray-800">user@example.com</span>
@@ -45,10 +45,16 @@
                     Apakah Anda yakin ingin keluar dari akun Anda?
                 </p>
             </div>
+
+            {{-- Alert Logout--}}
             <div class="items-center px-4 py-3">
-                <button id="logoutBtn" class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300">
-                    Ya
-                </button>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button id="logoutBtn" type="submit"
+                    class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300">
+                        Ya
+                    </button>
+                </form>
                 <button id="cancelBtn" class="mt-3 px-4 py-2 bg-gray-300 text-gray-800 text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">
                     Batal
                 </button>
