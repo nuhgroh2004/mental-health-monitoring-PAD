@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginRegisterController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+
 use Mews\Captcha\Captcha;
 /*
 |--------------------------------------------------------------------------
@@ -119,15 +121,18 @@ Route::get('/mahasiswa/editProfil',function(){
 
 // ------------------------ route untuk login & register ------------------------- //
 
-Route::controller(LoginRegisterController::class)->group(function() {
-    Route::get('/register', 'register')->name('register');
-    Route::post('/store/mahasiswa', 'store_mahasiswa')->name('store.mahasiswa');
-    Route::post('/store/dosen', 'store_dosen')->name('store.dosen');
-    Route::get('/login', 'login')->name('login');
-    Route::post('/authenticate', 'authenticate')->name('authenticate');
-    Route::post('/logout', 'logout')->name('logout');
-});
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/store/mahasiswa', [RegisterController::class, 'storeMahasiswa'])->name('store.mahasiswa');
+Route::post('/store/dosen', [RegisterController::class, 'storeDosen'])->name('store.dosen');
 
 // ------------------------ route untuk login & register ------------------------- //
 
 
+Route::get('/test',function(){
+    return view('temp.test');
+});

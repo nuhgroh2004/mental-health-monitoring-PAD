@@ -5,7 +5,7 @@
     <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8 w-full max-w-[95%] sm:max-w-[90%] md:max-w-[80%] lg:max-w-[1000px] fixed top-1/2 transform -translate-y-1/2 mt-5 overflow-y-auto max-h-[90vh]">
         <div class="mb-6">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-                {{$}}
+                Email
             </label>
             <div class="border rounded-md p-2 bg-gray-100">
                 <span id="email" class="text-gray-800">user@example.com</span>
