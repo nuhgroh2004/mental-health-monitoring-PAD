@@ -1,11 +1,7 @@
-@extends('navbar/navbar1')
-@section('content')
+
 <head>
-    <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>GamaPulse</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
     <!-- Favicons -->
     <link rel="icon" href="{{ asset('asset/logo.png') }}" type="image/png">
     <!-- Fonts -->
@@ -24,7 +20,7 @@
 </head>
 <title>Register</title>
 <section class="bg-[#76aeb8]" >
-    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 mt-20 mb-20">
+    <div class="flex flex-col items-center justify-center px-6  mx-auto md:h-screen lg:py-0 lg:mt-20 lg:mb-20">
         <div class="w-full bg-white/30 backdrop-blur-lg rounded-2xl shadow-md md:sm:max-w-md xl:p-0">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-black md:text-2xl">
@@ -95,4 +91,5 @@
         </div>
     </div>
   </section>
-@endsection
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{{ asset('JS/main.js') }}"></script>

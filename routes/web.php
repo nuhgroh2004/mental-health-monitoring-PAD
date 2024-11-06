@@ -15,8 +15,8 @@ use Mews\Captcha\Captcha;
 // ------------------------ lading page utama ------------------------- //
 
 Route::get('/', function () {
-    return view('landingPage');
-})->name('landingPage');
+    return view('welcome');
+});
 
 Route::get('/navbar/navbar1',function(){
     return view('navbar.navbar1');
@@ -44,7 +44,9 @@ Route::get('/home', function () {
 Route::get('/navbar/navbar2',function(){
     return view('navbar.navbar2');
 });
-
+Route::get('/navbar/navbar-dosen',function(){
+    return view('navbar.navbar-dosen');
+});
 Route::get('/dosen/register',function(){
     return view('dosen.register');
 })->name('dosen.register');

@@ -1,8 +1,8 @@
-@extends('navbar/navbar2')
+@extends('navbar/navbar-dosen')
 @section('content')
 <title>Notifikasi</title>
 <body class="bg-gray-100">
-    <div class="min-h-screen p-8">
+    <div class="min-h-screen p-8 mt-[100px]">
         <h1 class="text-3xl font-bold text-black mb-6">Notifikasi</h1>
 
         <!-- Tab Navigation -->

@@ -1,7 +1,10 @@
 <link rel="icon" href="{{ asset('asset/logo.png') }}" type="image/png">
 @vite('resources/css/app.css')
+<head>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+</head>
 <title>Edit Profil</title>
-<div class="min-h-screen bg-[#76aeb8] p-2 sm:p-4 md:p-6 lg:p-8 flex items-center justify-center">
+<div class="min-h-screen bg-white p-2 sm:p-4 md:p-6 lg:p-8 flex items-center justify-center">
     <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8 w-full max-w-[95%] sm:max-w-[90%] md:max-w-[80%] lg:max-w-[1000px] fixed top-1/2 transform -translate-y-1/2 mt-5 overflow-y-auto max-h-[90vh]">
         <form onsubmit="return false;" class="space-y-4 md:space-y-6">
             <div>

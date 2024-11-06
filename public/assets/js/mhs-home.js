@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Redirect setelah delay
             setTimeout(() => {
-                window.location.href = "{{ route('mahasiswa.notes') }}";
+                window.location.href = "/mahasiswa/notes"; // Replace with the actual URL
             }, 500);
         }
     });

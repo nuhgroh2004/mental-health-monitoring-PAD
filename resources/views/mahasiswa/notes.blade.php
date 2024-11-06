@@ -25,11 +25,11 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="bg-[#76aeb8]">
+<body>
 
 
 <div class="container mx-auto px-4 py-8">
-    <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-md overflow-hidden h-auto sm:max-w-full">
+    <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden h-auto sm:max-w-full">
         <form  class="p-8">
             {{-- @csrf --}}
             {{-- Tampilkan Tanggal dan Jam --}}
@@ -57,13 +57,13 @@
 
             {{-- Tombol --}}
             <div class="flex justify-between">
-                <a href="{{ route('mahasiswa.landingPage') }}" class="inline-flex items-center px-3 py-2 sm:px-5 sm:py-3 bg-[#76aeb8] hover:bg-[#3f9aaa] text-white rounded-md transition duration-300">
+                <a href="{{ route('mahasiswa.home') }}" class="inline-flex items-center px-3 py-2 sm:px-5 sm:py-3 bg-[#76aeb8] hover:bg-[#3f9aaa] text-white rounded-md transition duration-300">
                     <svg class="h-4 w-4 sm:h-5 sm:w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                         <path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
                     Kembali
                 </a>
-                <a href="{{ route('mahasiswa.landingPage') }}" type="submit" class="inline-flex items-center px-3 py-2 sm:px-5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition duration-300">
+                <a href="{{ route('mahasiswa.home') }}" type="submit" class="inline-flex items-center px-3 py-2 sm:px-5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition duration-300">
                     <svg class="h-4 w-4 sm:h-5 sm:w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                         <path d="M5 13l4 4L19 7"></path>
                     </svg>

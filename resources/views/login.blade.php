@@ -1,11 +1,6 @@
-@extends('navbar/navbar1')
-@section('content')
 <head>
-    <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>GamaPulse</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
+    <title>Login</title>
     <!-- Favicons -->
     <link rel="icon" href="{{ asset('asset/logo.png') }}" type="image/png">
     <!-- Fonts -->
@@ -20,6 +15,7 @@
     <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <!-- Main CSS File -->
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     @vite('resources/css/app.css')
 </head>
 <title>Login</title>
@@ -73,6 +69,7 @@
         </div>
     </div>
 </section>
-@endsection
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('JS/main.js') }}"></script>
 
 

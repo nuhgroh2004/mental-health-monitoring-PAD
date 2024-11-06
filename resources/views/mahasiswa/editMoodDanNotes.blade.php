@@ -2,12 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mood Note</title>
-    @vite('resources/css/app.css')
-</head>
-<head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>GamaPulse</title>
@@ -29,7 +23,7 @@
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
     @vite('resources/css/app.css')
 </head>
-<body class="bg-[#76aeb8] flex justify-center items-center h-[800px]">
+<body class="bg-white flex justify-center items-center h-full mt-4 mb-4">
     <div class="container bg-white p-6 rounded-lg shadow-lg w-[90%]">
         <div class="flex justify-between items-center mb-4 text-[#76aeb8]">
             <div class="flex items-center">
@@ -46,9 +40,9 @@
             </div>
         </div>
 
-        <div class="text-center mb-4">
-            <span class="text-4xl" id="moodEmoji">
-                <img src="{{ asset('asset/svg/emojiKecil/marah.svg') }}" alt="Mood Emoji" class="inline-block h-10 w-10">
+        <div class="text-center mb-4 ">
+            <span class="text-4xl " id="moodEmoji">
+                <img src="{{ asset('asset/svg/emojiKecil/marah.svg') }}" alt="Mood Emoji" class="inline-block w-[100px] h-[100px]">
             </span>
         </div>
 
@@ -81,16 +75,16 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2">Select Mood:</label>
                 <div class="flex justify-between">
                     <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/marah.svg') }}')" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
-                        <img src="{{ asset('asset/svg/emojiKecil/marah.svg') }}" alt="Marah" class="h-10 w-10">
+                        <img src="{{ asset('asset/svg/emojiKecil/marah.svg') }}" alt="Marah" class="w-[100px] h-[100px]">
                     </button>
                     <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/sedih.svg') }}')" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
-                        <img src="{{ asset('asset/svg/emojiKecil/sedih.svg') }}" alt="Sedih" class="h-10 w-10">
+                        <img src="{{ asset('asset/svg/emojiKecil/sedih.svg') }}" alt="Sedih" class="w-[100px] h-[100px]">
                     </button>
                     <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/biasaSaja.svg') }}')" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
-                        <img src="{{ asset('asset/svg/emojiKecil/biasaSaja.svg') }}" alt="Senyum" class="h-10 w-10">
+                        <img src="{{ asset('asset/svg/emojiKecil/biasaSaja.svg') }}" alt="Senyum" class="w-[100px] h-[100px]">
                     </button>
                     <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/senang.svg') }}')" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
-                        <img src="{{ asset('asset/svg/emojiKecil/senang.svg') }}" alt="Tertawa" class="h-10 w-10">
+                        <img src="{{ asset('asset/svg/emojiKecil/senang.svg') }}" alt="Tertawa" class="w-[100px] h-[100px]">
                     </button>
                 </div>
                 <style>
@@ -150,7 +144,7 @@
         }
 
         function goBack() {
-            window.location.href = "{{ route('mahasiswa.viewMoodCalender') }}"; // Fungsi untuk kembali ke halaman register
+            window.location.href = "{{ route('mahasiswa.viewMoodCalendar') }}"; // Fungsi untuk kembali ke halaman register
         }
     </script>
 </body>

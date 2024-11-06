@@ -4,7 +4,7 @@
 <body class="flex items-center justify-center bg-gray-100 h-screen">
     <div class="flex flex-col md:flex-row w-full h-full mt-[60px]">
         <!-- Sidebar -->
-        <div class="sidebar flex-col w-[100px] bg-[#77b6ca] text-black p-4 items-center hidden md:flex ml-4 mb-4 rounded-lg  mt-[54px]" >
+        <div class="sidebar flex-col w-[100px] bg-white text-black p-4 items-center hidden md:flex ml-4 mb-4 rounded-lg mt-[54px] shadow-lg">
             <div class="btn-mood w-[80px] h-[80px] mb-4 rounded-lg backdrop-blur-md bg-opacity-50 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
                 <img src="{{ asset('assets/svg/icon-mood-trakker.svg') }}" alt="Logo" class="">
             </div>
@@ -14,7 +14,7 @@
         </div>
         <div class="top-bar flex flex-col w-full">
             <!-- Top Bar (Visible on small screens) -->
-            <div class="flex md:hidden bg-gray-100 p-4 items-center mt-[70px] rounded-lg m-4 h-[70px] " >
+            <div class="flex md:hidden bg-white p-4 items-center mt-[70px] rounded-lg m-4 h-[70px] shadow-lg" >
                 <div class="btn-mood w-[50px] h-[50px] rounded-lg mr-3 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
                     <img src="{{ asset('assets/svg/icon-mood-trakker.svg') }}" alt="Logo" class="">
                 </div>
@@ -25,8 +25,8 @@
 
             <!-- mood section -->
             <div class="mood flex-1 p-4 w-full h-full mt-[-30px]">
-                <div class="w-full h-full bg-cover bg-center rounded-lg overflow-hidden">
-                    <div class="bg-[#77b6ca] flex flex-col items-center justify-center p-4">
+                <div class="w-full h-full bg-cover bg-center rounded-lg overflow-hidden shadow-lg">
+                    <div class=" flex flex-col items-center justify-center p-4">
                         <div id="emoji-container" class="mb-8">
                             <h2 id="feeling-text" class="text-emoji text-2xl font-bold text-center">HALLO BAGAIMANA PERSAANMU HARI INI</h2>
                             <div class="flex space-x-4">
@@ -61,7 +61,7 @@
                                 <!-- Action Buttons -->
                                 <div class="flex justify-center space-x-4">
                                     <button id="modal-back" class="w-24 px-6 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors text-center">Kembali</button>
-                                    <a href="{{ route('mahasiswa.notes') }}" id="modal-ok" class="w-24 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-center">OK</a>
+                                    <a id="modal-ok" class="w-24 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-center">OK</a>
                                 </div>
                             </div>
                         </div>
@@ -76,9 +76,9 @@
 
             <!-- Target Section -->
             <div class="target flex-1 p-4 w-full h-full mt-[-30px] hidden mb-[50px]">
-                <div class="min-h-[116vh] flex items-center justify-center bg-white ">
+                <div class="min-h-[116vh] flex items-center justify-center bg-white shadow-lg">
                     <div x-data="timerApp()"
-                         class="bg-white rounded-lg shadow-xl p-8 w-full max-w-2xl mx-auto ">
+                         class="bg-white rounded-lg p-8 w-full max-w-2xl mx-auto ">
                         <h2 class="text-3xl font-bold mb-8 text-center text-[#76aeb8]">Timer Target Pengerjaan</h2>
 
                         <!-- Bagian Input Target Waktu -->
@@ -153,7 +153,7 @@
                         </div>
                     </div>
                     <!-- Alert untuk menunjukkan bahwa timer telah selesai -->
-                    <div id="finishAlert" class="fixed top-20 left-1/2 transform -translate-x-1/2 bg-green-500 text-white text-lg font-bold py-2 px-4 rounded-lg shadow-lg hidden">
+                    <div id="finishAlert" class="fixed top-20 left-1/2 transform -translate-x-1/2 bg-green-500 text-white text-lg font-bold py-2 mt-[50px] px-4 rounded-lg shadow-lg hidden">
                         Timer selesai! Data telah disimpan.
                     </div>
                 </div>

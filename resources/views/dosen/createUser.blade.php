@@ -1,10 +1,10 @@
-@extends('navbar/navbar2') <!-- Meng-extend layout navbar -->
+@extends('navbar/navbar-dosen') <!-- Meng-extend layout navbar -->
 @section('content') <!-- Menentukan bagian konten yang akan diisi -->
 
 <title>Create User</title>
 <body class="bg-gray-100">
     <!-- Menambahkan container untuk form dengan Alpine.js untuk data binding -->
-    <div class="container mx-auto p-4" x-data="createUserForm()">
+    <div class="container mx-auto p-4 mt-[100px]" x-data="createUserForm()">
         <!-- Judul form -->
         <h1 class="text-3xl font-bold mb-6 text-center">Create User</h1>
 
@@ -12,7 +12,7 @@
         <form @submit.prevent="submitForm" class="space-y-6">
             <!-- Loop form untuk setiap user menggunakan x-for -->
             <template x-for="(user, index) in users" :key="index">
-                <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 transition-all duration-500 ease-in-out"
+                <div class="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4 transition-all duration-500 ease-in-out"
                      x-transition:enter="opacity-0 transform scale-95"
                      x-transition:enter-end="opacity-100 transform scale-100">
                     <!-- Input email -->
@@ -28,9 +28,9 @@
                                 x-model="user.email"
                                 required>
                             <!-- Icon email di sebelah kiri input -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            {{-- <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
+                            </svg> --}}
                         </div>
                     </div>
 
@@ -47,9 +47,9 @@
                                 x-model="user.password"
                                 required>
                             <!-- Tombol untuk menampilkan/menyembunyikan password -->
-                            <svg width="24" height="24 " class="absolute left-3 top-2 h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            {{-- <svg width="24" height="24 " class="absolute left-3 top-2 h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 17C11.4696 17 10.9609 16.7893 10.5858 16.4142C10.2107 16.0391 10 15.5304 10 15C10 13.89 10.89 13 12 13C12.5304 13 13.0391 13.2107 13.4142 13.5858C13.7893 13.9609 14 14.4696 14 15C14 15.5304 13.7893 16.0391 13.4142 16.4142C13.0391 16.7893 12.5304 17 12 17ZM18 20V10H6V20H18ZM18 8C18.5304 8 19.0391 8.21071 19.4142 8.58579C19.7893 8.96086 20 9.46957 20 10V20C20 20.5304 19.7893 21.0391 19.4142 21.4142C19.0391 21.7893 18.5304 22 18 22H6C5.46957 22 4.96086 21.7893 4.58579 21.4142C4.21071 21.0391 4 20.5304 4 20V10C4 8.89 4.89 8 6 8H7V6C7 4.67392 7.52678 3.40215 8.46447 2.46447C9.40215 1.52678 10.6739 1 12 1C12.6566 1 13.3068 1.12933 13.9134 1.3806C14.52 1.63188 15.0712 2.00017 15.5355 2.46447C15.9998 2.92876 16.3681 3.47995 16.6194 4.08658C16.8707 4.69321 17 5.34339 17 6V8H18ZM12 3C11.2044 3 10.4413 3.31607 9.87868 3.87868C9.31607 4.44129 9 5.20435 9 6V8H15V6C15 5.20435 14.6839 4.44129 14.1213 3.87868C13.5587 3.31607 12.7956 3 12 3Z" fill="#9CA3AF"/>
-                            </svg>
+                            </svg> --}}
 
                             <button type="button" class="absolute right-3 top-2 text-gray-400" @click="user.showPassword = !user.showPassword">
                                 <svg x-show="!user.showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -66,7 +66,7 @@
 
                     <!-- Input name -->
                     <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" :for="'name-' + index">Name</label>
+                        <label class="block text-gray-700 text-sm font-bold mb-2 " :for="'name-' + index">Name</label>
                         <div class="relative">
 
                             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10"
@@ -75,9 +75,9 @@
                                 placeholder="Name"
                                 x-model="user.name"
                                 required>
-                                <svg width="16" height="16" class="absolute left-3 top-2 h-5 w-5 text-gray-400" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                {{-- <svg width="16" height="16" class="absolute left-3 top-2 h-5 w-5 text-gray-400" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M8 0C9.06087 0 10.0783 0.421427 10.8284 1.17157C11.5786 1.92172 12 2.93913 12 4C12 5.06087 11.5786 6.07828 10.8284 6.82843C10.0783 7.57857 9.06087 8 8 8C6.93913 8 5.92172 7.57857 5.17157 6.82843C4.42143 6.07828 4 5.06087 4 4C4 2.93913 4.42143 1.92172 5.17157 1.17157C5.92172 0.421427 6.93913 0 8 0ZM8 2C7.46957 2 6.96086 2.21071 6.58579 2.58579C6.21071 2.96086 6 3.46957 6 4C6 4.53043 6.21071 5.03914 6.58579 5.41421C6.96086 5.78929 7.46957 6 8 6C8.53043 6 9.03914 5.78929 9.41421 5.41421C9.78929 5.03914 10 4.53043 10 4C10 3.46957 9.78929 2.96086 9.41421 2.58579C9.03914 2.21071 8.53043 2 8 2ZM8 9C10.67 9 16 10.33 16 13V16H0V13C0 10.33 5.33 9 8 9ZM8 10.9C5.03 10.9 1.9 12.36 1.9 13V14.1H14.1V13C14.1 12.36 10.97 10.9 8 10.9Z" fill="#9CA3AF"/>
-                                </svg>
+                                </svg> --}}
 
 
                         </div>
@@ -93,9 +93,9 @@
                                 placeholder="NIM"
                                 x-model="user.nim"
                                 required>
-                                <svg width="24" height="24" class="absolute left-3 top-2 h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                {{-- <svg width="24" height="24" class="absolute left-3 top-2 h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M23.3686 3.8874L12.2918 0.0492474C12.1023 -0.0164158 11.8975 -0.0164158 11.708 0.0492474L0.631148 3.8874C0.447348 3.95109 0.287487 4.07328 0.17421 4.23667C0.0609337 4.40006 -1.43563e-05 4.59636 2.53655e-09 4.79776V14.3931C2.53655e-09 14.6476 0.0972516 14.8917 0.270361 15.0716C0.44347 15.2516 0.678256 15.3527 0.923069 15.3527C1.16788 15.3527 1.40267 15.2516 1.57578 15.0716C1.74889 14.8917 1.84614 14.6476 1.84614 14.3931V6.12911L5.72187 7.47127C4.69214 9.2006 4.36469 11.284 4.81142 13.2641C5.25815 15.2442 6.44255 16.9591 8.10455 18.0322C6.02764 18.879 4.23227 20.4106 2.91921 22.5048C2.85092 22.6103 2.80348 22.7289 2.77966 22.8536C2.75584 22.9783 2.75611 23.1068 2.78045 23.2314C2.80479 23.356 2.85271 23.4743 2.92144 23.5795C2.99016 23.6847 3.07832 23.7747 3.18078 23.8442C3.28325 23.9136 3.39797 23.9612 3.51829 23.9842C3.6386 24.0072 3.76211 24.0051 3.88164 23.978C4.00116 23.9509 4.11432 23.8994 4.21452 23.8265C4.31473 23.7535 4.39999 23.6606 4.46535 23.5531C6.20418 20.78 8.95031 19.1908 11.9999 19.1908C15.0495 19.1908 17.7956 20.78 19.5344 23.5531C19.6698 23.7623 19.879 23.9077 20.1166 23.9578C20.3543 24.008 20.6014 23.9589 20.8046 23.8212C21.0077 23.6834 21.1505 23.4681 21.2022 23.2218C21.2538 22.9755 21.2102 22.7179 21.0806 22.5048C19.7675 20.4106 17.9652 18.879 15.8952 18.0322C17.5557 16.9591 18.7389 15.2454 19.1856 13.2667C19.6322 11.2881 19.3058 9.20609 18.2779 7.47726L23.3686 5.71411C23.5525 5.65046 23.7124 5.52828 23.8257 5.36489C23.939 5.2015 24 5.00518 24 4.80375C24 4.60233 23.939 4.40601 23.8257 4.24262C23.7124 4.07923 23.5525 3.95705 23.3686 3.89339V3.8874ZM17.5383 11.5145C17.5386 12.4247 17.3312 13.322 16.9333 14.1327C16.5353 14.9435 15.9581 15.6446 15.249 16.1786C14.5399 16.7125 13.7192 17.0641 12.854 17.2045C11.9889 17.3449 11.1041 17.27 10.2722 16.9861C9.4403 16.7022 8.68501 16.2172 8.0683 15.5711C7.4516 14.925 6.99105 14.1361 6.72445 13.2691C6.45785 12.4021 6.39279 11.4818 6.53462 10.5836C6.67644 9.68547 7.0211 8.83505 7.54032 8.10216L11.708 9.54147C11.8975 9.60713 12.1023 9.60713 12.2918 9.54147L16.4595 8.10216C17.1607 9.09052 17.5388 10.2864 17.5383 11.5145ZM11.9999 7.62479L3.84227 4.79776L11.9999 1.97072L20.1575 4.79776L11.9999 7.62479Z" fill="#9CA3AF"/>
-                                </svg>
+                                </svg> --}}
 
                         </div>
                     </div>
@@ -155,13 +155,57 @@
             </div>
 
             <!-- Area drag-and-drop untuk mengunggah file Excel -->
-            <div x-data="{ dragOver: false }" @dragover.prevent="dragOver = true" @dragleave.prevent="dragOver = false" @drop.prevent="handleDrop($event); dragOver = false" :class="{ 'bg-blue-100 border-blue-300': dragOver }" class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center transition-colors duration-300">
-                <p class="text-gray-600 mb-2">Drag and drop your Excel file here, or click to select</p>
-                <label class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer inline-block transition-transform duration-300 ease-in-out transform hover:scale-105">
-                    <span>Select Excel File</span>
-                    <input type="file" class="hidden" accept=".xlsx, .xls" @change="handleFileSelect">
-                </label>
-            </div>
+            <div x-data="{
+                dragOver: false,
+                fileName: '',
+                handleFileSelect(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.fileName = file.name;
+                    }
+                },
+                removeFile() {
+                    this.fileName = '';
+                    this.$refs.fileInput.value = null;
+                }
+             }"
+             @dragover.prevent="dragOver = true"
+             @dragleave.prevent="dragOver = false"
+             @drop.prevent="dragOver = false"
+             :class="{ 'bg-blue-100 border-blue-300': dragOver }"
+             class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center transition-colors duration-300">
+
+            <template x-if="!fileName">
+                <!-- Tampilan awal untuk upload file -->
+                <div>
+                    <p class="text-gray-600 mb-2">Drag and drop your Excel file here, or click to select</p>
+                    <label class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer inline-block transition-transform duration-300 ease-in-out transform hover:scale-105">
+                        <span>Select Excel File</span>
+                        <input type="file" x-ref="fileInput" class="hidden" accept=".xlsx, .xls" @change="handleFileSelect">
+                    </label>
+                </div>
+            </template>
+
+            <template x-if="fileName">
+                <!-- Tampilan setelah file diunggah -->
+                <div class="flex items-center justify-center space-x-2">
+                    <span class="text-green-600">
+                        <!-- Ikon Excel -->
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 48 48">
+                            <path fill="#169154" d="M29,6H15.744C14.781,6,14,6.781,14,7.744v7.259h15V6z"></path><path fill="#18482a" d="M14,33.054v7.202C14,41.219,14.781,42,15.743,42H29v-8.946H14z"></path><path fill="#0c8045" d="M14 15.003H29V24.005000000000003H14z"></path><path fill="#17472a" d="M14 24.005H29V33.055H14z"></path><g><path fill="#29c27f" d="M42.256,6H29v9.003h15V7.744C44,6.781,43.219,6,42.256,6z"></path><path fill="#27663f" d="M29,33.054V42h13.257C43.219,42,44,41.219,44,40.257v-7.202H29z"></path><path fill="#19ac65" d="M29 15.003H44V24.005000000000003H29z"></path><path fill="#129652" d="M29 24.005H44V33.055H29z"></path></g><path fill="#0c7238" d="M22.319,34H5.681C4.753,34,4,33.247,4,32.319V15.681C4,14.753,4.753,14,5.681,14h16.638 C23.247,14,24,14.753,24,15.681v16.638C24,33.247,23.247,34,22.319,34z"></path><path fill="#fff" d="M9.807 19L12.193 19 14.129 22.754 16.175 19 18.404 19 15.333 24 18.474 29 16.123 29 14.013 25.07 11.912 29 9.526 29 12.719 23.982z"></path>
+                        </svg>
+                    </span>
+                    <p class="text-green-600" x-text="fileName"></p>
+                    <!-- Tombol silang untuk menghapus file -->
+                    <button @click="removeFile" class="text-red-500 hover:text-red-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0,0,256,256">
+                            <g fill="#44b54c" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(8.53333,8.53333)"><path d="M7,4c-0.25587,0 -0.51203,0.09747 -0.70703,0.29297l-2,2c-0.391,0.391 -0.391,1.02406 0,1.41406l7.29297,7.29297l-7.29297,7.29297c-0.391,0.391 -0.391,1.02406 0,1.41406l2,2c0.391,0.391 1.02406,0.391 1.41406,0l7.29297,-7.29297l7.29297,7.29297c0.39,0.391 1.02406,0.391 1.41406,0l2,-2c0.391,-0.391 0.391,-1.02406 0,-1.41406l-7.29297,-7.29297l7.29297,-7.29297c0.391,-0.39 0.391,-1.02406 0,-1.41406l-2,-2c-0.391,-0.391 -1.02406,-0.391 -1.41406,0l-7.29297,7.29297l-7.29297,-7.29297c-0.1955,-0.1955 -0.45116,-0.29297 -0.70703,-0.29297z"></path></g></g>
+                            </svg>
+                    </button>
+                </div>
+            </template>
+        </div>
+
 
             <!-- Tombol untuk membuat user dari file Excel -->
             <button @click="submitExcel" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform duration-300 ease-in-out transform hover:scale-105 mb-8">

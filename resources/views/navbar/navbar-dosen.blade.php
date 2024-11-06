@@ -17,11 +17,8 @@
     <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/mahasiswa/mhs-home.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/mahasiswa/mhs-report.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/mahasiswa/mhs-viewMoodCalender.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/mahasiswa/mhs-notifikasi.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/mahasiswa/mhs-profil.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/deosn/dosen-home.css') }}">
     @vite('resources/css/app.css')
 </head>
 
@@ -36,11 +33,10 @@
         </a>
             <nav id="navmenu" class="navmenu">
                 <ul>
-                    <li><a href="{{ route('mahasiswa.home') }}" class="{{ request()->routeIs('mahasiswa.home') ? 'active' : '' }}">Home</a></li>
-                    <li><a href="{{ route('mahasiswa.viewMoodCalendar') }}" class="{{ request()->routeIs('mahasiswa.viewMoodCalendar') ? 'active' : '' }}">View Mood</a></li>
-                    <li><a href="{{ route('mahasiswa.report') }}" class="{{ request()->routeIs('mahasiswa.report') ? 'active' : '' }}">Report</a></li>
-                    <li><a href="{{ route('mahasiswa.notifikasi') }}" class="{{ request()->routeIs('mahasiswa.notifikasi') ? 'active' : '' }}">Notifikasi</a></li>
-                    <li><a href="{{ route('mahasiswa.profil') }}" class="{{ request()->routeIs('mahasiswa.profil') ? 'active' : '' }}">Profile</a></li>
+                    <li><a href="{{ route('dosen.landingPage') }}" class="{{ request()->routeIs('dosen.landingPage') ? 'active' : '' }}">Home</a></li>
+                    <li><a href="{{ route('dosen.createUser') }}" class="{{ request()->routeIs('dosen.createUser') ? 'active' : '' }}">Create user</a></li>
+                    <li><a href="{{ route('dosen.notifikasi') }}" class="{{ request()->routeIs('dosen.notifikasi') ? 'active' : '' }}">Notifikasi</a></li>
+                    <li><a href="{{ route('dosen.profil') }}" class="{{ request()->routeIs('dosen.profil') ? 'active' : '' }}">Profile</a></li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
@@ -56,9 +52,6 @@
     <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
     <!-- Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
-    <script src="{{ asset('assets/js/mahasiswa/mhs-report.js') }}"></script>
-    <script src="{{ asset('assets/js/mahasiswa/mhs-viewMoodCalender.js') }}"></script>
-    <script src="{{ asset('assets/js/mahasiswa/mhs-notifikasi.js') }}"></script>
-    <script src="{{ asset('assets/js/mahasiswa/mhs-profil.js') }}"></script>
+    <script src="{{ asset('JS/script.js') }}"></script>
 </body>
 @yield('content')
