@@ -52,9 +52,13 @@
                 </p>
             </div>
             <div class="items-center px-4 py-3">
-                <button id="logoutBtn" onclick="window.location='{{ route('home') }}'" class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300">
-                    Ya
-                </button>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button id="logoutBtn" type="submit"
+                    class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300">
+                        Ya
+                    </button>
+                </form>
                 <button id="cancelBtn"  onclick="hideLogoutConfirmation()" class="mt-3 px-4 py-2 bg-gray-300 text-gray-800 text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">
                     Batal
                 </button>

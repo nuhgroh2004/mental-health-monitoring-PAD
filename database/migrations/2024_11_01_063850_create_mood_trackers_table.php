@@ -9,14 +9,14 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('mood_trackers', function (Blueprint $table) {
             $table->id('mood_id');
-            $table->foreignId('user_id')->constrained('mahasiswas', 'user_id');
+            $table->foreignId('mahasiswa_id')->constrained('mahasiswas', 'mahasiswa_id');
             $table->integer('mood_level');
-            $table->text('mood_text')->nullable();
-            $table->timestamps();
+            $table->integer('mood_intensity');
+            $table->text('mood_text', 300);
         });
     }
 

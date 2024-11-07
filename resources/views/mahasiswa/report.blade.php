@@ -14,7 +14,7 @@
                     <button onclick="showTab('tugas')" class="flex-1 py-2 px-4 text-center text-sm sm:text-base bg-gray-200 text-black" id="tugasTab">Pengerjaan tugas akhir</button>
                 </div>
 
-                <div class="h-48 sm:h-64 md:h-80">
+                <div class="h-[350px] sm:h-[400px]">
                     <canvas id="chart"></canvas>
                 </div>
             </div>

@@ -9,14 +9,14 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id('report_id');
             $table->foreignId('mood_id')->constrained('mood_trackers', 'mood_id');
-            $table->foreignId('progress_id')->constrained('progress_trackings', 'progress_id');
-            $table->foreignId('user_id')->constrained('mahasiswas', 'user_id');
-            $table->timestamps();
+            $table->foreignId('progress_id');
+            $table->foreignId('mahasiswa_id')->constrained('mahasiswas', 'mahasiswa_id');
+            $table->dateTime('created_at');
         });
     }
 

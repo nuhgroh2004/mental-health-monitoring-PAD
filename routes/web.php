@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Mews\Captcha\Captcha;
+
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -130,12 +133,15 @@ Route::get('/mahasiswa/home',function(){
 })->name('mahasiswa.home');
 // ------------------------ route untuk mahasiswa ------------------------- //
 
+// ------------------------ route login register ------------------------- //
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Route::get('/captcha/refresh', function() {
-//     return response()->json(['captcha'=> captcha_img('flat')]);
-// });
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/store/mahasiswa', [RegisterController::class, 'storeMahasiswa'])->name('store.mahasiswa');
+Route::post('/store/dosen', [RegisterController::class, 'storeDosen'])->name('store.dosen');
 
+// ------------------------ route login register ------------------------- //
 
-
-// kirim email
-Route :: get('/KirimEmail',[]);
+Route::post('/post-email', [SendEmailController::class, 'store'])->name('post-email');
