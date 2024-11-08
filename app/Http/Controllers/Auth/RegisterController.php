@@ -57,31 +57,29 @@ class RegisterController extends Controller
     }
 
     public function storeDosen(Request $request)
-    {
+{
+    $request->validate([
+        'name' => 'required|string|max:100',
+        'email' => 'required|email|max:50|unique:dosens',
+        'password' => 'required|min:8',
+        'g-recaptcha-response' => 'required|captcha'
+    ]);
 
-        $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|max:50|unique:dosens',
-            'password' => 'required|min:8',
-            'g-recaptcha-response' => 'required|captcha'
-        ]);
+    Dosen::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
 
-        Dosen::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+    $otp = rand(1000, 9999);
+    Log::info('OTP for Dosen registration: ' . $otp);
 
+    // Dispatch job with OTP and email
+    dispatch(new SendMailJob($otp, $request->email));
 
+    Auth::attempt($request->only('email', 'password'));
+    $request->session()->regenerate();
+    return redirect()->route('dosen.otp')->withSuccess('Registered & logged in!');
+}
 
-        $otp = rand(1000, 9999);
-        Log::info('OTP for Dosen registration: ' . $otp);
-
-        dispatch(new SendMailJob($otp));
-
-
-        Auth::attempt($request->only('email', 'password'));
-        $request->session()->regenerate();
-        return redirect()->route('dosen.otp')->withSuccess('Registered & logged in!');
-    }
 }

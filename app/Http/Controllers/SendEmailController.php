@@ -12,14 +12,13 @@ class SendEmailController extends Controller
 {
     public function index()
     {
-        return view('emails.kirim-email');
+
     }
         public function store(Request $request)
     {
         $otp= $request->all();
         dispatch(new SendMailJob($otp));
-        return redirect()->route('kirim-email')
-    ->with('success', 'Email berhasil dikirim');
+    
     }
 
 

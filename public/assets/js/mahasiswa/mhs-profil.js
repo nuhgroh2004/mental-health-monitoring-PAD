@@ -1,5 +1,3 @@
-// profile.js
-
 function logout() {
     // Add your logout logic here
     hideLogoutConfirmation();

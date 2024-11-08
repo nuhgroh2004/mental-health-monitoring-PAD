@@ -52,6 +52,9 @@
     <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
     <!-- Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="{{ asset('assets/js/dosen/notifikasi.js') }}"></script>
+    <script src="{{ asset('assets/js/dosen/create-user.js') }}"></script>
+
     <script src="{{ asset('JS/script.js') }}"></script>
 </body>
 @yield('content')

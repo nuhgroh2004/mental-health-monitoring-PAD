@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\SendEmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,17 +22,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/navbar/navbar1',function(){
-    return view('navbar.navbar1');
-});
-
 Route::get('/login',function(){
     return view('login');
 })-> name('login');
-
-Route::get('/login1',function(){
-    return view('login1');
-})-> name('login1');
 
 Route::get('/home', function () {
     return view('home');
@@ -44,9 +37,6 @@ Route::get('/home', function () {
 
 // ------------------------ route untuk dosen ------------------------- //
 
-Route::get('/navbar/navbar2',function(){
-    return view('navbar.navbar2');
-});
 Route::get('/navbar/navbar-dosen',function(){
     return view('navbar.navbar-dosen');
 });
@@ -84,9 +74,6 @@ Route::get('/dosen/otp',function(){
 
 // ------------------------ route untuk mahasiswa ------------------------- //
 
-Route::get('/navbar/navbar3',function(){
-    return view('navbar.navbar3');
-});
 Route::get('/navbar/navbar-mahasiswa',function(){
     return view('navbar.navbar-mahasiswa');
 });
@@ -94,10 +81,6 @@ Route::get('/navbar/navbar-mahasiswa',function(){
 Route::get('/mahasiswa/register',function(){
     return view('mahasiswa.register');
 })->name('mahasiswa.register');
-
-Route::get('/mahasiswa/landingPage',function(){
-    return view('mahasiswa.landingPage');
-})->name('mahasiswa.landingPage');
 
 Route::get('/mahasiswa/viewMoodCalendar',function(){
     return view('mahasiswa.viewMoodCalendar');
@@ -127,11 +110,11 @@ Route::get('/mahasiswa/editProfil',function(){
     return view('mahasiswa.editProfil');
 })->name('mahasiswa.editProfil');
 
-
 Route::get('/mahasiswa/home',function(){
     return view('mahasiswa.home');
 })->name('mahasiswa.home');
 // ------------------------ route untuk mahasiswa ------------------------- //
+
 
 // ------------------------ route login register ------------------------- //
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -142,6 +125,10 @@ Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->na
 Route::post('/store/mahasiswa', [RegisterController::class, 'storeMahasiswa'])->name('store.mahasiswa');
 Route::post('/store/dosen', [RegisterController::class, 'storeDosen'])->name('store.dosen');
 
+
 // ------------------------ route login register ------------------------- //
 
+
+// ------------------------ route untuk OTP ------------------------- //
 Route::post('/post-email', [SendEmailController::class, 'store'])->name('post-email');
+// ------------------------ route untuk OTP ------------------------- //
