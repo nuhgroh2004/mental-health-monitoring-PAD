@@ -20,7 +20,7 @@ function hideLogoutConfirmation() {
 }
 
 
-function saveChanges() {
+function saveChangesaa() {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: "btn btn-success",
@@ -49,7 +49,7 @@ function saveChanges() {
             text: "Profil telah diperbaruin",
             icon: "success"
             }).then(() => {
-            window.location.href = "/mahasiswa/profil";
+            window.location.href = "/dosen/profil";
             });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire({

@@ -267,41 +267,41 @@ function createUserForm() {
 // <<<<<<<<<<<<<<<<<<---------- create user ---------------->>>>>>>>>>>>>>>>>>>> //
 
 // <<<<<<<<<<<<<<<<<<---------- allert meminta izin dan delete pada landing page dosen ---------------->>>>>>>>>>>>>>>>>>>> //
-function openDeleteModal() {
-    document.getElementById('deleteModal').classList.remove('hidden');
-}
-function closeDeleteModal() {
-    document.getElementById('deleteModal').classList.add('hidden');
-}
+// function openDeleteModal() {
+//     document.getElementById('deleteModal').classList.remove('hidden');
+// }
+// function closeDeleteModal() {
+//     document.getElementById('deleteModal').classList.add('hidden');
+// }
 
-// Open and close request permission modal
-function openRequestPermissionModal() {
-    document.getElementById('requestPermissionModal').classList.remove('hidden');
-}
-function closeRequestPermissionModal() {
-    document.getElementById('requestPermissionModal').classList.add('hidden');
-}
+// // Open and close request permission modal
+// function openRequestPermissionModal() {
+//     document.getElementById('requestPermissionModal').classList.remove('hidden');
+// }
+// function closeRequestPermissionModal() {
+//     document.getElementById('requestPermissionModal').classList.add('hidden');
+// }
 
-// Confirm delete action
-function confirmDelete() {
-    document.getElementById('deleteModal').classList.add('hidden');
-    showAlert('deleteAlert');
-}
+// // Confirm delete action
+// function confirmDelete() {
+//     document.getElementById('deleteModal').classList.add('hidden');
+//     showAlert('deleteAlert');
+// }
 
-// Confirm request permission action
-function confirmRequestPermission() {
-    document.getElementById('requestPermissionModal').classList.add('hidden');
-    showAlert('requestPermissionAlert');
-}
+// // Confirm request permission action
+// function confirmRequestPermission() {
+//     document.getElementById('requestPermissionModal').classList.add('hidden');
+//     showAlert('requestPermissionAlert');
+// }
 
-// Function to show alert
-function showAlert(alertId) {
-    const alertElement = document.getElementById(alertId);
-    alertElement.classList.remove('hidden');
-    setTimeout(() => {
-        alertElement.classList.add('hidden');
-    }, 3000); // Hide alert after 3 seconds
-}
+// // Function to show alert
+// function showAlert(alertId) {
+//     const alertElement = document.getElementById(alertId);
+//     alertElement.classList.remove('hidden');
+//     setTimeout(() => {
+//         alertElement.classList.add('hidden');
+//     }, 3000); // Hide alert after 3 seconds
+// }
 // <<<<<<<<<<<<<<<<<<---------- allert meminta izin dan delete pada landing page dosen ---------------->>>>>>>>>>>>>>>>>>>> //
 
 

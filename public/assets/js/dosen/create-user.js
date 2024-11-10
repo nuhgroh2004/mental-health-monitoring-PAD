@@ -34,6 +34,7 @@ function createUserForm() {
         submitForm() {
             this.createdUsers = [...this.users];
             this.showCreatedUsers = true;
+
         },
 
         downloadTemplate() {
@@ -67,6 +68,18 @@ function createUserForm() {
             const fileInput = this.$refs.fileInput;
             const file = fileInput.files[0];
 
+            function submitExcel(){
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your work has been saved",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+
+            }
+
+
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -94,3 +107,4 @@ function createUserForm() {
         }
     };
 }
+

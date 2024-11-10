@@ -3,7 +3,9 @@
 <html lang="en">
 <head>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
     <title>GamaPulse</title>
+
     <link rel="icon" href="{{ asset('asset/logo.png') }}" type="image/png">
 
     @vite('resources/css/app.css')
@@ -48,14 +50,14 @@
         </button>
 
         <!-- Tombol Kembali -->
-        <button onclick="goBack()" herf="{{ route('mahasiswa.register') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg w-full hover:bg-gray-600 transition duration-300 flex items-center justify-center">
+        <button onclick="history.back()" class="bg-gray-500 text-white px-4 py-2 rounded-lg w-full hover:bg-gray-600 transition duration-300 flex items-center justify-center">
             <svg class="h-5 w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
             <path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
             Kembali
         </button>
 
-        <div id="editForm" class="hidden mt-4">
+        <div id="editForm" class="hidden mt-4 ">
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Select Mood:</label>
                 <div class="flex justify-between">
@@ -84,10 +86,13 @@
                 <svg class="h-5 w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M5 13l4 4L19 7"></path>
                 </svg>
-                Save
+                Simpan
             </button>
         </div>
     </div>
     <script src="{{ asset('assets/js/mahasiswa/mhs-edit-mood-notes.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+
 </body>
 </html>

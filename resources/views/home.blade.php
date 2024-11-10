@@ -134,11 +134,11 @@
             <p>Temukan berbagai fitur yang akan membantu Anda mengelola mood dan progress tugas akhir dengan lebih efektif</p>
         </div>
 
-        <div class="container">
+        <div class="container lg:pl-[70px] lg:pr-[70px]">
 
             <div class="row g-5">
 
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" class="">
                     <div class="service-item item-cyan position-relative">
                         <i class="bi bi-emoji-smile icon"></i>
                         <div>
@@ -211,7 +211,7 @@
 <!---------------------------------------------------------------- Section 4 Detail mood trakker ------------------------------------------------------------------------>
 <section  class="features-details section">
 
-    <div id="detail" class="container">
+    <div id="detail" class="container lg:pl-[70px] lg:pr-[70px]">
 
       <!----------------------------------------------------------------  ------------------------------------------------------------------------>
 
@@ -255,7 +255,7 @@
 
       <div class="container">
         <!---------------------------------------------------------------- Section 5 Detail pengerjaan tugas akhir ------------------------------------------------------------------------>
-        <div class="row gy-4 justify-content-between features-item">
+        <div class="row gy-4 justify-content-between features-item lg:pl-[70px] lg:pr-[70px]">
             <div id="trakker-perngerjaan-tugas-akhir" class="container section-title" data-aos="fade-up">
                 <h2>Tracker pengerjaan tugas akhir</h2>
             </div>
@@ -278,7 +278,7 @@
 
         <!---------------------------------------------------------------- Section 6 Detail view mood calender ------------------------------------------------------------------------>
 
-        <div class="row gy-4 justify-content-between features-item">
+        <div class="row gy-4 justify-content-between features-item lg:pl-[70px] lg:pr-[70px]">
              <div id="view-mood-calender" class="container section-title" data-aos="fade-up">
             <h2>View mood calender</h2>
           </div>
@@ -318,7 +318,7 @@
         <div class="container">
             <!---------------------------------------------------------------- Section 7 Detail notes ------------------------------------------------------------------------>
 
-            <div class="row gy-4 justify-content-between features-item">
+            <div class="row gy-4 justify-content-between features-item lg:pl-[70px] lg:pr-[70px]">
                 <div id="notes" class="container section-title" data-aos="fade-up">
                     <h2>Notes</h2>
                   </div>
@@ -343,7 +343,7 @@
 
             <!---------------------------------------------------------------- Section 7 Detail laporan mood ------------------------------------------------------------------------>
 
-          <div class="row gy-4 justify-content-between features-item">
+          <div class="row gy-4 justify-content-between features-item lg:pl-[70px] lg:pr-[70px]">
             <div id="laporan-mood" class="container section-title" data-aos="fade-up">
                 <h2>Laporan mood</h2>
               </div>
@@ -377,7 +377,7 @@
 
       </section><!-- /Features Details Section -->
 
-      <section id="trakker-perngerjaan-tugas-akhir" class="features-details section">
+      <section id="trakker-perngerjaan-tugas-akhir" class="features-details section lg:pl-[70px] lg:pr-[70px]">
 
         <div class="container">
             <!---------------------------------------------------------------- Section 7 Detail laporan pengerjaan tugas akhir ------------------------------------------------------------------------>

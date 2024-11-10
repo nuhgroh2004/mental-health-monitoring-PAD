@@ -2,6 +2,8 @@
 @vite('resources/css/app.css')
 <head>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 </head>
 <title>Edit Profil</title>
 <div class="min-h-screen bg-white p-2 sm:p-4 md:p-6 lg:p-8 flex items-center justify-center">
@@ -57,7 +59,7 @@
                     </svg>
                     Kembali
                 </button>
-                <button onclick="saveChanges(); window.location='{{ route('mahasiswa.profil') }}'" type="button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full sm:w-1/2 flex items-center justify-center">
+                <button onclick="saveChanges()" type="button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full sm:w-1/2 flex items-center justify-center">
                     <svg class="h-5 w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                         <path d="M5 13l4 4L19 7"></path>
                     </svg>
@@ -67,10 +69,5 @@
         </form>
     </div>
 </div>
-<script>
-    function saveChanges() {
-
-        alert('Changes would be saved here');
-
-    }
-</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+<script src="{{ asset('assets/js/mahasiswa/mhs-profil.js') }}"></script>

@@ -117,8 +117,7 @@
                     </svg>
                     Add User
                 </button>
-
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform duration-300 ease-in-out transform hover:scale-105">
+                <button type="submit"  onclick="submitForm()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform duration-300 ease-in-out transform hover:scale-105">
                     Create Users
                 </button>
             </div>
@@ -138,8 +137,18 @@
                         <p><strong>Tanggal Lahir:</strong> <span x-text="user.tanggal_lahir || '-'"></span></p>
                         <p><strong>Phone Number:</strong> <span x-text="user.phone || '-'"></span></p>
                     </div>
+                    <script>
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "User berhasil ditambahkan",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    </script>
                 </template>
             </div>
+
 
             <button @click="downloadExcel" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform duration-300 ease-in-out transform hover:scale-105">
                 Download as Excel
@@ -216,17 +225,20 @@
         </div>
 
         <!-- Notifikasi kesuksesan impor Excel -->
-        <div x-show="excelCreationSuccess" class="fixed top-20 left-1/2 transform -translate-x-1/2 bg-green-500 text-white text-lg font-bold py-2 px-4 rounded shadow-lg"
+        {{-- <div x-show="excelCreationSuccess" class="fixed top-20 left-1/2 transform -translate-x-1/2 bg-green-500 text-white text-lg font-bold py-2 px-4 rounded shadow-lg"
              x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-full"
              x-transition:enter-end="opacity-100 transform translate-y-0" x-transition:leave="transition ease-in duration-300"
              x-transition:leave-start="opacity-100 transform translate-y-0" x-transition:leave-end="opacity-0 transform translate-y-full">
             Excel users created successfully!
-        </div>
+        </div> --}}
     </div>
 
     <!-- Script untuk fungsi reaktivitas dan penanganan Excel menggunakan Alpine.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
+
+
 @endsection
 

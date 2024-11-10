@@ -69,7 +69,7 @@
 </div>
 
 <!-- Logout Confirmation Modal -->
-<div id="logoutModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden flex items-start justify-center pt-10">
+<div id="logoutModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden items-start justify-center pt-10">
     <div class="mt-[100px] relative mx-auto p-3 border w-80 shadow-lg rounded-md bg-white">
         <div class="mt-3 text-center">
             <div class="mx-auto flex items-center justify-center h-10 w-10 rounded-full bg-red-100">
