@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Dosen;
-use App\Models\Mahasiswa;
+use App\Models\User;
+
 
 class LoginController extends Controller
 {
@@ -30,14 +30,14 @@ class LoginController extends Controller
 
         $email = $credentials['email'];
         if (str_ends_with($email, '@mail.ugm.ac.id')) {
-            $student = Mahasiswa::where('email', $email)->first();
+            $student = User::where('email', $email)->first();
             if ($student && Hash::check($credentials['password'], $student->password)) {
                 Auth::login($student);
                 $request->session()->regenerate();
                 return redirect()->route('mahasiswa.home')->withSuccess('Logged in as a student!');
             }
         } elseif (str_ends_with($email, '@ugm.ac.id')) {
-            $lecturer = Dosen::where('email', $email)->first();
+            $lecturer = User::where('email', $email)->first();
             if ($lecturer && Hash::check($credentials['password'], $lecturer->password)) {
                 Auth::login($lecturer);
                 $request->session()->regenerate();

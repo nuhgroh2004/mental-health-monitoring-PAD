@@ -8,7 +8,7 @@
                 Email
             </label>
             <div class="border rounded-md p-2 bg-gray-100">
-                <span id="email" class="text-gray-800">user@example.com</span>
+                <span id="email" class="text-gray-800">{{ $user->email }}</span>
             </div>
         </div>
         <div class="mb-6">
@@ -16,7 +16,7 @@
                 Nama
             </label>
             <div class="border rounded-md p-2 bg-gray-100">
-                <span id="name" class="text-gray-800">John Doe</span>
+                <span id="name" class="text-gray-800">{{ $user->name }}</span>
             </div>
         </div>
         <div class="flex justify-between">

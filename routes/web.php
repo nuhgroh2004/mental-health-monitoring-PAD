@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\DosenController;
+use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\SendEmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +21,7 @@ use App\Http\Controllers\Auth\RegisterController;
 // ------------------------ lading page utama ------------------------- //
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/navbar/navbar1',function(){
@@ -66,9 +69,7 @@ Route::get('/dosen/notifikasi',function(){
     return view('dosen.notifikasi');
 })->name('dosen.notifikasi');
 
-Route::get('/dosen/profil',function(){
-    return view('dosen.profil');
-})->name('dosen.profil');
+Route::get('/dosen/profil', [DosenController::class, 'showProfil'])->name('dosen.profil');
 
 Route::get('/dosen/editProfil',function(){
     return view('dosen.editProfil');
@@ -119,9 +120,7 @@ Route::get('/mahasiswa/notifikasi',function(){
     return view('mahasiswa.notifikasi');
 })->name('mahasiswa.notifikasi');
 
-Route::get('/mahasiswa/profil',function(){
-    return view('mahasiswa.profil');
-})->name('mahasiswa.profil');
+Route::get('/mahasiswa/profil', [MahasiswaController::class, 'showProfil'])->name('mahasiswa.profil');
 
 Route::get('/mahasiswa/editProfil',function(){
     return view('mahasiswa.editProfil');

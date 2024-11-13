@@ -11,12 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mood_trackers', function (Blueprint $table) {
+        Schema::create('mood_tracker', function (Blueprint $table) {
             $table->id('mood_id');
-            $table->foreignId('mahasiswa_id')->constrained('mahasiswas', 'mahasiswa_id');
+            $table->unsignedBigInteger('mahasiswa_id');
             $table->integer('mood_level');
             $table->integer('mood_intensity');
-            $table->text('mood_text', 300);
+            $table->string('mood_text', 300);
+            $table->timestamps();
+
+            $table->foreign('mahasiswa_id')
+                  ->references('mahasiswa_id')
+                  ->on('mahasiswa')
+                  ->onDelete('cascade');
         });
     }
 
@@ -25,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mood_trackers');
+        Schema::dropIfExists('mood_tracker');
     }
 };

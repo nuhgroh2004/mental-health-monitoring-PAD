@@ -10,6 +10,9 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+
+    protected $primaryKey = 'user_id';
+
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -21,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -41,4 +45,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function mahasiswa()
+    {
+        return $this->hasOne(Mahasiswa::class, 'mahasiswa_id', 'user_id');
+    }
+
+    public function dosen()
+    {
+        return $this->hasOne(Dosen::class, 'dosen_id', 'user_id');
+    }
 }

@@ -60,12 +60,12 @@
                     {{-- Form phone number --}}
                     <div>
                         <label for="phone_number" class="block mb-2 text-sm font-medium text-gray-900 mt-2">Phone Number</label>
-                        <input type="number" name="phone_number" id="phone_number" class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0 focus:border-gray-300 dark:text-black"
-                        placeholder="Phone Number" value="{{ old('phone_number') }}" required="">
+                        <input type="text" name="nomor_hp" id="nomor_hp" class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0 focus:border-gray-300 dark:text-black"
+                        placeholder="Phone Number" value="{{ old('nomor_hp') }}" required="">
                     </div>
-                    @if ($errors->has('phone_number'))
+                    @if ($errors->has('nomor_hp'))
                         <div class="text-red-500 text-sm mt-2">
-                            {{ $errors->first('phone_number') }}
+                            {{ $errors->first('nomor_hp') }}
                         </div>
                     @endif
 
