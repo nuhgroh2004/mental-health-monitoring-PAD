@@ -124,7 +124,7 @@
         </form>
 
         <div x-show="showCreatedUsers" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100" class="mt-8">
-            <h2 class="text-2xl font-bold mb-4">Created Users</h2>
+            <h2 class="text-2xl font-bold mb-4">User berhasil di tambahkan</h2>
             <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <template x-for="(user, index) in createdUsers" :key="index">
                     <div class="mb-4 p-4 border-b">
@@ -142,8 +142,8 @@
                             position: "center",
                             icon: "success",
                             title: "User berhasil ditambahkan",
-                            showConfirmButton: false,
-                            timer: 1500
+                            showConfirmButton: true,
+                            timer: null
                         });
                     </script>
                 </template>

@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\SendEmailController;
-
+use App\Http\Controllers\DosenHomeController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -130,5 +131,13 @@ Route::post('/store/dosen', [RegisterController::class, 'storeDosen'])->name('st
 
 
 // ------------------------ route untuk OTP ------------------------- //
-Route::post('/post-email', [SendEmailController::class, 'store'])->name('post-email');
+// Route::post('/post-email', [SendEmailController::class, 'store'])->name('post-email');
 // ------------------------ route untuk OTP ------------------------- //
+
+
+Route::get('/dosen/landingPage', [DosenHomeController::class, 'index'])->name('dosen.landingPage');
+
+Route::get('/dosen/search', [DosenHomeController::class, 'search'])->name('dosen.search');
+
+Route::get('/dosen/mahasiswa/delete/{id}', [DosenHomeController::class, 'destroy'])->name('dosen.delete');
+

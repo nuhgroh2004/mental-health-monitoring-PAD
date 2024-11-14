@@ -9,18 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('mahasiswas', function (Blueprint $table) {
-            $table->id('mahasiswa_id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('NIM', 15)->unique();
-            $table->string('prodi', 100)->nullable();
-            $table->date('tanggal_lahir')->nullable();
-            $table->string('password', 255);
-            $table->string('phone_number', 11)->nullable();
+        Schema::create('mahasiswa', function (Blueprint $table) {
+            $table->unsignedBigInteger('mahasiswa_id');
+            $table->foreign('mahasiswa_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->string('NIM', 13)->unique();
+            $table->string('prodi', 100);
+            $table->date('tanggal_lahir');
+            $table->string('nomor_hp', 11);
+            $table->enum('mahasiswa_role', ['role_1', 'role_2']);
             $table->timestamps();
+
+            $table->primary('mahasiswa_id');
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mahasiswas');
+        Schema::dropIfExists('mahasiswa');
     }
 };

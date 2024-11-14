@@ -8,16 +8,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Dosen extends Authenticatable
 {
-    use HasFactory;
-    protected $table = 'dosens';
+    protected $table = 'dosen';
+    protected $primaryKey = 'dosen_id';
 
-    protected $fillable =[
-        'name',
-        'email',
-        'password'
+    protected $fillable = [
+        'dosen_id',
+        'verified'
     ];
 
-    protected $hidden =[
-        'password'
-    ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

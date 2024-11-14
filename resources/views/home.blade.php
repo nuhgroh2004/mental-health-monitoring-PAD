@@ -21,7 +21,7 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="index-page">
+<body class="index-page" style="overflow-x: hidden;">
 <!----------------------------------------------------------------- Narbar ------------------------------------------------------------------------>
     <header id="header" class="header d-flex align-items-center fixed-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center">
