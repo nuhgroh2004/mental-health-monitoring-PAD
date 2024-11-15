@@ -173,6 +173,34 @@ targetButtons.forEach(btn => {
 // pindah menenu ke target
 
 
+function handleFinishConfirmation(isTargetAchieved) {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-success w-24 mx-2",
+            cancelButton: "btn btn-danger w-24 mx-2"
+        },
+        buttonsStyling: false
+    });
+
+    return swalWithBootstrapButtons.fire({
+        title: "Apa kamu yakin?",
+        text: "Ingin menyelesaikan timer dan mengecek target?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Ya!",
+        cancelButtonText: "Tidak!",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const message = isTargetAchieved
+                ? { title: "Target Tercapai!", text: "Selamat! Waktu yang ditentukan telah tercapai.", icon: "success" }
+                : { title: "Target Belum Tercapai", text: "Waktu yang ditentukan belum tercapai.", icon: "error" };
+
+            return swalWithBootstrapButtons.fire(message).then(() => result); // Kembalikan hasil konfirmasi "Ya"
+        }
+        return result; // Jika pengguna memilih "Tidak", kembalikan hasil tanpa perubahan
+    });
+}
 
 function timerApp() {
     return {
@@ -188,19 +216,14 @@ function timerApp() {
         // Tambahkan target waktu berdasarkan inputan (format jam dan menit)
         addTarget() {
             const [hours, minutes] = this.newTarget.split(':').map(Number);
-
-            // Cek apakah waktu yang dimasukkan valid
             if (hours === 0 && minutes === 0) {
                 alert("Waktu target tidak boleh 00:00. Silakan masukkan waktu yang valid.");
                 return;
             }
-
-            // Konversi waktu ke detik
             this.targetSeconds = (hours * 3600) + (minutes * 60);
             this.newTarget = '00:00';
         },
 
-        // Mulai timer
         startTimer() {
             if (this.targetSeconds > 0) {
                 this.timerStarted = true;
@@ -210,7 +233,6 @@ function timerApp() {
             }
         },
 
-        // Pause/Play timer
         toggleTimer() {
             if (this.isRunning) {
                 clearInterval(this.timerInterval);
@@ -222,20 +244,24 @@ function timerApp() {
             this.isRunning = !this.isRunning;
         },
 
-        // Menghentikan timer dan mengecek apakah target tercapai
         finishTimer() {
-            clearInterval(this.timerInterval);
-            this.isRunning = false;
-            this.timerFinished = true;
+            clearInterval(this.timerInterval); // Hentikan timer saat tombol Finish ditekan
+            this.isRunning = false;            // Tandai bahwa timer sedang tidak berjalan
 
-            // Cek apakah target tercapai
+            // Perbarui status apakah target tercapai atau belum sebelum menampilkan dialog
             this.isTargetAchieved = this.elapsedTime >= this.targetSeconds;
 
-            // Tampilkan alert bahwa timer selesai
-            this.showAlert('finishAlert');
+            // Panggil SweetAlert dan hanya reset jika hasilnya dikonfirmasi
+            handleFinishConfirmation(this.isTargetAchieved).then((result) => {
+                if (result.isConfirmed) { // Jika pengguna memilih "Ya"
+                    this.resetTimer();    // Reset timer
+                } else {
+                    this.toggleTimer();   // Lanjutkan timer jika pengguna memilih "Tidak"
+                }
+            });
         },
 
-        // Format waktu dalam format jam:menit:detik
+
         formatTime(seconds) {
             const hours = Math.floor(seconds / 3600);
             const minutes = Math.floor((seconds % 3600) / 60);
@@ -243,24 +269,19 @@ function timerApp() {
             return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
         },
 
-        // Tampilkan alert untuk beberapa detik, lalu reset timer
-        showAlert(alertId) {
-            const alertElement = document.getElementById(alertId);
-            alertElement.classList.remove('hidden');
-            setTimeout(() => {
-                alertElement.classList.add('hidden');
-                this.resetTimer();
-            }, 3000); // Sembunyikan alert setelah 3 detik
-        },
-
-        // Reset timer dan semua status
         resetTimer() {
             this.elapsedTime = 0;
             this.targetSeconds = 0;
             this.timerStarted = false;
             this.timerFinished = false;
             this.isTargetAchieved = false;
+            this.isRunning = false;
             this.newTarget = '00:00';
+
+            // Memaksa tampilan Alpine untuk memperbarui setelah reset
+            this.$nextTick(() => {
+                this.elapsedTime = 0;
+            });
         }
     };
 }

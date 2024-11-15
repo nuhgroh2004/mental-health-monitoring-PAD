@@ -8,7 +8,8 @@ function createUserForm() {
             prodi: null,
             tanggal_lahir: null,
             phone: null,
-            showPassword: false
+            Password: '',
+            role: ''
         }],
         createdUsers: [],
         showCreatedUsers: false,
@@ -23,7 +24,8 @@ function createUserForm() {
                 prodi: null,
                 tanggal_lahir: null,
                 phone: null,
-                showPassword: false
+                Password: '',
+                role: ''
             });
         },
 
@@ -46,7 +48,8 @@ function createUserForm() {
                     nim: '12345',
                     prodi: null,
                     tanggal_lahir: null,
-                    phone: null
+                    phone: null,
+                    role: 'role 1'
                 }
             ];
 
@@ -57,10 +60,23 @@ function createUserForm() {
         },
 
         downloadExcel() {
-            const ws = XLSX.utils.json_to_sheet(this.createdUsers);
+            const filledUsers = this.users.map(user => {
+            return {
+                email: user.email || '-',
+                password: user.password || '-',
+                name: user.name || '-',
+                nim: user.nim || '-',
+                prodi: user.prodi || '-',
+                tanggal_lahir: user.tanggal_lahir || '-',
+                phone: user.phone || '-',
+                Password: user.Password || '-',
+                role: user.role || '-'
+            };
+            });
+            const ws = XLSX.utils.json_to_sheet(filledUsers);
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Users");
-            XLSX.writeFile(wb, "created_users.xlsx");
+            XLSX.utils.book_append_sheet(wb, ws, "Full Users");
+            XLSX.writeFile(wb, "full_users.xlsx");
         },
 
         submitExcel() {

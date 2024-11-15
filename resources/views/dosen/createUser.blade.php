@@ -104,6 +104,18 @@
                         </div>
                     </div>
 
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" :for="'role-' + index">Role</label>
+                        <div class="relative">
+                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10"
+                                :id="'role-' + index"
+                                x-model="user.role">
+                                <option value="role_1">Role 1</option>
+                                <option value="role_2">Role 2</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <button type="button" @click="removeUser(index)" class="mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform duration-300 ease-in-out transform hover:scale-105">
                         Remove
                     </button>
@@ -136,6 +148,7 @@
                         <p><strong>Program Studi:</strong> <span x-text="user.prodi || '-'"></span></p>
                         <p><strong>Tanggal Lahir:</strong> <span x-text="user.tanggal_lahir || '-'"></span></p>
                         <p><strong>Phone Number:</strong> <span x-text="user.phone || '-'"></span></p>
+                        <p><strong>Role:</strong> <span x-text="user.role || '-'"></span></p>
                     </div>
                     <script>
                         Swal.fire({
