@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Mahasiswa;
 use Illuminate\Support\Facades\Hash;
 
-class mahasiswa_seeder extends Seeder
+class mahasiswaSeeder extends Seeder
 {
     /**
      * Run the database seeds.

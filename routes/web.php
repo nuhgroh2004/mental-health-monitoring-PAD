@@ -6,6 +6,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\MoodController;
+use App\Http\Controllers\MoodTrackerController;
+use App\Http\Controllers\ProgressTrackerController;
 use App\Http\Controllers\SendEmailController;
 
 /*
@@ -130,6 +133,17 @@ Route::get('/mahasiswa/editProfil',function(){
 Route::get('/mahasiswa/home',function(){
     return view('mahasiswa.home');
 })->name('mahasiswa.home');
+
+Route::get('/kembali', function () {
+    session()->forget('selectedEmotion');
+    session()->forget('selectedIntensity');
+    return redirect()->route('mahasiswa.home');
+})->name('mahasiswa.kembali');
+
+Route::get('/mahasiswa/notes', [MoodController::class, 'showNotes'])->name('mahasiswa.notes');
+Route::post('/mahasiswa/store-mood', [MoodController::class, 'storeMood'])->name('mahasiswa.storeMood');
+
+Route::post('/progress/store', [ProgressTrackerController::class, 'store'])->name('progress.store');
 // ------------------------ route untuk mahasiswa ------------------------- //
 
 // ------------------------ route login register ------------------------- //

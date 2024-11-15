@@ -30,47 +30,84 @@
 
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden h-auto sm:max-w-full">
-        <form  class="p-8">
-            {{-- @csrf --}}
-            {{-- Tampilkan Tanggal dan Jam --}}
-            <div class="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-[#76aeb8] text-base font-bold mb-1">Tanggal:</label>
-                    <div class="bg-gray-100 px-4 py-2 rounded-md text-base">
-                        {{ now()->format('d/m/Y') }}
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-[#76aeb8] text-base font-bold mb-1">Jam:</label>
-                    <div class="bg-gray-100 px-4 py-2 rounded-md text-base">
-                        {{ now()->format('H:i') }}
-                    </div>
-                </div>
-            </div>
+            <form action="{{ route('mahasiswa.storeMood') }}" method="POST" class="p-8">
+                @csrf
+                <!-- Hidden inputs untuk menyimpan emotion dan intensity -->
+                <input type="hidden" id="selectedEmotion" name="selectedEmotion">
+                <input type="hidden" id="selectedIntensity" name="selectedIntensity">
 
-            {{-- Catatan --}}
-            <div class="mb-6">
-                <label for="notes" class="block text-[#76aeb8] text-base font-bold mb-1">Catatan:</label>
-                <textarea id="notes" name="notes" required
-                          class="w-full px-4 py-2 border border-[#76aeb8] rounded-md focus:outline-none focus:ring-2 focus:ring-[#76aeb8] focus:border-[#76aeb8] resize-none text-base h-[200px]"></textarea>
-            </div>
+                <!-- Display emoji dan intensitas yang dipilih -->
+                <div class="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[#76aeb8] text-base font-bold mb-1">Tanggal:</label>
+                        <div class="bg-gray-100 px-4 py-2 rounded-md text-base">
+                            {{ now()->format('d/m/Y') }}
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[#76aeb8] text-base font-bold mb-1">Jam:</label>
+                        <div class="bg-gray-100 px-4 py-2 rounded-md text-base">
+                            {{ now()->format('H:i') }}
+                        </div>
+                    </div>
 
-            {{-- Tombol --}}
-            <div class="flex justify-between">
-                <a href="{{ route('mahasiswa.home') }}" class="inline-flex items-center px-3 py-2 sm:px-5 sm:py-3 bg-[#76aeb8] hover:bg-[#3f9aaa] text-white rounded-md transition duration-300">
-                    <svg class="h-4 w-4 sm:h-5 sm:w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                        <path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                    </svg>
-                    Kembali
-                </a>
-                <a href="{{ route('mahasiswa.home') }}" type="submit" class="inline-flex items-center px-3 py-2 sm:px-5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition duration-300">
-                    <svg class="h-4 w-4 sm:h-5 sm:w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                        <path d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    Simpan
-                </a>
-            </div>
-        </form>
+                    <div>
+                        <label class="block text-[#76aeb8] text-base font-bold mb-1">Perasaan yang dipilih:</label>
+                        <div id="emotion-display" class="bg-gray-100 px-4 py-2 rounded-md text-base"></div>
+                    </div>
+                    <div>
+                        <label class="block text-[#76aeb8] text-base font-bold mb-1">Intensitas:</label>
+                        <div id="intensity-display" class="bg-gray-100 px-4 py-2 rounded-md text-base"></div>
+                    </div>
+
+                </div>
+
+                <!-- Catatan -->
+                <div class="mb-6">
+                    <label for="notes" class="block text-[#76aeb8] text-base font-bold mb-1">Catatan:</label>
+                    <textarea id="notes" name="notes" required
+                              class="w-full px-4 py-2 border border-[#76aeb8] rounded-md focus:outline-none focus:ring-2 focus:ring-[#76aeb8] focus:border-[#76aeb8] resize-none text-base h-[200px]"></textarea>
+                </div>
+
+                <!-- Tombol Simpan -->
+                <div class="flex justify-between">
+                    <a href="{{ route('mahasiswa.home') }}" class="inline-flex items-center px-3 py-2 sm:px-5 sm:py-3 bg-[#76aeb8] hover:bg-[#3f9aaa] text-white rounded-md transition duration-300">
+                        <svg class="h-4 w-4 sm:h-5 sm:w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Kembali
+                    </a>
+                    <button type="submit" class="inline-flex items-center px-3 py-2 sm:px-5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition duration-300">
+                        <svg class="h-4 w-4 sm:h-5 sm:w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Simpan
+                    </button>
+                </div>
+            </form>
     </div>
 </div>
+
+
+<script>
+    // Ambil nilai emot dan intensitas dari sessionStorage saat halaman dimuat
+    window.onload = () => {
+        const selectedEmotion = sessionStorage.getItem('selectedEmotion');
+        const selectedIntensity = sessionStorage.getItem('selectedIntensity');
+
+        if (selectedEmotion && selectedIntensity) {
+            // Tampilkan nilai di form
+            document.getElementById('emotion-display').textContent = selectedEmotion;
+            document.getElementById('intensity-display').textContent = selectedIntensity;
+
+            // Set nilai di hidden inputs
+            document.getElementById('selectedEmotion').value = selectedEmotion;
+            document.getElementById('selectedIntensity').value = selectedIntensity;
+        } else {
+            // Redirect kembali ke home jika tidak ada data
+            window.location.href = "{{ route('mahasiswa.home') }}";
+        }
+    }
+</script>
+
 </body>

@@ -176,66 +176,17 @@ targetButtons.forEach(btn => {
 
 function timerApp() {
     return {
-        newTarget: '00:00',
+        newTarget: '',
         targetSeconds: 0,
         elapsedTime: 0,
         isRunning: false,
-        timerInterval: null,
         timerStarted: false,
         timerFinished: false,
         isTargetAchieved: false,
+        isSaving: false,
+        saveError: null,
+        timer: null,
 
-        // Tambahkan target waktu berdasarkan inputan (format jam dan menit)
-        addTarget() {
-            const [hours, minutes] = this.newTarget.split(':').map(Number);
-
-            // Cek apakah waktu yang dimasukkan valid
-            if (hours === 0 && minutes === 0) {
-                alert("Waktu target tidak boleh 00:00. Silakan masukkan waktu yang valid.");
-                return;
-            }
-
-            // Konversi waktu ke detik
-            this.targetSeconds = (hours * 3600) + (minutes * 60);
-            this.newTarget = '00:00';
-        },
-
-        // Mulai timer
-        startTimer() {
-            if (this.targetSeconds > 0) {
-                this.timerStarted = true;
-                this.toggleTimer();
-            } else {
-                alert('Please add a target before starting the timer.');
-            }
-        },
-
-        // Pause/Play timer
-        toggleTimer() {
-            if (this.isRunning) {
-                clearInterval(this.timerInterval);
-            } else {
-                this.timerInterval = setInterval(() => {
-                    this.elapsedTime++;
-                }, 1000);
-            }
-            this.isRunning = !this.isRunning;
-        },
-
-        // Menghentikan timer dan mengecek apakah target tercapai
-        finishTimer() {
-            clearInterval(this.timerInterval);
-            this.isRunning = false;
-            this.timerFinished = true;
-
-            // Cek apakah target tercapai
-            this.isTargetAchieved = this.elapsedTime >= this.targetSeconds;
-
-            // Tampilkan alert bahwa timer selesai
-            this.showAlert('finishAlert');
-        },
-
-        // Format waktu dalam format jam:menit:detik
         formatTime(seconds) {
             const hours = Math.floor(seconds / 3600);
             const minutes = Math.floor((seconds % 3600) / 60);
@@ -243,24 +194,109 @@ function timerApp() {
             return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
         },
 
-        // Tampilkan alert untuk beberapa detik, lalu reset timer
-        showAlert(alertId) {
-            const alertElement = document.getElementById(alertId);
-            alertElement.classList.remove('hidden');
-            setTimeout(() => {
-                alertElement.classList.add('hidden');
-                this.resetTimer();
-            }, 3000); // Sembunyikan alert setelah 3 detik
+        timeToSeconds(timeString) {
+            const [hours, minutes] = timeString.split(':');
+            return (parseInt(hours) * 3600) + (parseInt(minutes) * 60);
         },
 
-        // Reset timer dan semua status
+        addTarget() {
+            if (!this.newTarget) return;
+            this.targetSeconds = this.timeToSeconds(this.newTarget);
+            this.newTarget = '';
+        },
+
+        startTimer() {
+            if (!this.targetSeconds) return;
+            this.timerStarted = true;
+            this.isRunning = true;
+            this.timer = setInterval(() => {
+                if (this.isRunning) {
+                    this.elapsedTime++;
+                }
+            }, 1000);
+        },
+
+        toggleTimer() {
+            this.isRunning = !this.isRunning;
+        },
+
+        async finishTimer() {
+            clearInterval(this.timer);
+            this.isRunning = false;
+            this.timerFinished = true;
+            this.isTargetAchieved = this.elapsedTime >= this.targetSeconds;
+
+            // Reset error state
+            this.saveError = null;
+
+            // Set saving state
+            this.isSaving = true;
+
+            try {
+                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                const response = await fetch('/progress/store', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        expected_target: this.targetSeconds,
+                        actual_target: this.elapsedTime,
+                        is_achieved: this.isTargetAchieved
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to save progress');
+                }
+
+                const result = await response.json();
+
+                // Show success alert
+                const alert = document.getElementById('finishAlert');
+                alert.textContent = 'Progress berhasil disimpan!';
+                alert.classList.remove('hidden', 'bg-red-500');
+                alert.classList.add('bg-green-500');
+                alert.classList.remove('hidden');
+
+                // Reset timer after successful save
+                setTimeout(() => {
+                    alert.classList.add('hidden');
+                    this.resetTimer();
+                }, 3000);
+
+            } catch (error) {
+                console.error('Error saving progress:', error);
+                this.saveError = error.message;
+
+                // Show error alert
+                const alert = document.getElementById('finishAlert');
+                alert.textContent = 'Gagal menyimpan progress. Silakan coba lagi.';
+                alert.classList.remove('hidden', 'bg-green-500');
+                alert.classList.add('bg-red-500');
+                alert.classList.remove('hidden');
+                setTimeout(() => {
+                    alert.classList.add('hidden');
+                }, 3000);
+            } finally {
+                this.isSaving = false;
+            }
+        },
+
         resetTimer() {
+            clearInterval(this.timer);
             this.elapsedTime = 0;
             this.targetSeconds = 0;
+            this.isRunning = false;
             this.timerStarted = false;
             this.timerFinished = false;
             this.isTargetAchieved = false;
-            this.newTarget = '00:00';
+            this.newTarget = '';
+            this.saveError = null;
         }
-    };
+    }
 }

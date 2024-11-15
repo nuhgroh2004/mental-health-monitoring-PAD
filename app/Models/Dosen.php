@@ -18,4 +18,9 @@ class Dosen extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function notification()
+    {
+        return $this->hasMany(Notification::class, 'dosen_id', 'dosen_id');
+    }
 }

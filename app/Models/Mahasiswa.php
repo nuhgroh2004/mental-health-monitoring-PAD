@@ -37,4 +37,9 @@ class Mahasiswa extends Model
     {
         return $this->hasMany(Report::class, 'mahasiswa_id', 'mahasiswa_id');
     }
+
+    public function notification()
+    {
+        return $this->hasMany(Notification::class, 'mahasiswa_id', 'mahasiswa_id');
+    }
 }

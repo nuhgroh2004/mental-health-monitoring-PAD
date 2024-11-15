@@ -1,5 +1,6 @@
 @extends('navbar/navbar-mahasiswa')
 @section('content')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <title>Home</title>
 <body class="flex items-center justify-center bg-gray-100 h-screen">
     <div class="flex flex-col md:flex-row w-full h-full mt-[60px]">
@@ -163,7 +164,48 @@
 </body>
 <script src="{{ asset('assets/js/mhs-home.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-<script>
 
+<script>
+    // Saat klik pada emoji
+    document.querySelectorAll('.emoji-btn').forEach(btn => {
+        btn.addEventListener('click', (event) => {
+            event.preventDefault();
+            const emotion = btn.dataset.emotion;
+
+            // Simpan emosi ke session storage
+            sessionStorage.setItem('selectedEmotion', emotion);
+
+            // Update text di modal dan tampilkan modal
+            document.getElementById('selected-emotion-text').textContent = emotion;
+            document.getElementById('emotion-level-modal').classList.remove('hidden');
+            document.getElementById('emotion-level-modal').classList.add('flex');
+        });
+    });
+
+    // Saat pilih intensitas di modal
+    document.querySelectorAll('.level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const intensity = btn.dataset.level;
+
+            // Simpan intensitas ke session storage
+            sessionStorage.setItem('selectedIntensity', intensity);
+
+            // Redirect ke halaman notes
+            window.location.href = "{{ route('mahasiswa.notes') }}";
+        });
+    });
+
+    // Tombol "Kembali" di modal
+    document.getElementById('modal-back').addEventListener('click', () => {
+        document.getElementById('emotion-level-modal').classList.remove('flex');
+        document.getElementById('emotion-level-modal').classList.add('hidden');
+    });
+
+    // Tombol Reset (optional)
+    document.getElementById('reset-btn').addEventListener('click', () => {
+        sessionStorage.removeItem('selectedEmotion');
+        sessionStorage.removeItem('selectedIntensity');
+    });
 </script>
+
 @endsection

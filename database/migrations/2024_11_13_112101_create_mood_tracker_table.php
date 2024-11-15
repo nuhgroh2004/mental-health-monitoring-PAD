@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('mahasiswa_id');
             $table->integer('mood_level');
             $table->integer('mood_intensity');
-            $table->string('mood_text', 300);
+            $table->string('mood_note', 300);
             $table->timestamps();
 
             $table->foreign('mahasiswa_id')

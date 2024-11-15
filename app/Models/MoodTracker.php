@@ -16,11 +16,16 @@ class MoodTracker extends Model
         'mahasiswa_id',
         'mood_level',
         'mood_intensity',
-        'mood_text',
+        'mood_note',
     ];
 
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class);
+        return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id', 'mahasiswa_id');
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class, 'mood_id', 'mood_id');
     }
 }

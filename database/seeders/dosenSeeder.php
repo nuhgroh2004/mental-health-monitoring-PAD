@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Dosen;
 use Illuminate\Support\Facades\Hash;
 
-class dosen_seeder extends Seeder
+class dosenSeeder extends Seeder
 {
     /**
      * Run the database seeds.
