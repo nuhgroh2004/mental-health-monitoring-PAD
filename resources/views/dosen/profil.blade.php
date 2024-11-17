@@ -38,7 +38,7 @@
 
 <!-- Logout Confirmation Modal -->
 <div id="logoutModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-    <div class="mt-[100px] relative mx-auto p-3 border w-80 shadow-lg rounded-md bg-white">
+    <div class="mt-[100px] relative mx-auto p-3 border w-80 shadow-lg rounded-md bg-white lg:mt-[130px]">
         <div class="mt-3 text-center">
             <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
                 <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -67,27 +67,4 @@
     </div>
 </div>
 
-<script>
-function logout() {
-    // Add your logout logic here
-    hideLogoutConfirmation();
-}
-
-// Close the modal if clicking outside of it
-window.onclick = function(event) {
-    var modal = document.getElementById('logoutModal');
-    if (event.target == modal) {
-        hideLogoutConfirmation();
-    }
-}
-
-function showLogoutConfirmation() {
-    document.getElementById('logoutModal').classList.remove('hidden');
-}
-
-function hideLogoutConfirmation() {
-    document.getElementById('logoutModal').classList.add('hidden');
-}
-
-</script>
 @endsection

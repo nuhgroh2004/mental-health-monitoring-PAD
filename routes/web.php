@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DosenController;
+use App\Http\Controllers\DosenHomeController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\MoodController;
 use App\Http\Controllers\MoodTrackerController;
@@ -73,10 +74,9 @@ Route::get('/dosen/notifikasi',function(){
 })->name('dosen.notifikasi');
 
 Route::get('/dosen/profil', [DosenController::class, 'showProfil'])->name('dosen.profil');
+Route::post('/dosen/update-profil', [DosenController::class, 'updateProfil'])->name('dosen.updateProfil');
 
-Route::get('/dosen/editProfil',function(){
-    return view('dosen.editProfil');
-})->name('dosen.editProfil');
+Route::get('/dosen/editProfil', [DosenController::class, 'bukaEdit'])->name('dosen.editProfil');
 
 Route::get('/dosen/otp',function(){
     return view('dosen.otp');
@@ -124,11 +124,10 @@ Route::get('/mahasiswa/notifikasi',function(){
 })->name('mahasiswa.notifikasi');
 
 Route::get('/mahasiswa/profil', [MahasiswaController::class, 'showProfil'])->name('mahasiswa.profil');
+Route::post('/mahasiswa/update-profil', [MahasiswaController::class, 'updateProfil'])->name('mahasiswa.updateProfil');
 
-Route::get('/mahasiswa/editProfil',function(){
-    return view('mahasiswa.editProfil');
-})->name('mahasiswa.editProfil');
 
+Route::get('/mahasiswa/editProfil', [MahasiswaController::class, 'bukaEdit'])->name('mahasiswa.editProfil');
 
 Route::get('/mahasiswa/home',function(){
     return view('mahasiswa.home');
@@ -157,4 +156,14 @@ Route::post('/store/dosen', [RegisterController::class, 'storeDosen'])->name('st
 
 // ------------------------ route login register ------------------------- //
 
-Route::post('/post-email', [SendEmailController::class, 'store'])->name('post-email');
+
+// ------------------------ route untuk OTP ------------------------- //
+// Route::post('/post-email', [SendEmailController::class, 'store'])->name('post-email');
+// ------------------------ route untuk OTP ------------------------- //
+
+
+Route::get('/dosen/landingPage', [DosenHomeController::class, 'index'])->name('dosen.landingPage');
+
+Route::get('/dosen/search', [DosenHomeController::class, 'search'])->name('dosen.search');
+
+Route::get('/dosen/mahasiswa/delete/{id}', [DosenHomeController::class, 'destroy'])->name('dosen.delete');

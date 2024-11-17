@@ -2,13 +2,13 @@
 @section('content')
 <title>Profil</title>
 <div class="min-h-screen bg-white p-2 sm:p-4 md:p-6 lg:p-8 flex items-center justify-center">
-    <div class="bg-white rounded-lg shadow-lg p-4 sm:p-6 md:p-8 w-full max-w-[95%] sm:max-w-[90%] md:max-w-[80%] lg:max-w-[1000px] fixed top-1/2 transform -translate-y-1/2 mt-5 overflow-y-auto max-h-[90vh]">
+    <div class="bg-white rounded-lg shadow-lg p-4 sm:p-6 md:p-8 w-full mt-[70px]  lg:mt-[100px]">
         <div class="mb-6">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
                 Email
             </label>
             <div class="border rounded-md p-2 bg-gray-100">
-                <span id="email" class="text-gray-800">{{ optional($user)->email ?? 'Email tidak tersedia' }}</span>
+                <span id="email" class="text-gray-800">{{ $user->email }}</span>
             </div>
         </div>
         <div class="mb-6">
@@ -16,7 +16,7 @@
                 Nama
             </label>
             <div class="border rounded-md p-2 bg-gray-100">
-                <span id="name" class="text-gray-800">{{optional($user)->name ?? 'name tidak tersedia'}}</span>
+                <span id="name" class="text-gray-800">{{ $user->name }}</span>
             </div>
         </div>
         <div class="mb-6">
@@ -24,7 +24,31 @@
                 NIM
             </label>
             <div class="border rounded-md p-2 bg-gray-100">
-                <span id="NIM" class="text-gray-800">{{ optional($mahasiswa)->NIM ?? 'NIM tidak tersedia' }}</span>
+                <span id="NIM" class="text-gray-800">{{ $mahasiswa->NIM }}</span>
+            </div>
+        </div>
+        <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="NIM">
+                Prodi
+            </label>
+            <div class="border rounded-md p-2 bg-gray-100">
+                <span id="prodi" class="text-gray-800">{{ $mahasiswa->prodi }}</span>
+            </div>
+        </div>
+        <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="NIM">
+                Tanggal Lahir
+            </label>
+            <div class="border rounded-md p-2 bg-gray-100">
+                <span id="NIM" class="text-gray-800">{{ $mahasiswa->tanggal_lahir }}</span>
+            </div>
+        </div>
+                <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="NIM">
+                Phone Number
+            </label>
+            <div class="border rounded-md p-2 bg-gray-100">
+                <span id="NIM" class="text-gray-800">{{ $mahasiswa->nomor_hp }}</span>
             </div>
         </div>
         <div class="flex justify-between">
@@ -45,7 +69,7 @@
 </div>
 
 <!-- Logout Confirmation Modal -->
-<div id="logoutModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden flex items-start justify-center pt-10">
+<div id="logoutModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden items-start justify-center pt-10">
     <div class="mt-[100px] relative mx-auto p-3 border w-80 shadow-lg rounded-md bg-white">
         <div class="mt-3 text-center">
             <div class="mx-auto flex items-center justify-center h-10 w-10 rounded-full bg-red-100">

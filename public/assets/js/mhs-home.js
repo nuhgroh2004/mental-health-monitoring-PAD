@@ -173,19 +173,146 @@ targetButtons.forEach(btn => {
 // pindah menenu ke target
 
 
+function handleFinishConfirmation(isTargetAchieved) {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-success w-24 mx-2",
+            cancelButton: "btn btn-danger w-24 mx-2"
+        },
+        buttonsStyling: false
+    });
+
+    return swalWithBootstrapButtons.fire({
+        title: "Apa kamu yakin?",
+        text: "Ingin menyelesaikan timer dan mengecek target?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Ya!",
+        cancelButtonText: "Tidak!",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const message = isTargetAchieved
+                ? { title: "Target Tercapai!", text: "Selamat! Waktu yang ditentukan telah tercapai.", icon: "success" }
+                : { title: "Target Belum Tercapai", text: "Waktu yang ditentukan belum tercapai.", icon: "error" };
+
+            return swalWithBootstrapButtons.fire(message).then(() => result); // Kembalikan hasil konfirmasi "Ya"
+        }
+        return result; // Jika pengguna memilih "Tidak", kembalikan hasil tanpa perubahan
+    });
+}
 
 function timerApp() {
     return {
-        newTarget: '',
+        newTarget: '00:00',
         targetSeconds: 0,
         elapsedTime: 0,
         isRunning: false,
+        timerInterval: null,
         timerStarted: false,
         timerFinished: false,
         isTargetAchieved: false,
-        isSaving: false,
-        saveError: null,
-        timer: null,
+
+        // Tambahkan target waktu berdasarkan inputan (format jam dan menit)
+        addTarget() {
+            const [hours, minutes] = this.newTarget.split(':').map(Number);
+            if (hours === 0 && minutes === 0) {
+                alert("Waktu target tidak boleh 00:00. Silakan masukkan waktu yang valid.");
+                return;
+            }
+            this.targetSeconds = (hours * 3600) + (minutes * 60);
+            this.newTarget = '00:00';
+        },
+
+        startTimer() {
+            if (this.targetSeconds > 0) {
+                this.timerStarted = true;
+                this.toggleTimer();
+            } else {
+                alert('Please add a target before starting the timer.');
+            }
+        },
+
+        toggleTimer() {
+            if (this.isRunning) {
+                clearInterval(this.timerInterval);
+            } else {
+                this.timerInterval = setInterval(() => {
+                    this.elapsedTime++;
+                }, 1000);
+            }
+            this.isRunning = !this.isRunning;
+        },
+
+        finishTimer() {
+            clearInterval(this.timerInterval);
+            this.isRunning = false;
+            this.isTargetAchieved = this.elapsedTime >= this.targetSeconds;
+
+            const self = this; // Store reference to 'this' for use in Promise
+
+            Swal.fire({
+                title: 'Selesai!',
+                text: this.isTargetAchieved ?
+                    'Selamat! Anda telah mencapai target waktu.' :
+                    'Anda belum mencapai target waktu. Apakah anda ingin menyimpan progress?',
+                icon: this.isTargetAchieved ? 'success' : 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya!',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Prepare the data for the API call
+                    const data = {
+                        expected_target: self.targetSeconds,
+                        actual_target: self.elapsedTime,
+                        is_achieved: self.isTargetAchieved
+                    };
+
+                    // Get CSRF token from meta tag
+                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                    // Make the API call
+                    fetch('/progress/store', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': token,
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Berhasil!',
+                                text: 'Progress berhasil disimpan',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                self.resetTimer();
+                            });
+                        } else {
+                            throw new Error(data.message || 'Gagal menyimpan progress');
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: error.message || 'Terjadi kesalahan saat menyimpan progress',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            self.toggleTimer(); // Resume timer if save fails
+                        });
+                    });
+                } else {
+                    self.toggleTimer(); // Resume timer if user clicks "Tidak"
+                }
+            });
+        },
+
 
         formatTime(seconds) {
             const hours = Math.floor(seconds / 3600);
@@ -194,109 +321,19 @@ function timerApp() {
             return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
         },
 
-        timeToSeconds(timeString) {
-            const [hours, minutes] = timeString.split(':');
-            return (parseInt(hours) * 3600) + (parseInt(minutes) * 60);
-        },
-
-        addTarget() {
-            if (!this.newTarget) return;
-            this.targetSeconds = this.timeToSeconds(this.newTarget);
-            this.newTarget = '';
-        },
-
-        startTimer() {
-            if (!this.targetSeconds) return;
-            this.timerStarted = true;
-            this.isRunning = true;
-            this.timer = setInterval(() => {
-                if (this.isRunning) {
-                    this.elapsedTime++;
-                }
-            }, 1000);
-        },
-
-        toggleTimer() {
-            this.isRunning = !this.isRunning;
-        },
-
-        async finishTimer() {
-            clearInterval(this.timer);
-            this.isRunning = false;
-            this.timerFinished = true;
-            this.isTargetAchieved = this.elapsedTime >= this.targetSeconds;
-
-            // Reset error state
-            this.saveError = null;
-
-            // Set saving state
-            this.isSaving = true;
-
-            try {
-                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-                const response = await fetch('/progress/store', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': token,
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        expected_target: this.targetSeconds,
-                        actual_target: this.elapsedTime,
-                        is_achieved: this.isTargetAchieved
-                    })
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to save progress');
-                }
-
-                const result = await response.json();
-
-                // Show success alert
-                const alert = document.getElementById('finishAlert');
-                alert.textContent = 'Progress berhasil disimpan!';
-                alert.classList.remove('hidden', 'bg-red-500');
-                alert.classList.add('bg-green-500');
-                alert.classList.remove('hidden');
-
-                // Reset timer after successful save
-                setTimeout(() => {
-                    alert.classList.add('hidden');
-                    this.resetTimer();
-                }, 3000);
-
-            } catch (error) {
-                console.error('Error saving progress:', error);
-                this.saveError = error.message;
-
-                // Show error alert
-                const alert = document.getElementById('finishAlert');
-                alert.textContent = 'Gagal menyimpan progress. Silakan coba lagi.';
-                alert.classList.remove('hidden', 'bg-green-500');
-                alert.classList.add('bg-red-500');
-                alert.classList.remove('hidden');
-                setTimeout(() => {
-                    alert.classList.add('hidden');
-                }, 3000);
-            } finally {
-                this.isSaving = false;
-            }
-        },
-
         resetTimer() {
-            clearInterval(this.timer);
             this.elapsedTime = 0;
             this.targetSeconds = 0;
-            this.isRunning = false;
             this.timerStarted = false;
             this.timerFinished = false;
             this.isTargetAchieved = false;
-            this.newTarget = '';
-            this.saveError = null;
+            this.isRunning = false;
+            this.newTarget = '00:00';
+
+            // Memaksa tampilan Alpine untuk memperbarui setelah reset
+            this.$nextTick(() => {
+                this.elapsedTime = 0;
+            });
         }
-    }
+    };
 }

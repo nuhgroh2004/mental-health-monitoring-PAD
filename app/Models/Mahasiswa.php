@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Mahasiswa extends Model
+class Mahasiswa extends Authenticatable
 {
     protected $table = 'mahasiswa';
     protected $primaryKey = 'mahasiswa_id';
@@ -36,10 +37,5 @@ class Mahasiswa extends Model
     public function report()
     {
         return $this->hasMany(Report::class, 'mahasiswa_id', 'mahasiswa_id');
-    }
-
-    public function notification()
-    {
-        return $this->hasMany(Notification::class, 'mahasiswa_id', 'mahasiswa_id');
     }
 }

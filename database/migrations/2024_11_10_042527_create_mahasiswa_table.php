@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('nomor_hp', 11);
             $table->enum('mahasiswa_role', ['role_1', 'role_2']);
             $table->timestamps();
-
+ 
             $table->primary('mahasiswa_id');
         });
     }

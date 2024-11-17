@@ -2,25 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
     <title>GamaPulse</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <!-- Favicons -->
+
     <link rel="icon" href="{{ asset('asset/logo.png') }}" type="image/png">
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <!-- Vendor CSS Files -->
-    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/aos/aos.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
-    <!-- Main CSS File -->
-    <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
+
     @vite('resources/css/app.css')
 </head>
 <body class="bg-white flex justify-center items-center h-full mt-4 mb-4">
@@ -63,14 +50,14 @@
         </button>
 
         <!-- Tombol Kembali -->
-        <button onclick="goBack()" herf="{{ route('mahasiswa.register') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg w-full hover:bg-gray-600 transition duration-300 flex items-center justify-center">
+        <button onclick="history.back()" class="bg-gray-500 text-white px-4 py-2 rounded-lg w-full hover:bg-gray-600 transition duration-300 flex items-center justify-center">
             <svg class="h-5 w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
             <path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
             Kembali
         </button>
 
-        <div id="editForm" class="hidden mt-4">
+        <div id="editForm" class="hidden mt-4 ">
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Select Mood:</label>
                 <div class="flex justify-between">
@@ -99,53 +86,13 @@
                 <svg class="h-5 w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M5 13l4 4L19 7"></path>
                 </svg>
-                Save
+                Simpan
             </button>
         </div>
     </div>
+    <script src="{{ asset('assets/js/mahasiswa/mhs-edit-mood-notes.js') }}"></script>
 
-    <script>
-        let selectedMood = '{{ asset('asset/svg/emojiKecil/marah.svg') }}';
-        let selectedButton = null; // To track the selected button
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 
-        function toggleEdit() {
-            const editForm = document.getElementById('editForm');
-            editForm.classList.toggle('hidden');
-
-            if (!editForm.classList.contains('hidden')) {
-                selectedMood = document.getElementById('moodEmoji').innerText;
-                document.getElementById('noteInput').value = document.getElementById('noteText').innerText;
-            }
-        }
-
-        function selectMood(button, mood) {
-            // Remove 'selected' class from previously selected button, if any
-            if (selectedButton) {
-                selectedButton.classList.remove('selected');
-            }
-
-            // Add 'selected' class to the currently clicked button
-            button.classList.add('selected');
-
-            // Update the selected mood and selectedButton reference
-            selectedMood = mood;
-            selectedButton = button;
-        }
-
-        function saveChanges() {
-            const noteText = document.getElementById('noteInput').value;
-
-            // Update the displayed mood emoji and note
-            document.querySelector('#moodEmoji img').src = selectedMood;
-            document.getElementById('noteText').innerText = noteText;
-
-            // Hide the edit form
-            toggleEdit();
-        }
-
-        function goBack() {
-            window.location.href = "{{ route('mahasiswa.viewMoodCalendar') }}"; // Fungsi untuk kembali ke halaman register
-        }
-    </script>
 </body>
 </html>

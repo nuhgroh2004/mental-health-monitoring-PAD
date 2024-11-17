@@ -35,7 +35,7 @@ class mahasiswaSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
             $mahasiswaUser = User::create([
                 'name' => fake()->name(),
-                'email' => fake()->unique()->safeEmail(),
+                'email' => fake()->unique()->userName() . '@mail.ugm.ac.id',
                 'password' => Hash::make('12345678'),
                 'role' => 'Mahasiswa',
             ]);
@@ -53,7 +53,7 @@ class mahasiswaSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
             $mahasiswaUser = User::create([
                 'name' => fake()->name(),
-                'email' => fake()->unique()->safeEmail(),
+                'email' => fake()->unique()->userName() . '@mail.ugm.ac.id',
                 'password' => Hash::make('12345678'),
                 'role' => 'Mahasiswa',
             ]);

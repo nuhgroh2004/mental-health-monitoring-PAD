@@ -1,6 +1,9 @@
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     .aller-delete {
         margin-left: 20px;
         margin-right: 20px;
+    }
+    .edit-role {
+        font-size: 8px;
     }
  }

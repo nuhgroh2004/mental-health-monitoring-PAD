@@ -180,128 +180,46 @@ menuItems.forEach(item => {
 
 
 // <<<<<<<<<<<<<<<<<<---------- create user ---------------->>>>>>>>>>>>>>>>>>>> //
-function createUserForm() {
-    return {
-        users: [{ email: '', password: '', name: '', nim: '', showPassword: false }], // Daftar user
-        createdUsers: [], // Menyimpan user yang sudah dibuat
-        showCreatedUsers: false, // Mengontrol tampilan daftar user yang sudah dibuat
-        excelCreationSuccess: false, // Notifikasi kesuksesan impor Excel
 
-        // Menambahkan user baru
-        addUser() {
-            this.users.push({ email: '', password: '', name: '', nim: '', showPassword: false });
-        },
-
-        // Menghapus user dari form
-        removeUser(index) {
-            this.users.splice(index, 1);
-        },
-
-        // Menyimpan data user yang dibuat ke dalam daftar user yang dibuat
-        submitForm() {
-            this.createdUsers = [...this.createdUsers, ...this.users];
-            this.showCreatedUsers = true;
-            this.users = [{ email: '', password: '', name: '', nim: '', showPassword: false }];
-        },
-
-        // Mengunggah dan memproses file Excel
-        handleDrop(event) {
-            const file = event.dataTransfer.files[0];
-            this.processExcelFile(file);
-        },
-        handleFileSelect(event) {
-            const file = event.target.files[0];
-            this.processExcelFile(file);
-        },
-        processExcelFile(file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                const excelData = XLSX.utils.sheet_to_json(firstSheet);
-                this.createdUsers = excelData.map(row => ({
-                    email: row.Email,
-                    password: row.Password,
-                    name: row.Name,
-                    nim: row.NIM,
-                }));
-            };
-            reader.readAsArrayBuffer(file);
-        },
-
-        // Mengunduh daftar user sebagai file Excel
-        downloadExcel() {
-            const wb = XLSX.utils.book_new();
-            const data = this.createdUsers.map((user, index) => ({
-                No: index + 1,
-                Email: user.email,
-                Password: user.password,
-                Name: user.name,
-                NIM: user.nim
-            }));
-            const ws = XLSX.utils.json_to_sheet(data);
-            XLSX.utils.book_append_sheet(wb, ws, "Users");
-            XLSX.writeFile(wb, "created_users.xlsx");
-        },
-
-        // Mengunduh template Excel untuk impor user
-        downloadTemplate() {
-            const wb = XLSX.utils.book_new();
-            const data = [{ No: 1, Email: '', Password: '', Name: '', NIM: '' }];
-            const ws = XLSX.utils.json_to_sheet(data);
-            XLSX.utils.book_append_sheet(wb, ws, "Template");
-            XLSX.writeFile(wb, "user_template.xlsx");
-        },
-
-        // Menampilkan notifikasi kesuksesan impor Excel
-        submitExcel() {
-            this.excelCreationSuccess = true;
-            setTimeout(() => {
-                this.excelCreationSuccess = false;
-            }, 3000); // Menghilangkan notifikasi setelah 3 detik
-        }
-    };
-}
 
 // <<<<<<<<<<<<<<<<<<---------- create user ---------------->>>>>>>>>>>>>>>>>>>> //
 
 // <<<<<<<<<<<<<<<<<<---------- allert meminta izin dan delete pada landing page dosen ---------------->>>>>>>>>>>>>>>>>>>> //
-function openDeleteModal() {
-    document.getElementById('deleteModal').classList.remove('hidden');
-}
-function closeDeleteModal() {
-    document.getElementById('deleteModal').classList.add('hidden');
-}
+// function openDeleteModal() {
+//     document.getElementById('deleteModal').classList.remove('hidden');
+// }
+// function closeDeleteModal() {
+//     document.getElementById('deleteModal').classList.add('hidden');
+// }
 
-// Open and close request permission modal
-function openRequestPermissionModal() {
-    document.getElementById('requestPermissionModal').classList.remove('hidden');
-}
-function closeRequestPermissionModal() {
-    document.getElementById('requestPermissionModal').classList.add('hidden');
-}
+// // Open and close request permission modal
+// function openRequestPermissionModal() {
+//     document.getElementById('requestPermissionModal').classList.remove('hidden');
+// }
+// function closeRequestPermissionModal() {
+//     document.getElementById('requestPermissionModal').classList.add('hidden');
+// }
 
-// Confirm delete action
-function confirmDelete() {
-    document.getElementById('deleteModal').classList.add('hidden');
-    showAlert('deleteAlert');
-}
+// // Confirm delete action
+// function confirmDelete() {
+//     document.getElementById('deleteModal').classList.add('hidden');
+//     showAlert('deleteAlert');
+// }
 
-// Confirm request permission action
-function confirmRequestPermission() {
-    document.getElementById('requestPermissionModal').classList.add('hidden');
-    showAlert('requestPermissionAlert');
-}
+// // Confirm request permission action
+// function confirmRequestPermission() {
+//     document.getElementById('requestPermissionModal').classList.add('hidden');
+//     showAlert('requestPermissionAlert');
+// }
 
-// Function to show alert
-function showAlert(alertId) {
-    const alertElement = document.getElementById(alertId);
-    alertElement.classList.remove('hidden');
-    setTimeout(() => {
-        alertElement.classList.add('hidden');
-    }, 3000); // Hide alert after 3 seconds
-}
+// // Function to show alert
+// function showAlert(alertId) {
+//     const alertElement = document.getElementById(alertId);
+//     alertElement.classList.remove('hidden');
+//     setTimeout(() => {
+//         alertElement.classList.add('hidden');
+//     }, 3000); // Hide alert after 3 seconds
+// }
 // <<<<<<<<<<<<<<<<<<---------- allert meminta izin dan delete pada landing page dosen ---------------->>>>>>>>>>>>>>>>>>>> //
 
 

@@ -6,10 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use App\Models\Dosen;
 use App\Models\Mahasiswa;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 use App\Jobs\SendMailJob;
@@ -34,32 +32,24 @@ class RegisterController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:100',
-            'email' => 'required|email|max:50|unique:users',
+            'email' => 'required|email|max:50|unique:mahasiswas',
             'prodi' => 'required|string|max:100|',
             'tanggal_lahir' => 'required|date_format:Y-m-d',
-            'nomor_hp' => 'nullable|string|min:11|regex:/^[0-9]+$/',
-            'nim' => 'required|string|max:15|unique:mahasiswa',
+            'phone_number' => 'nullable|string|size:11|regex:/^[0-9]+$/',
+            'nim' => 'required|string|max:15|unique:mahasiswas',
             'password' => 'required|min:8',
             'g-recaptcha-response' => 'required|captcha'
         ]);
 
-        DB::beginTransaction();
-
-        $user = User::create([
+        Mahasiswa::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'Mahasiswa',
-        ]);
-        Mahasiswa::create([
-            'mahasiswa_id' => $user -> user_id,
             'prodi' => $request->prodi,
             'tanggal_lahir' => $request->tanggal_lahir,
-            'nomor_hp' => $request->nomor_hp,
+            'phone_number' => $request->phone_number,
             'NIM' => $request->nim,
+            'password' => Hash::make($request->password),
         ]);
-
-        DB::commit();
 
         Auth::attempt($request->only('email', 'password'));
         $request->session()->regenerate();
@@ -67,29 +57,29 @@ class RegisterController extends Controller
     }
 
     public function storeDosen(Request $request)
-    {
+{
+    $request->validate([
+        'name' => 'required|string|max:100',
+        'email' => 'required|email|max:50|unique:dosens',
+        'password' => 'required|min:8',
+        'g-recaptcha-response' => 'required|captcha'
+    ]);
 
-        $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|max:50|unique:users',
-            'password' => 'required|min:8',
-            'g-recaptcha-response' => 'required|captcha'
-        ]);
+    Dosen::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'Dosen',
-        ]);
+    $otp = rand(1000, 9999);
+    Log::info('OTP for Dosen registration: ' . $otp);
 
-        Dosen::create([
-            'dosen_id' => $user -> user_id,
-            'verified' => 'yes',
-        ]);
+    // Dispatch job with OTP and email
+    dispatch(new SendMailJob($otp, $request->email));
 
-        Auth::attempt($request->only('email', 'password'));
-        $request->session()->regenerate();
-        return redirect()->route('dosen.otp')->withSuccess('Registered & logged in!');
-    }
+    Auth::attempt($request->only('email', 'password'));
+    $request->session()->regenerate();
+    return redirect()->route('dosen.otp')->withSuccess('Registered & logged in!');
+}
+
 }
