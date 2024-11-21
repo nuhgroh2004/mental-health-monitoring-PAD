@@ -42,7 +42,7 @@
                 @endphp
 
                 @for ($i = 1; $i <= 35; $i++)
-                <a href="{{ route('mahasiswa.editMoodDanNotes') }}"
+                <a href="{{ route('mahasiswa.edit-mood-notes') }}"
                 class="aspect-square bg-white rounded-lg shadow hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-center p-1"
                 onclick="showMoodDetails({{ $i }})"
                 >

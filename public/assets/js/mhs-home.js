@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
     const emojiButtons = document.querySelectorAll('.emoji-btn');
     const modal = document.getElementById('emotion-level-modal');
@@ -11,22 +12,16 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedLevel = null;
     let isAnimating = false;
 
-    // Fungsi untuk animasi pembesaran emoji
     function animateEmoji(emojiButton) {
         if (isAnimating) return;
         isAnimating = true;
 
-        // Simpan ukuran dan posisi awal
         const originalScale = 1;
-        const targetScale = 1.2; // Perkecil skala animasi
+        const targetScale = 1.2;
 
-        // Tambahkan transition untuk animasi yang smooth
-        emojiButton.style.transition = 'transform 0.2s ease-in-out'; // Perpendek durasi animasi
-
-        // Efek membesar
+        emojiButton.style.transition = 'transform 0.2s ease-in-out';
         emojiButton.style.transform = `scale(${targetScale})`;
 
-        // Kembali ke ukuran semula setelah animasi selesai
         setTimeout(() => {
             emojiButton.style.transform = `scale(${originalScale})`;
             setTimeout(() => {
@@ -37,17 +32,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 120);
     }
 
-    // Fungsi untuk menampilkan modal
     function showModal(emotion) {
         selectedEmotion = emotion;
         document.getElementById('selected-emotion-text').textContent = emotion;
         modal.classList.remove('hidden');
-        // Reset level selection
         levelButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
         selectedLevel = null;
+        document.getElementById('level-description-text').textContent = ''; // Reset level description text
+        document.getElementById('level-description').classList.add('hidden'); // Hide level description
     }
 
-    // Event listener untuk emoji buttons
     emojiButtons.forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -55,84 +49,100 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Event listener untuk level buttons
     levelButtons.forEach(btn => {
         btn.addEventListener('click', function() {
-            // Remove selected class from all buttons
             levelButtons.forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
-            // Add selected class to clicked button
             this.classList.add('bg-blue-500', 'text-white');
             selectedLevel = this.getAttribute('data-level');
+            updateLevelDescription(selectedEmotion, selectedLevel);
         });
     });
 
-    // Event listener untuk tombol Kembali
     modalBackButton.addEventListener('click', function() {
         modal.classList.add('hidden');
         selectedLevel = null;
     });
 
-    // Event listener untuk tombol OK
     modalOkButton.addEventListener('click', function() {
         if (selectedLevel) {
-            // Simpan data di localStorage
             const data = {
                 emotion: selectedEmotion,
                 level: selectedLevel
             };
             localStorage.setItem('selectedEmotion', JSON.stringify(data));
-
-            // Update UI
-            feelingText.textContent = `Saya merasa ${selectedEmotion} level ${selectedLevel} hari ini!`;
-
-            // Sembunyikan emoji lain dan tampilkan hanya yang dipilih
-            emojiButtons.forEach(btn => {
-                if (btn.getAttribute('data-emotion') !== selectedEmotion) {
-                    btn.style.display = 'none';
-                } else {
-                    btn.style.display = 'block';
-                    btn.style.margin = '0 auto';
-                    btn.classList.add('mx-auto', 'pointer-events-none');
-                    btn.style.cursor = 'default';
-                }
-            });
-
-            // Tutup modal
+            feelingText.textContent = getFeelingText(data.emotion);
+            updateEmojiButtons(selectedEmotion);
             modal.classList.add('hidden');
-
-            // Redirect setelah delay
             setTimeout(() => {
-                window.location.href = "/mahasiswa/notes"; // Replace with the actual URL
+                window.location.href = "/mahasiswa/notes";
             }, 500);
         }
     });
 
-    // Event listener untuk tombol Reset
     resetButton.addEventListener('click', function() {
-        // Hapus data dari localStorage
         localStorage.removeItem('selectedEmotion');
-
-        // Reset UI
-        feelingText.textContent = 'HALLO BAGAIMANA PERSAANMU HARI INI';
-
-        // Reset tampilan emoji
-        emojiButtons.forEach(btn => {
-            btn.style.display = 'inline-block';
-            btn.style.margin = '';
-            btn.classList.remove('mx-auto', 'pointer-events-none');
-            btn.style.cursor = 'pointer';
-            btn.style.transform = 'scale(1)';  // Reset scale
-        });
+        resetUI();
     });
 
-    // Check localStorage saat halaman dimuat
     const savedData = localStorage.getItem('selectedEmotion');
     if (savedData) {
         const data = JSON.parse(savedData);
-        feelingText.textContent = `Saya merasa ${data.emotion} level ${data.level} hari ini!`;
+        feelingText.textContent = getFeelingText(data.emotion);
+        updateEmojiButtons(data.emotion);
+    }
 
+    function updateLevelDescription(emotion, level) {
+        const levelDescriptionText = document.getElementById('level-description-text');
+        const levelDescriptionDiv = document.getElementById('level-description');
+        levelDescriptionDiv.classList.remove('hidden');
+
+        switch (emotion) {
+            case 'Marah':
+                if (level == 1) {
+                    levelDescriptionText.textContent = "Saya merasa sedikit kesal hari ini.";
+                } else if (level == 2) {
+                    levelDescriptionText.textContent = "Saya merasa marah hari ini.";
+                } else if (level == 3) {
+                    levelDescriptionText.textContent = "Saya merasa sangat marah hari ini.";
+                }
+                break;
+            case 'Sedih':
+                if (level == 1) {
+                    levelDescriptionText.textContent = "Saya merasa sedikit sedih hari ini.";
+                } else if (level == 2) {
+                    levelDescriptionText.textContent = "Saya merasa sedih hari ini.";
+                } else if (level == 3) {
+                    levelDescriptionText.textContent = "Saya merasa sangat sedih hari ini.";
+                }
+                break;
+            case 'Biasa saja':
+                if (level == 1) {
+                    levelDescriptionText.textContent = "Saya merasa biasa saja hari ini.";
+                } else if (level == 2) {
+                    levelDescriptionText.textContent = "Saya merasa cukup biasa hari ini.";
+                } else if (level == 3) {
+                    levelDescriptionText.textContent = "Saya merasa benar-benar biasa hari ini.";
+                }
+                break;
+            case 'Senang':
+                if (level == 1) {
+                    levelDescriptionText.textContent = "Saya merasa sedikit senang hari ini.";
+                } else if (level == 2) {
+                    levelDescriptionText.textContent = "Saya merasa senang hari ini.";
+                } else if (level == 3) {
+                    levelDescriptionText.textContent = "Saya merasa sangat senang hari ini.";
+                }
+                break;
+        }
+    }
+
+    function getFeelingText(emotion) {
+        return `Saya merasa ${emotion} hari ini.`;
+    }
+
+    function updateEmojiButtons(selectedEmotion) {
         emojiButtons.forEach(btn => {
-            if (btn.getAttribute('data-emotion') !== data.emotion) {
+            if (btn.getAttribute('data-emotion') !== selectedEmotion) {
                 btn.style.display = 'none';
             } else {
                 btn.style.display = 'block';
@@ -142,7 +152,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    function resetUI() {
+        feelingText.textContent = 'HALLO BAGAIMANA PERSAANMU HARI INI';
+        emojiButtons.forEach(btn => {
+            btn.style.display = 'inline-block';
+            btn.style.margin = '';
+            btn.classList.remove('mx-auto', 'pointer-events-none');
+            btn.style.cursor = 'pointer';
+            btn.style.transform = 'scale(1)';
+        });
+    }
 });
+
 
 // pindah menenu ke target
 const moodButtons = document.querySelectorAll('.btn-mood');

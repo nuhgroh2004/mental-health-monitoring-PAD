@@ -38,7 +38,7 @@
             <nav id="navmenu" class="navmenu">
                 <ul>
                     <li><a href="{{ route('mahasiswa.home') }}" class="{{ request()->routeIs('mahasiswa.home') ? 'active' : '' }}">Home</a></li>
-                    <li><a href="{{ route('mahasiswa.viewMoodCalendar') }}" class="{{ request()->routeIs('mahasiswa.viewMoodCalendar') ? 'active' : '' }}">View Mood</a></li>
+                    <li><a href="{{ route('mahasiswa.calender') }}" class="{{ request()->routeIs('mahasiswa.calender') ? 'active' : '' }}">View Mood</a></li>
                     <li><a href="{{ route('mahasiswa.report') }}" class="{{ request()->routeIs('mahasiswa.report') ? 'active' : '' }}">Report</a></li>
                     <li><a href="{{ route('mahasiswa.notifikasi') }}" class="{{ request()->routeIs('mahasiswa.notifikasi') ? 'active' : '' }}">Notifikasi</a></li>
                     <li><a href="{{ route('mahasiswa.profil') }}" class="{{ request()->routeIs('mahasiswa.profil') ? 'active' : '' }}">Profile</a></li>
@@ -51,6 +51,7 @@
 
     <!-- Vendor JS Files -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
     <script src="{{ asset('assets/vendor/aos/aos.js') }}"></script>
@@ -58,9 +59,11 @@
     <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
     <!-- Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="{{ asset('assets/js/mahasiswa/mhs-home.js') }}"></script>
     <script src="{{ asset('assets/js/mahasiswa/mhs-report.js') }}"></script>
     <script src="{{ asset('assets/js/mahasiswa/mhs-viewMoodCalender.js') }}"></script>
     <script src="{{ asset('assets/js/mahasiswa/mhs-notifikasi.js') }}"></script>
     <script src="{{ asset('assets/js/mahasiswa/mhs-profil.js') }}"></script>
+
 </body>
 @yield('content')

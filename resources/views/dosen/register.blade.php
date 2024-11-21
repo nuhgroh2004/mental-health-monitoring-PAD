@@ -1,12 +1,10 @@
 <head>
-
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>GamaPulse</title>
     <link rel="icon" href="{{ asset('asset/logo.png') }}" type="image/png">
-
+    <title>Register</title>
     @vite('resources/css/app.css')
 </head>
-<title>Register</title>
 <section class="min-h-screen bg-cover bg-center" style="background-image: url('{{ asset('assets/img/background.jpg') }}');">
     <div class="flex flex-col items-center justify-center px-6 mx-auto">
         <div class="w-full bg-white/30 backdrop-blur-lg rounded-2xl shadow-md md:sm:max-w-md mt-10 lg:mb-10">

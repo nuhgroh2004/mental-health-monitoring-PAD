@@ -5,14 +5,14 @@
     <div class="flex flex-col md:flex-row w-full h-full mt-[60px]">
         <!-- Sidebar -->
         <div class="sidebar flex-col w-[100px] bg-white text-black p-4 items-center hidden md:flex ml-4 mb-4 rounded-lg mt-[54px] shadow-lg">
-            <div class="btn-mood  flex-col w-[80px] h-[90px] mb-4 rounded-lg backdrop-blur-md bg-opacity-50 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
+            <button class="btn-mood  flex-col w-[80px] h-[90px] mb-4 rounded-lg backdrop-blur-md bg-opacity-50 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
                 <img class="w-[40px] h-[40px]" src="{{ asset('assets/svg/icon-mood-trakker.svg') }}" alt="Logo" class="">
                 <span class="text-sm text-center">Mood Tracker</span>
-            </div>
-            <div class="btn-target flex-col w-[80px] h-[90px] rounded-lg backdrop-blur-md bg-opacity-50 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
+            </button>
+            <button class="btn-target flex-col w-[80px] h-[90px] rounded-lg backdrop-blur-md bg-opacity-50 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
                 <img class="w-[40px] h-[40px]" src="{{ asset('assets/svg/icon-target.svg') }}" alt="Logo" class="">
                 <span class="text-sm text-center"> Timer</span>
-            </div>
+            </button>
         </div>
         <div class="top-bar flex flex-col w-full">
             <!-- Top Bar (Visible on small screens) -->
@@ -152,78 +152,5 @@
 </body>
 <script src="{{ asset('assets/js/mhs-home.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-<script>
-    // Ambil elemen modal dan tombol
-    const modal = document.getElementById('emotion-level-modal');
-    const emotionText = document.getElementById('selected-emotion-text');
-    const levelDescriptionText = document.getElementById('level-description-text');
-    const levelDescriptionDiv = document.getElementById('level-description');
-    const backButton = document.getElementById('modal-back');
-    const okButton = document.getElementById('modal-ok');
-    const levelButtons = document.querySelectorAll('.level-btn');
-
-    let selectedEmotion = '';  // Variabel untuk menyimpan emosi yang dipilih
-    let selectedLevel = null;  // Variabel untuk menyimpan level yang dipilih
-
-    // Fungsi untuk membuka modal
-    function openModal(emotion) {
-        selectedEmotion = emotion;
-        emotionText.textContent = emotion;  // Menampilkan emosi yang dipilih
-        levelDescriptionDiv.classList.add('hidden');  // Menyembunyikan penjelasan level hingga level dipilih
-        modal.classList.remove('hidden');  // Menampilkan modal
-    }
-
-    // Fungsi untuk menutup modal
-    function closeModal() {
-        modal.classList.add('hidden');  // Menyembunyikan modal
-    }
-
-    // Fungsi untuk menangani pemilihan level
-    function handleLevelSelection(level) {
-        selectedLevel = level;
-        levelDescriptionDiv.classList.remove('hidden');  // Menampilkan penjelasan level
-        switch (level) {
-            case 1:
-                levelDescriptionText.textContent = `Level 1: Kamu merasa sedikit ${selectedEmotion.toLowerCase()}.`;
-                break;
-            case 2:
-                levelDescriptionText.textContent = `Level 2: Kamu merasa agak ${selectedEmotion.toLowerCase()}.`;
-                break;
-            case 3:
-                levelDescriptionText.textContent = `Level 3: Kamu merasa sangat ${selectedEmotion.toLowerCase()}.`;
-                break;
-            default:
-                levelDescriptionText.textContent = '';
-                break;
-        }
-    }
-
-    // Event listener untuk tombol level
-    levelButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const level = parseInt(button.getAttribute('data-level'));
-            handleLevelSelection(level);
-        });
-    });
-
-    // Event listener untuk tombol "Kembali"
-    backButton.addEventListener('click', closeModal);
-
-    // Event listener untuk tombol "OK"
-    okButton.addEventListener('click', () => {
-        if (selectedLevel !== null) {
-            alert(`Emosi kamu: ${selectedEmotion} dengan level ${selectedLevel}`);
-            closeModal();
-        } else {
-            alert('Pilih level terlebih dahulu!');
-        }
-    });
-
-    // Fungsi untuk membuka modal dengan emosi yang dipilih
-    document.getElementById('marah-btn').addEventListener('click', () => openModal('Marah'));
-    document.getElementById('sedih-btn').addEventListener('click', () => openModal('Sedih'));
-    document.getElementById('biasa-btn').addEventListener('click', () => openModal('Biasa saja'));
-    document.getElementById('senang-btn').addEventListener('click', () => openModal('Senang'));
-</script>
 
 @endsection
