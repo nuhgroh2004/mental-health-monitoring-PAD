@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\DosenHomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DosenCreateUserController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -68,6 +70,18 @@ Route::get('/dosen/editProfil',function(){
 Route::get('/dosen/otp',function(){
     return view('dosen.otp');
 })->name('dosen.otp');
+
+
+
+Route::prefix('dosen')->group(function () {
+    Route::get('/landingPage', [DosenHomeController::class, 'index'])->name('dosen.landingPage');
+    Route::get('/search', [DosenHomeController::class, 'search'])->name('dosen.search');
+    Route::get('/mahasiswa/delete/{id}', [DosenHomeController::class, 'destroy'])->name('dosen.delete');
+    Route::post('/edit-role/{id}', [DosenHomeController::class, 'editRole'])->name('dosen.editRole');
+});
+
+Route::post('/create-user', [CreateUserController::class, 'store'])->name('create-user');
+
 
 
 // ------------------------ route untuk dosen ------------------------- //
@@ -135,9 +149,5 @@ Route::post('/store/dosen', [RegisterController::class, 'storeDosen'])->name('st
 // ------------------------ route untuk OTP ------------------------- //
 
 
-Route::get('/dosen/landingPage', [DosenHomeController::class, 'index'])->name('dosen.landingPage');
 
-Route::get('/dosen/search', [DosenHomeController::class, 'search'])->name('dosen.search');
-
-Route::get('/dosen/mahasiswa/delete/{id}', [DosenHomeController::class, 'destroy'])->name('dosen.delete');
 
