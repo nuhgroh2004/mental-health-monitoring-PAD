@@ -10,13 +10,13 @@ return new class extends Migration
     {
         Schema::create('report', function (Blueprint $table) {
             $table->id('report_id');
-            $table->unsignedBigInteger('mood_id');
-            $table->unsignedBigInteger('progress_id');
+            $table->unsignedBigInteger('mood_id')->nullable();
+            $table->unsignedBigInteger('progress_id')->nullable();
             $table->unsignedBigInteger('mahasiswa_id');
             $table->timestamps();
 
-            $table->foreign('mood_id')->references('mood_id')->on('mood_tracker')->onDelete('cascade');
-            $table->foreign('progress_id')->references('progress_id')->on('progress_tracking')->onDelete('cascade');
+            $table->foreign('mood_id')->references('mood_id')->on('mood_tracker')->onDelete('set null');
+            $table->foreign('progress_id')->references('progress_id')->on('progress_tracking')->onDelete('set null');
             $table->foreign('mahasiswa_id')->references('mahasiswa_id')->on('mahasiswa')->onDelete('cascade');
         });
     }

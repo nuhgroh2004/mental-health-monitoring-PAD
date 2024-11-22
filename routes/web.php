@@ -2,15 +2,20 @@
 
 use Illuminate\Support\Facades\Route;
 
+//Controller Auth
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\DosenController;
-use App\Http\Controllers\DosenHomeController;
+
+//Controller Mahasiswa
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\MoodController;
-use App\Http\Controllers\MoodTrackerController;
 use App\Http\Controllers\ProgressTrackerController;
-use App\Http\Controllers\SendEmailController;
+use App\Http\Controllers\MoodCalendarController;
+
+//Controller Dosen
+use App\Http\Controllers\DosenController;
+use App\Http\Controllers\DosenHomeController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,21 +108,16 @@ Route::get('/mahasiswa/landingPage',function(){
     return view('mahasiswa.landingPage');
 })->name('mahasiswa.landingPage');
 
-Route::get('/mahasiswa/viewMoodCalendar',function(){
-    return view('mahasiswa.viewMoodCalendar');
-})->name('mahasiswa.viewMoodCalendar');
+Route::get('/mahasiswa/viewMoodCalendar', [MoodCalendarController::class, 'viewMoodCalendar'])->name('mahasiswa.viewMoodCalendar');
 
 Route::get('/mahasiswa/notes',function(){
     return view('mahasiswa.notes');
 })->name('mahasiswa.notes');
 
-Route::get('/mahasiswa/editMoodDanNotes',function(){
-    return view('mahasiswa.editMoodDanNotes');
-})->name('mahasiswa.editMoodDanNotes');
+Route::get('/mahasiswa/editMoodDanNotes', [MoodCalendarController::class, 'showEditMoodsDanNotes'])->name('mahasiswa.showEditMoodsDanNotes');
+Route::post('/update-mood-note/{id}', [MoodCalendarController::class, 'updateMoodNote'])->name('updateMoodNote');
 
-Route::get('/mahasiswa/report',function(){
-    return view('mahasiswa.report');
-})->name('mahasiswa.report');
+Route::get('/mahasiswa/report', [ReportController::class, 'showReport'])->name('mahasiswa.report');
 
 Route::get('/mahasiswa/notifikasi',function(){
     return view('mahasiswa.notifikasi');

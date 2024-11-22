@@ -1,4 +1,5 @@
 let selectedMood = '{{ asset("asset/svg/emojiKecil/marah.svg") }}';
+let selectedMoodLevel = 3; // Default mood level (3 adalah 'Marah')
 let selectedButton = null;
 let originalMood = selectedMood;
 let originalNoteText = '';
@@ -21,7 +22,7 @@ function toggleEdit() {
     }
 }
 
-function selectMood(button, mood) {
+function selectMood(button, mood, moodLevel) {
     if (selectedButton) {
         selectedButton.classList.remove('selected');
     }
@@ -30,54 +31,38 @@ function selectMood(button, mood) {
 
     // Set mood yang dipilih
     selectedMood = mood;
+    selectedMoodLevel = moodLevel; // Set mood level yang sesuai
     selectedButton = button;
 }
 
 function saveChanges() {
     const noteText = document.getElementById('noteInput').value;
 
-    // Tampilkan pesan konfirmasi sebelum menyimpan perubahan
-    Swal.fire({
-        title: "Apakah kamu yakin?",
-        text: "Ingin menyimpan perubahan!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Ya!",
-        cancelButtonText: "Tidak!",
-        customClass: {
-            confirmButton: "btn btn-success w-24 mx-2",
-            cancelButton: "btn btn-danger w-24 mx-2"
+    // Kirim data mood_level dan mood_note ke backend
+    fetch(`/update-mood-note/${moodId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: JSON.stringify({
+            mood_level: selectedMoodLevel, // Anda dapat menyimpan mood level di sini, pastikan nilai ini sesuai dengan ID emoji
+            mood_note: noteText
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire('Sukses!', 'Catatan berhasil disimpan!', 'success');
+            document.getElementById('noteText').innerText = noteText;
+            toggleEdit(); // Tutup form edit
+        } else {
+            Swal.fire('Error!', 'Gagal menyimpan catatan.', 'error');
         }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Cek apakah ada perubahan pada mood atau catatan
-            if (selectedMood !== originalMood || noteText !== originalNoteText) {
-                document.querySelector('#moodEmoji img').src = selectedMood;
-                document.getElementById('noteText').innerText = noteText;
-            }
-
-            // Tampilkan pesan sukses setelah menyimpan perubahan
-            Swal.fire({
-                title: "Tersimpan!",
-                text: "Perubahan berhasil disimpan.",
-                icon: "success"
-            });
-
-            // Tutup form edit
-            toggleEdit();
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            // Jika user membatalkan, kembalikan data ke kondisi awal
-            selectedMood = originalMood;
-            document.getElementById('noteInput').value = originalNoteText;
-
-            // Tutup form edit tanpa menyimpan perubahan
-            toggleEdit();
-        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.fire('Error!', 'Terjadi kesalahan server.', 'error');
     });
-}
 
-function goBack() {
-    window.location.href = "{{ route('mahasiswa.viewMoodCalendar') }}";
 }

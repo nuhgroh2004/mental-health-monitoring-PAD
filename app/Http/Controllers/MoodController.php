@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\MoodTracker;
+use App\Models\Report;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class MoodController extends Controller
 {
@@ -35,24 +38,39 @@ class MoodController extends Controller
         ]);
 
         try {
-            // Simpan ke database
-            MoodTracker::create([
-                'mahasiswa_id' => auth()->id(),
-                'mood_id' => $moodMap[$selectedEmotion],
-                'mood_level' => $selectedIntensity,
-                'mood_intensity' => $selectedIntensity,
-                'mood_note' => $notes,
-            ]);
+            $mood = DB::transaction(function () use ($moodMap, $request) {
+                // Simpan mood
+                $mood = MoodTracker::create([
+                    'mahasiswa_id' => auth()->id(),
+                    'mood_id' => $moodMap[$request->selectedEmotion],
+                    'mood_level' => $request->selectedIntensity,
+                    'mood_intensity' => $request->selectedIntensity,
+                    'mood_note' => $request->notes,
+                ]);
 
-            // Hapus data session setelah berhasil disimpan
+                // Buat atau perbarui report
+                $report = Report::updateOrCreate(
+                    [
+                        'mahasiswa_id' => auth()->id(),
+                        'created_at' => Carbon::now()->toDateString()
+                    ],
+                    [
+                        'mood_id' => $mood->getKey(),
+                        'progress_id' => null
+                    ]
+                );
+
+                return $mood;
+            });
+
             session()->forget(['selectedEmotion', 'selectedIntensity']);
 
             return redirect()->route('mahasiswa.home')
-                           ->with('success', 'Mood kamu berhasil disimpan!');
+                             ->with('success', 'Mood kamu berhasil disimpan!');
         } catch (\Exception $e) {
             return redirect()->back()
-                           ->with('error', 'Terjadi kesalahan saat menyimpan mood.')
-                           ->withInput();
+                             ->with('error', 'Terjadi kesalahan saat menyimpan mood: ' . $e->getMessage())
+                             ->withInput();
         }
     }
 }

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('mood_tracker', function (Blueprint $table) {
             $table->id('mood_id');
             $table->unsignedBigInteger('mahasiswa_id');
-            $table->integer('mood_level');
-            $table->integer('mood_intensity');
-            $table->string('mood_note', 300);
+            $table->integer('mood_level')->nullable();
+            $table->integer('mood_intensity')->nullable();
+            $table->string('mood_note', 300)->nullable();
             $table->timestamps();
 
             $table->foreign('mahasiswa_id')

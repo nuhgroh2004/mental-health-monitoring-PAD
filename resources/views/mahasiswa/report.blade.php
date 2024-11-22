@@ -18,29 +18,31 @@
                     <canvas id="chart"></canvas>
                 </div>
             </div>
-
-            <div class="p-4 space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
-                <div class="w-full sm:w-1/3">
-                    <select id="reportType" class="w-full p-2 border rounded bg-white text-[#76aeb8] text-sm sm:text-base transition-all duration-300" onchange="updateReportType()">
-                        <option value="monthly">Bulanan</option>
-                        <option value="weekly">Mingguan</option>
-                    </select>
+            <div>
+                <div class="p-4 space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
+                    <div class="w-full sm:w-1/3">
+                        <select id="reportType" class="w-full p-2 border rounded bg-white text-[#76aeb8] text-sm sm:text-base transition-all duration-300" onchange="updateReportType()">
+                            <option value="monthly">Bulanan</option>
+                            <option value="weekly">Mingguan</option>
+                        </select>
+                    </div>
+                    <div class="w-full sm:w-1/3">
+                        <select id="selectedMonth" class="w-full p-2 border rounded bg-white text-[#76aeb8] text-sm sm:text-base transition-all duration-300" onchange="updatePeriod()">
+                            @foreach(['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'] as $month)
+                                <option value="{{ $month }}">{{ $month }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div id="weekContainer" class="w-full sm:w-1/3 hidden">
+                        <select id="selectedWeek" class="w-full p-2 border rounded bg-white text-[#76aeb8] text-sm sm:text-base transition-all duration-300" onchange="updateChart()">
+                            <option value="1">Minggu ke-1</option>
+                            <option value="2">Minggu ke-2</option>
+                            <option value="3">Minggu ke-3</option>
+                            <option value="4">Minggu ke-4</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="w-full sm:w-1/3">
-                    <select id="selectedMonth" class="w-full p-2 border rounded bg-white text-[#76aeb8] text-sm sm:text-base transition-all duration-300" onchange="updatePeriod()">
-                        @foreach(['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'] as $month)
-                            <option value="{{ $month }}">{{ $month }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div id="weekContainer" class="w-full sm:w-1/3 hidden">
-                    <select id="selectedWeek" class="w-full p-2 border rounded bg-white text-[#76aeb8] text-sm sm:text-base transition-all duration-300" onchange="updateChart()">
-                        <option value="1">Minggu ke-1</option>
-                        <option value="2">Minggu ke-2</option>
-                        <option value="3">Minggu ke-3</option>
-                        <option value="4">Minggu ke-4</option>
-                    </select>
-                </div>
+                <button>aa</button>
             </div>
         </div>
     </div>
