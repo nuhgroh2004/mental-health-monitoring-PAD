@@ -69,7 +69,7 @@
                                 <!-- Action Buttons -->
                                 <div class="flex justify-center space-x-4">
                                     <button id="modal-back" class="w-24 px-6 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors text-center">Kembali</button>
-                                    <a id="modal-ok" class="w-24 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-center">OK</a>
+                                    <button id="modal-ok" class="w-24 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-center">OK</button>
                                 </div>
                             </div>
                         </div>

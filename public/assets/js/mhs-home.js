@@ -63,21 +63,37 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedLevel = null;
     });
 
-    modalOkButton.addEventListener('click', function() {
+    modalOkButton.addEventListener('click', function () {
         if (selectedLevel) {
             const data = {
                 emotion: selectedEmotion,
                 level: selectedLevel
             };
+            // Simpan data ke localStorage
             localStorage.setItem('selectedEmotion', JSON.stringify(data));
+
+            // Perbarui teks dan tombol emoji
             feelingText.textContent = getFeelingText(data.emotion);
             updateEmojiButtons(selectedEmotion);
+
+            // Tutup modal
             modal.classList.add('hidden');
+
+            // Redirect setelah sedikit delay
             setTimeout(() => {
                 window.location.href = "/mahasiswa/notes";
             }, 500);
+        } else {
+            // Tampilkan alert jika level belum dipilih
+            Swal.fire({
+                title: "Peringatan",
+                text: "Silakan pilih level emosi terlebih dahulu!",
+                icon: "warning",
+                confirmButtonColor: "#3085d6"
+            });
         }
     });
+
 
     resetButton.addEventListener('click', function() {
         localStorage.removeItem('selectedEmotion');

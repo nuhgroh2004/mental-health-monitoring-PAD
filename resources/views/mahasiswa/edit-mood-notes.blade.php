@@ -4,6 +4,7 @@
 <head>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/css/mahasiswa/mhs-viewMoodCalender.css') }}">
     <title>GamaPulse</title>
 
     <link rel="icon" href="{{ asset('asset/logo.png') }}" type="image/png">
@@ -27,11 +28,14 @@
             </div>
         </div>
 
-        <div class="text-center mb-4 ">
-            <span class="text-4xl " id="moodEmoji">
+
+
+        <div class="text-center mb-4">
+            <span class="text-4xl" id="moodEmoji">
                 <img src="{{ asset('asset/svg/emojiKecil/marah.svg') }}" alt="Mood Emoji" class="inline-block w-[100px] h-[100px]">
             </span>
         </div>
+
 
         <div class="bg-gray-100 p-4 rounded-lg mb-4 min-h-[200px]">
             <p id="noteText" class="text-gray-800">Belum ada satu bulan
@@ -75,12 +79,35 @@
                     </button>
                 </div>
                 <style>
-                    .selected {
-                        background-color: #3399ab;
-                        color: white;
-                    }
+
                 </style>
             </div>
+
+             <!-- Modal untuk menampilkan level emosi -->
+             <div id="emotion-level-modal" class="emotion-level fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+                <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full m-4">
+                    <h3 class="text-xl font-bold mb-4 text-center">Seberapa <span id="selected-emotion-text"></span> kamu?</h3>
+
+                    <!-- Level Buttons -->
+                    <div class="flex justify-center space-x-2 mb-6">
+                        <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="1">1</button>
+                        <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="2">2</button>
+                        <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="3">3</button>
+                    </div>
+
+                    <!-- Penjelasan Level -->
+                    <div id="level-description" class="text-center mb-4 hidden">
+                        <p id="level-description-text" class="text-lg my-4"></p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex justify-center space-x-4">
+                        <button id="modal-back" class="w-24 px-6 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors text-center">Kembali</button>
+                        <button id="modal-ok" class="w-24 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-center">OK</button>
+                    </div>
+                </div>
+            </div>
+
             <textarea id="noteInput" placeholder="Enter your note" class="w-full p-2 mb-2 border rounded min-h-[200px]"></textarea>
             <button onclick="saveChanges()" class="bg-[#76aeb8] text-white px-4 py-2 rounded-lg w-full hover:bg-[#5a8d96] transition duration-300 flex items-center justify-center">
                 <svg class="h-5 w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -89,6 +116,7 @@
                 Simpan
             </button>
         </div>
+
     </div>
     <script src="{{ asset('assets/js/mahasiswa/mhs-edit-mood-notes.js') }}"></script>
 

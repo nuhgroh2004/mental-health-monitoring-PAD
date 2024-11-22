@@ -26,7 +26,7 @@
     <header id="header" class="header d-flex align-items-center fixed-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center">
         <!-- Logo and Site Name -->
-            <a href="index.html" class="logo d-flex align-items-center me-auto">
+            <a class="logo d-flex align-items-center me-auto">
                 <img src="{{ asset('asset/logo.png') }}" alt="">
                 <h1 class="sitename">GamaPulse</h1>
             </a>
