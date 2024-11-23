@@ -2,102 +2,105 @@ let currentTab = 'mood';
 let currentReportType = 'monthly';
 let chart;
 
-function getDaysInMonth(month) {
-  const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-  const monthIndex = months.indexOf(month);
-  const year = new Date().getFullYear();
-  return new Date(year, monthIndex + 1, 0).getDate();
-}
 
-function generateDailyData(selectedMonth) {
-  const daysInMonth = getDaysInMonth(selectedMonth);
-  const labels = Array.from({ length: daysInMonth }, (_, i) => `${i + 1}`);
 
-  const moodData = {
-    monthly: {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Sangat Senang (5)',
-          data: Array.from({ length: daysInMonth }, () => 5),
-          backgroundColor: '#4dd0e1',
-          stack: 'mood',
-          barPercentage: 0.5
-        },
-        {
-          label: 'Senang (4)',
-          data: Array.from({ length: daysInMonth }, () => 4),
-          backgroundColor: '#81c784',
-          stack: 'mood',
-          barPercentage: 0.5
-        },
-        {
-          label: 'Biasa (3)',
-          data: Array.from({ length: daysInMonth }, () => 3),
-          backgroundColor: '#fff59d',
-          stack: 'mood',
-          barPercentage: 0.5
-        },
-        {
-          label: 'Sedih (2)',
-          data: Array.from({ length: daysInMonth }, () => 2),
-          backgroundColor: '#ffb74d',
-          stack: 'mood',
-          barPercentage: 0.5
-        },
-        {
-          label: 'Sangat Sedih (1)',
-          data: Array.from({ length: daysInMonth }, () => 1),
-          backgroundColor: '#e57373',
-          stack: 'mood',
-          barPercentage: 0.5
-        }
-      ]
-    },
-    weekly: {
-      labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
-      datasets: [
-        {
-          label: 'Sangat Senang (5)',
-          data: [5, 5, 5, 5, 5, 5, 5],
-          backgroundColor: '#4dd0e1',
-          stack: 'mood',
-          barPercentage: 0.5
-        },
-        {
-          label: 'Senang (4)',
-          data: [4, 4, 4, 4, 4, 4, 4],
-          backgroundColor: '#81c784',
-          stack: 'mood',
-          barPercentage: 0.5
-        },
-        {
-          label: 'Biasa (3)',
-          data: [3, 3, 3, 3, 3, 3, 3],
-          backgroundColor: '#fff59d',
-          stack: 'mood',
-          barPercentage: 0.5
-        },
-        {
-          label: 'Sedih (2)',
-          data: [2, 2, 2, 2, 2, 2, 2],
-          backgroundColor: '#ffb74d',
-          stack: 'mood',
-          barPercentage: 0.5
-        },
-        {
-          label: 'Sangat Sedih (1)',
-          data: [1, 1, 1, 1, 1, 1, 1],
-          backgroundColor: '#e57373',
-          stack: 'mood',
-          barPercentage: 0.5
-        }
-      ]
-    }
-  };
+function getDaysInMonth(monthNumber) {
+    // monthNumber adalah 1-12 dari value select
+    const year = new Date().getFullYear();
+    // Gunakan monthNumber - 1 karena bulan di JavaScript dimulai dari 0 (0-11)
+    return new Date(year, monthNumber, 0).getDate();
+  }
 
-  // Generate random mood data for the month
-  const dailyMoods = Array.from({ length: daysInMonth }, () => Math.floor(Math.random() * 5) + 1);
+
+  function generateDailyData(selectedMonth) {
+    // selectedMonth sekarang berupa angka 1-12
+    const daysInMonth = getDaysInMonth(selectedMonth);
+    const labels = Array.from({ length: daysInMonth }, (_, i) => `${i + 1}`);
+
+    const dailyMoods = Array.from({ length: daysInMonth }, () => null);
+
+    const moodData = {
+      monthly: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Sangat Senang (5)',
+            data: dailyMoods,
+            backgroundColor: '#4dd0e1',
+            stack: 'mood',
+            barPercentage: 0.5
+          },
+          {
+            label: 'Senang (4)',
+            data: dailyMoods,
+            backgroundColor: '#81c784',
+            stack: 'mood',
+            barPercentage: 0.5
+          },
+          {
+            label: 'Biasa (3)',
+            data: dailyMoods,
+            backgroundColor: '#fff59d',
+            stack: 'mood',
+            barPercentage: 0.5
+          },
+          {
+            label: 'Sedih (2)',
+            data: dailyMoods,
+            backgroundColor: '#ffb74d',
+            stack: 'mood',
+            barPercentage: 0.5
+          },
+          {
+            label: 'Sangat Sedih (1)',
+            data: dailyMoods,
+            backgroundColor: '#e57373',
+            stack: 'mood',
+            barPercentage: 0.5
+          }
+        ]
+      },
+      weekly: {
+        labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+        datasets: [
+          {
+            label: 'Sangat Senang (5)',
+            data: Array.from({ length: 7 }, () => null),
+            backgroundColor: '#4dd0e1',
+            stack: 'mood',
+            barPercentage: 0.5
+          },
+          {
+            label: 'Senang (4)',
+            data: Array.from({ length: 7 }, () => null),
+            backgroundColor: '#81c784',
+            stack: 'mood',
+            barPercentage: 0.5
+          },
+          {
+            label: 'Biasa (3)',
+            data: Array.from({ length: 7 }, () => null),
+            backgroundColor: '#fff59d',
+            stack: 'mood',
+            barPercentage: 0.5
+          },
+          {
+            label: 'Sedih (2)',
+            data: Array.from({ length: 7 }, () => null),
+            backgroundColor: '#ffb74d',
+            stack: 'mood',
+            barPercentage: 0.5
+          },
+          {
+            label: 'Sangat Sedih (1)',
+            data: Array.from({ length: 7 }, () => null),
+            backgroundColor: '#e57373',
+            stack: 'mood',
+            barPercentage: 0.5
+          }
+        ]
+      }
+    };
 
   // Update the datasets to show only the selected mood for each day
   moodData.monthly.datasets.forEach((dataset, index) => {
@@ -105,50 +108,50 @@ function generateDailyData(selectedMonth) {
     dataset.data = dailyMoods.map(mood => mood === moodValue ? moodValue : null);
   });
 
-  const tugasData = {
-    monthly: {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Target (jam)',
-          data: Array.from({ length: daysInMonth }, () => 8),
-          fill: true,
-          backgroundColor: 'rgba(76, 175, 80, 0.6)',
-          borderColor: 'rgba(76, 175, 80, 1)',
-          tension: 0.4
-        },
-        {
-          label: 'Tercapai (jam)',
-          data: Array.from({ length: daysInMonth }, () => Math.floor(Math.random() * 8 + 1)),
-          fill: true,
-          backgroundColor: 'rgba(33, 150, 243, 0.6)',
-          borderColor: 'rgba(33, 150, 243, 1)',
-          tension: 0.4
-        }
-      ]
-    },
-    weekly: {
-      labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
-      datasets: [
-        {
-          label: 'Target (jam)',
-          data: [6, 8, 6, 8, 6, 4, 2],
-          fill: true,
-          backgroundColor: 'rgba(76, 175, 80, 0.6)',
-          borderColor: 'rgba(76, 175, 80, 1)',
-          tension: 0.4
-        },
-        {
-          label: 'Tercapai (jam)',
-          data: [5, 7, 4, 7, 5, 3, 2],
-          fill: true,
-          backgroundColor: 'rgba(33, 150, 243, 0.6)',
-          borderColor: 'rgba(33, 150, 243, 1)',
-          tension: 0.4
-        }
-      ]
-    }
-  };
+const tugasData = {
+  monthly: {
+    labels: labels,
+    datasets: [
+      {
+        label: 'Target (jam)',
+        data: Array.from({ length: daysInMonth }, () => 0),
+        fill: true,
+        backgroundColor: 'rgba(76, 175, 80, 0.6)',
+        borderColor: 'rgba(76, 175, 80, 1)',
+        tension: 0.4
+      },
+      {
+        label: 'Tercapai (jam)',
+        data: Array.from({ length: daysInMonth }, () => null),
+        fill: true,
+        backgroundColor: 'rgba(33, 150, 243, 0.6)',
+        borderColor: 'rgba(33, 150, 243, 1)',
+        tension: 0.4
+      }
+    ]
+  },
+  weekly: {
+    labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+    datasets: [
+      {
+        label: 'Target (jam)',
+        data: Array.from({ length: 7 }, () => 8),
+        fill: true,
+        backgroundColor: 'rgba(76, 175, 80, 0.6)',
+        borderColor: 'rgba(76, 175, 80, 1)',
+        tension: 0.4
+      },
+      {
+        label: 'Tercapai (jam)',
+        data: Array.from({ length: 7 }, () => null),
+        fill: true,
+        backgroundColor: 'rgba(33, 150, 243, 0.6)',
+        borderColor: 'rgba(33, 150, 243, 1)',
+        tension: 0.4
+      }
+    ]
+  }
+};
 
   return { moodData, tugasData };
 }
@@ -183,12 +186,12 @@ function updateReportType() {
 }
 
 function updatePeriod() {
-  const selectedMonth = document.getElementById('selectedMonth').value;
-  updateChart(selectedMonth);
-}
+    const selectedMonth = parseInt(document.getElementById('selectedMonth').value); // Pastikan value dikonversi ke integer
+    updateChart(selectedMonth);
+  }
 
-function updateChart(selectedMonth = document.getElementById('selectedMonth').value) {
-  const ctx = document.getElementById('chart').getContext('2d');
+  function updateChart(selectedMonth = parseInt(document.getElementById('selectedMonth').value)) {
+    const ctx = document.getElementById('chart').getContext('2d');
 
   if (chart) {
     chart.destroy();

@@ -117,7 +117,7 @@ Route::get('/mahasiswa/notes',function(){
 Route::get('/mahasiswa/editMoodDanNotes', [MoodCalendarController::class, 'showEditMoodsDanNotes'])->name('mahasiswa.showEditMoodsDanNotes');
 Route::post('/update-mood-note/{id}', [MoodCalendarController::class, 'updateMoodNote'])->name('updateMoodNote');
 
-Route::get('/mahasiswa/report', [ReportController::class, 'showReport'])->name('mahasiswa.report');
+Route::get('/mahasiswa/report', [ReportController::class, 'index'])->name('mahasiswa.report');
 
 Route::get('/mahasiswa/notifikasi',function(){
     return view('mahasiswa.notifikasi');

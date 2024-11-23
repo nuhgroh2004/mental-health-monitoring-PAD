@@ -28,8 +28,8 @@
                     </div>
                     <div class="w-full sm:w-1/3">
                         <select id="selectedMonth" class="w-full p-2 border rounded bg-white text-[#76aeb8] text-sm sm:text-base transition-all duration-300" onchange="updatePeriod()">
-                            @foreach(['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'] as $month)
-                                <option value="{{ $month }}">{{ $month }}</option>
+                            @foreach ($months as $month)
+                                <option value="{{ $month['value'] }}" {{ request()->input('month') == $month['value'] ? 'selected' : '' }}>{{ $month['name'] }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -48,5 +48,22 @@
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const chartData = @json($chartData);
+
+    const selectMonth = document.getElementById('selectedMonth');
+
+    selectMonth.addEventListener('change', function() {
+        const month = this.value; // Sudah berupa angka dari value select
+        const year = {{ $year }};
+
+        // Update grafik dan jumlah tanggal
+        updatePeriod();
+
+        // Ubah URL param
+        window.location.href = `{{ route('mahasiswa.report') }}?month=${month}&year=${year}`;
+
+    });
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 @endsection
