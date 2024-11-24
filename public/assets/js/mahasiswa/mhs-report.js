@@ -2,119 +2,91 @@ let currentTab = 'mood';
 let currentReportType = 'monthly';
 let chart;
 
+function getWeekDates(year, month, week) {
+  const firstDayOfMonth = new Date(year, month - 1, 1);
+  const firstDayOfWeek = firstDayOfMonth.getDay();
 
+  // Menghitung tanggal awal minggu yang dipilih
+  const startDate = new Date(year, month - 1, 1 + (week - 1) * 7 - firstDayOfWeek);
+  const dates = [];
 
-function getDaysInMonth(monthNumber) {
-    // monthNumber adalah 1-12 dari value select
-    const year = new Date().getFullYear();
-    // Gunakan monthNumber - 1 karena bulan di JavaScript dimulai dari 0 (0-11)
-    return new Date(year, monthNumber, 0).getDate();
+  // Mengumpulkan 7 hari untuk minggu tersebut
+  for (let i = 0; i < 7; i++) {
+    const currentDate = new Date(startDate);
+    currentDate.setDate(startDate.getDate() + i);
+    dates.push(currentDate.getDate());
   }
 
+  return dates;
+}
 
-  function generateDailyData(selectedMonth) {
-    // selectedMonth sekarang berupa angka 1-12
-    const daysInMonth = getDaysInMonth(selectedMonth);
-    const labels = Array.from({ length: daysInMonth }, (_, i) => `${i + 1}`);
-
-    const dailyMoods = Array.from({ length: daysInMonth }, () => null);
-
-    const moodData = {
-      monthly: {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Sangat Senang (5)',
-            data: dailyMoods,
-            backgroundColor: '#4dd0e1',
-            stack: 'mood',
-            barPercentage: 0.5
-          },
-          {
-            label: 'Senang (4)',
-            data: dailyMoods,
-            backgroundColor: '#81c784',
-            stack: 'mood',
-            barPercentage: 0.5
-          },
-          {
-            label: 'Biasa (3)',
-            data: dailyMoods,
-            backgroundColor: '#fff59d',
-            stack: 'mood',
-            barPercentage: 0.5
-          },
-          {
-            label: 'Sedih (2)',
-            data: dailyMoods,
-            backgroundColor: '#ffb74d',
-            stack: 'mood',
-            barPercentage: 0.5
-          },
-          {
-            label: 'Sangat Sedih (1)',
-            data: dailyMoods,
-            backgroundColor: '#e57373',
-            stack: 'mood',
-            barPercentage: 0.5
-          }
-        ]
+function processChartData(chartData, year, month, week = null) {
+  // Process Monthly Data
+  const monthlyMoodData = {
+    labels: chartData.labels,
+    datasets: [
+      {
+        label: 'Sangat Senang (5)',
+        data: chartData.labels.map(day => {
+          const dayMood = chartData.mood[day];
+          return dayMood && dayMood.mood_level === 5 ? 5 : null;
+        }),
+        backgroundColor: '#4dd0e1',
+        stack: 'mood',
+        barPercentage: 0.5
       },
-      weekly: {
-        labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
-        datasets: [
-          {
-            label: 'Sangat Senang (5)',
-            data: Array.from({ length: 7 }, () => null),
-            backgroundColor: '#4dd0e1',
-            stack: 'mood',
-            barPercentage: 0.5
-          },
-          {
-            label: 'Senang (4)',
-            data: Array.from({ length: 7 }, () => null),
-            backgroundColor: '#81c784',
-            stack: 'mood',
-            barPercentage: 0.5
-          },
-          {
-            label: 'Biasa (3)',
-            data: Array.from({ length: 7 }, () => null),
-            backgroundColor: '#fff59d',
-            stack: 'mood',
-            barPercentage: 0.5
-          },
-          {
-            label: 'Sedih (2)',
-            data: Array.from({ length: 7 }, () => null),
-            backgroundColor: '#ffb74d',
-            stack: 'mood',
-            barPercentage: 0.5
-          },
-          {
-            label: 'Sangat Sedih (1)',
-            data: Array.from({ length: 7 }, () => null),
-            backgroundColor: '#e57373',
-            stack: 'mood',
-            barPercentage: 0.5
-          }
-        ]
+      {
+        label: 'Senang (4)',
+        data: chartData.labels.map(day => {
+          const dayMood = chartData.mood[day];
+          return dayMood && dayMood.mood_level === 4 ? 4 : null;
+        }),
+        backgroundColor: '#81c784',
+        stack: 'mood',
+        barPercentage: 0.5
+      },
+      {
+        label: 'Biasa (3)',
+        data: chartData.labels.map(day => {
+          const dayMood = chartData.mood[day];
+          return dayMood && dayMood.mood_level === 3 ? 3 : null;
+        }),
+        backgroundColor: '#fff59d',
+        stack: 'mood',
+        barPercentage: 0.5
+      },
+      {
+        label: 'Sedih (2)',
+        data: chartData.labels.map(day => {
+          const dayMood = chartData.mood[day];
+          return dayMood && dayMood.mood_level === 2 ? 2 : null;
+        }),
+        backgroundColor: '#ffb74d',
+        stack: 'mood',
+        barPercentage: 0.5
+      },
+      {
+        label: 'Sangat Sedih (1)',
+        data: chartData.labels.map(day => {
+          const dayMood = chartData.mood[day];
+          return dayMood && dayMood.mood_level === 1 ? 1 : null;
+        }),
+        backgroundColor: '#e57373',
+        stack: 'mood',
+        barPercentage: 0.5
       }
-    };
+    ]
+  };
 
-  // Update the datasets to show only the selected mood for each day
-  moodData.monthly.datasets.forEach((dataset, index) => {
-    const moodValue = 5 - index; // 5, 4, 3, 2, 1
-    dataset.data = dailyMoods.map(mood => mood === moodValue ? moodValue : null);
-  });
-
-const tugasData = {
-  monthly: {
-    labels: labels,
+  const monthlyTugasData = {
+    labels: chartData.labels,
     datasets: [
       {
         label: 'Target (jam)',
-        data: Array.from({ length: daysInMonth }, () => 0),
+        data: chartData.labels.map(day => {
+          const dayProgress = chartData.progress[day];
+          return dayProgress ? dayProgress.expected_target : null;
+        }),
         fill: true,
         backgroundColor: 'rgba(76, 175, 80, 0.6)',
         borderColor: 'rgba(76, 175, 80, 1)',
@@ -122,38 +94,59 @@ const tugasData = {
       },
       {
         label: 'Tercapai (jam)',
-        data: Array.from({ length: daysInMonth }, () => null),
+        data: chartData.labels.map(day => {
+          const dayProgress = chartData.progress[day];
+          return dayProgress ? dayProgress.actual_target : null;
+        }),
         fill: true,
         backgroundColor: 'rgba(33, 150, 243, 0.6)',
         borderColor: 'rgba(33, 150, 243, 1)',
         tension: 0.4
       }
     ]
-  },
-  weekly: {
-    labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
-    datasets: [
-      {
-        label: 'Target (jam)',
-        data: Array.from({ length: 7 }, () => 8),
-        fill: true,
-        backgroundColor: 'rgba(76, 175, 80, 0.6)',
-        borderColor: 'rgba(76, 175, 80, 1)',
-        tension: 0.4
-      },
-      {
-        label: 'Tercapai (jam)',
-        data: Array.from({ length: 7 }, () => null),
-        fill: true,
-        backgroundColor: 'rgba(33, 150, 243, 0.6)',
-        borderColor: 'rgba(33, 150, 243, 1)',
-        tension: 0.4
-      }
-    ]
-  }
-};
+  };
 
-  return { moodData, tugasData };
+  // Process Weekly Data
+  const weekDates = week ? getWeekDates(year, month, parseInt(week)) : [];
+  const weekDayNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+
+  const weeklyMoodData = {
+    labels: weekDayNames,
+    datasets: monthlyMoodData.datasets.map(dataset => ({
+      ...dataset,
+      data: weekDates.map(day => {
+        const dayMood = chartData.mood[day];
+        if (!dayMood) return null;
+        const moodLevel = parseInt(dataset.label.match(/\d+/)[0]);
+        return dayMood.mood_level === moodLevel ? moodLevel : null;
+      })
+    }))
+  };
+
+  const weeklyTugasData = {
+    labels: weekDayNames,
+    datasets: monthlyTugasData.datasets.map(dataset => ({
+      ...dataset,
+      data: weekDates.map(day => {
+        const dayProgress = chartData.progress[day];
+        if (!dayProgress) return null;
+        return dataset.label.includes('Target') ?
+          dayProgress.expected_target :
+          dayProgress.actual_target;
+      })
+    }))
+  };
+
+  return {
+    moodData: {
+      monthly: monthlyMoodData,
+      weekly: weeklyMoodData
+    },
+    tugasData: {
+      monthly: monthlyTugasData,
+      weekly: weeklyTugasData
+    }
+  };
 }
 
 function showTab(tab) {
@@ -176,29 +169,26 @@ function showTab(tab) {
   updateChart();
 }
 
-function updateReportType() {
-  currentReportType = document.getElementById('reportType').value;
-  document.getElementById('reportTypeTitle').textContent =
-    currentReportType === 'monthly' ? 'Bulanan' : 'Mingguan';
-  document.getElementById('weekContainer').classList.toggle('hidden',
-    currentReportType === 'monthly');
-  updateChart();
-}
-
-function updatePeriod() {
-    const selectedMonth = parseInt(document.getElementById('selectedMonth').value); // Pastikan value dikonversi ke integer
-    updateChart(selectedMonth);
-  }
-
-  function updateChart(selectedMonth = parseInt(document.getElementById('selectedMonth').value)) {
-    const ctx = document.getElementById('chart').getContext('2d');
-
+function updateChart() {
+  const ctx = document.getElementById('chart').getContext('2d');
   if (chart) {
     chart.destroy();
   }
 
-  const { moodData, tugasData } = generateDailyData(selectedMonth);
-  const data = currentTab === 'mood' ? moodData[currentReportType] : tugasData[currentReportType];
+  const selectedMonth = parseInt(document.getElementById('selectedMonth').value);
+  const selectedWeek = document.getElementById('selectedWeek').value;
+  const year = new Date().getFullYear();
+
+  const { moodData, tugasData } = processChartData(
+    chartData,
+    year,
+    selectedMonth,
+    currentReportType === 'weekly' ? selectedWeek : null
+  );
+
+  const data = currentTab === 'mood' ?
+    moodData[currentReportType] :
+    tugasData[currentReportType];
 
   const chartConfig = {
     type: currentTab === 'mood' ? 'bar' : 'line',
@@ -212,7 +202,7 @@ function updatePeriod() {
         },
         title: {
           display: true,
-          text: currentTab === 'mood' ? 'Grafik Mood Harian' : 'Progress Tugas Akhir (Jam)',
+          text: `${currentTab === 'mood' ? 'Grafik Mood' : 'Progress Tugas Akhir'} ${currentReportType === 'monthly' ? 'Bulanan' : 'Mingguan'}`,
           font: {
             size: 16
           }
@@ -248,9 +238,9 @@ function updatePeriod() {
           beginAtZero: true,
           title: {
             display: true,
-            text: currentTab === 'mood' ? 'Tingkat Mood (1-5)' : 'Jam'
+            text: currentTab === 'mood' ? 'Tingkat Mood (1-4)' : 'Jam'
           },
-          max: currentTab === 'mood' ? 5 : undefined,
+          max: currentTab === 'mood' ? 4: undefined,
           ticks: currentTab === 'mood' ? {
             stepSize: 1,
             callback: function(value) {
@@ -258,27 +248,30 @@ function updatePeriod() {
             }
           } : undefined
         }
-      },
-      animation: {
-        duration: 1000,
-        easing: 'easeInOutQuart'
       }
     }
   };
 
-  if (currentTab === 'tugas') {
-    chartConfig.options.elements = {
-      line: {
-        fill: true
-      }
-    };
-  }
-
   chart = new Chart(ctx, chartConfig);
 }
 
+function updateReportType() {
+  currentReportType = document.getElementById('reportType').value;
+  document.getElementById('reportTypeTitle').textContent =
+    currentReportType === 'monthly' ? 'Bulanan' : 'Mingguan';
+  document.getElementById('weekContainer').classList.toggle('hidden',
+    currentReportType === 'monthly');
+  updateChart();
+}
+
+function updatePeriod() {
+  const selectedMonth = parseInt(document.getElementById('selectedMonth').value);
+  const year = new Date().getFullYear();
+  window.location.href = `${window.location.pathname}?month=${selectedMonth}&year=${year}`;
+}
+
+// Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-  updateReportType();
   updateChart();
 });
 

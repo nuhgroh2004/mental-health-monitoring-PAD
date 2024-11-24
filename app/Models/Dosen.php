@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Dosen extends Authenticatable
 {
+    use HasFactory;
+
     protected $table = 'dosen';
     protected $primaryKey = 'dosen_id';
 

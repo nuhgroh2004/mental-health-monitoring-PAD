@@ -2,40 +2,51 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Models\Mahasiswa;
 use App\Models\Report;
 use App\Models\MoodTracker;
 use App\Models\ProgressTracker;
+use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
 class reportSeeder extends Seeder
 {
     public function run()
     {
-        $mahasiswaId = 1; // ID mahasiswa yang ditargetkan
-        $days = 90; // Total hari untuk data
-        $today = Carbon::today();
+                // Ambil 1 mahasiswa role_1
+        $mahasiswaRole1 = Mahasiswa::where('mahasiswa_role', 'role_1')
+            ->first();
 
-        for ($i = 0; $i < $days; $i++) {
-            $date = $today->copy()->subDays($i); // Tanggal mundur selama 90 hari
+        // Ambil 1 mahasiswa role_2
+        $mahasiswaRole2 = Mahasiswa::where('mahasiswa_role', 'role_2')
+            ->first();
 
-            // Ambil mood dan progress berdasarkan tanggal
-            $mood = MoodTracker::where('mahasiswa_id', $mahasiswaId)
-                ->whereDate('created_at', $date)
-                ->first();
+        $mahasiswas = [$mahasiswaRole1, $mahasiswaRole2];
 
-            $progress = ProgressTracker::where('mahasiswa_id', $mahasiswaId)
-                ->whereDate('tracking_date', $date)
-                ->first();
+        foreach ($mahasiswas as $mahasiswa) {
+            $days = 90;
+            $today = Carbon::today();
 
-            // Buat report yang menghubungkan mood dan progress
-            Report::create([
-                'mahasiswa_id' => $mahasiswaId,
-                'mood_id' => $mood ? $mood->mood_id : null,
-                'progress_id' => $progress ? $progress->progress_id : null,
-                'created_at' => $date,
-                'updated_at' => $date,
-            ]);
+            for ($i = 0; $i < $days; $i++) {
+                $date = $today->copy()->subDays($i);
+
+                // Ambil mood dan progress yang sudah dibuat untuk tanggal tersebut
+                $mood = MoodTracker::where('mahasiswa_id', $mahasiswa->mahasiswa_id)
+                    ->whereDate('created_at', $date)
+                    ->first();
+
+                $progress = ProgressTracker::where('mahasiswa_id', $mahasiswa->mahasiswa_id)
+                    ->whereDate('tracking_date', $date)
+                    ->first();
+
+                Report::create([
+                    'mahasiswa_id' => $mahasiswa->mahasiswa_id,
+                    'mood_id' => $mood?->mood_id,
+                    'progress_id' => $progress?->progress_id,
+                    'created_at' => $date,
+                    'updated_at' => $date,
+                ]);
+            }
         }
     }
 }

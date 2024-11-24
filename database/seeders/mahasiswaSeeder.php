@@ -2,29 +2,25 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Mahasiswa;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class mahasiswaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run()
     {
-
-        $mahasiswaUser = User::create([
+        // Buat mahasiswa pertama (fixed data)
+        $firstUser = User::create([
             'name' => 'Mahasiswa1',
-            'email'=> 'mahasiswa@mail.ugm.ac.id',
-            'password'=> Hash::make('12345678'),
+            'email' => 'mahasiswa@mail.ugm.ac.id',
+            'password' => Hash::make('12345678'),
             'role' => 'Mahasiswa',
         ]);
 
         Mahasiswa::create([
-            'mahasiswa_id' => $mahasiswaUser->user_id,
+            'mahasiswa_id' => $firstUser->user_id,
             'NIM' => '1234567890123',
             'prodi' => 'Teknik Informatika',
             'tanggal_lahir' => '2000-01-01',
@@ -32,40 +28,26 @@ class mahasiswaSeeder extends Seeder
             'mahasiswa_role' => 'role_1'
         ]);
 
-        for ($i = 0; $i < 5; $i++) {
-            $mahasiswaUser = User::create([
-                'name' => fake()->name(),
-                'email' => fake()->unique()->userName() . '@mail.ugm.ac.id',
-                'password' => Hash::make('12345678'),
+        // Buat 5 mahasiswa role_1
+        User::factory()
+            ->count(5)
+            ->state(fn (array $attributes) => [
                 'role' => 'Mahasiswa',
-            ]);
+            ])
+            ->has(
+                Mahasiswa::factory()
+            )
+            ->create();
 
-            Mahasiswa::create([
-                'mahasiswa_id' => $mahasiswaUser->user_id,
-                'NIM' => fake()->numerify('###########'),
-                'prodi' => 'Teknik Informatika',
-                'tanggal_lahir' => fake()->date(),
-                'nomor_hp' => fake()->numerify('###########'),
-                'mahasiswa_role' => 'role_1',
-            ]);
-        }
-
-        for ($i = 0; $i < 5; $i++) {
-            $mahasiswaUser = User::create([
-                'name' => fake()->name(),
-                'email' => fake()->unique()->userName() . '@mail.ugm.ac.id',
-                'password' => Hash::make('12345678'),
+        // Buat 5 mahasiswa role_2
+        User::factory()
+            ->count(5)
+            ->state(fn (array $attributes) => [
                 'role' => 'Mahasiswa',
-            ]);
-
-            Mahasiswa::create([
-                'mahasiswa_id' => $mahasiswaUser->user_id,
-                'NIM' => fake()->numerify('###########'),
-                'prodi' => 'Teknik Informatika',
-                'tanggal_lahir' => fake()->date(),
-                'nomor_hp' => fake()->numerify('###########'),
-                'mahasiswa_role' => 'role_2',
-            ]);
-        }
+            ])
+            ->has(
+                Mahasiswa::factory()->roleTwo()
+            )
+            ->create();
     }
 }

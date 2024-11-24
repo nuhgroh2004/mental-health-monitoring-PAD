@@ -30,10 +30,10 @@
 
         @php
         $moodSvgs = [
-            '1' => asset('asset/svg/emojiKecil/senang.svg'),
+            '4' => asset('asset/svg/emojiKecil/senang.svg'),
             '2' => asset('asset/svg/emojiKecil/sedih.svg'),
-            '3' => asset('asset/svg/emojiKecil/marah.svg'),
-            '4' => asset('asset/svg/emojiKecil/biasaSaja.svg'),
+            '1' => asset('asset/svg/emojiKecil/marah.svg'),
+            '3' => asset('asset/svg/emojiKecil/biasaSaja.svg'),
         ];
         @endphp
 
@@ -78,16 +78,16 @@
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Select Mood:</label>
                 <div class="flex justify-between">
-                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/marah.svg') }}', 3)" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
+                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/marah.svg') }}', 1)" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
                         <img src="{{ asset('asset/svg/emojiKecil/marah.svg') }}" alt="Marah" class="w-[100px] h-[100px]">
                     </button>
                     <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/sedih.svg') }}', 2)" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
                         <img src="{{ asset('asset/svg/emojiKecil/sedih.svg') }}" alt="Sedih" class="w-[100px] h-[100px]">
                     </button>
-                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/biasaSaja.svg') }}', 4)" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
+                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/biasaSaja.svg') }}', 3)" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
                         <img src="{{ asset('asset/svg/emojiKecil/biasaSaja.svg') }}" alt="Biasa Saja" class="w-[100px] h-[100px]">
                     </button>
-                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/senang.svg') }}', 1)" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
+                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/senang.svg') }}', 4)" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
                         <img src="{{ asset('asset/svg/emojiKecil/senang.svg') }}" alt="Senang" class="w-[100px] h-[100px]">
                     </button>
                 </div>
