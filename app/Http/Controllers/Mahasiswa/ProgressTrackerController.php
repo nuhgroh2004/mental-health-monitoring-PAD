@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Mahasiswa;
+use App\Http\Controllers\Controller;
 
 use App\Models\ProgressTracker;
 use App\Models\MoodTracker;
-use App\Models\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -36,25 +36,6 @@ class ProgressTrackerController extends Controller
                     'tracking_date' => Carbon::now()->toDateString()
                 ]);
 
-                // Perbarui report yang ada (berdasarkan mahasiswa_id dan tanggal hari ini)
-                $report = Report::where('mahasiswa_id', auth()->id())
-                                ->whereDate('created_at', Carbon::now()->toDateString())
-                                ->first();
-
-                if ($report) {
-                    $report->update([
-                        'progress_id' => $progress->getKey(),
-                        'mood_id' => $lastMood ? $lastMood->getKey() : null, // Tambahkan mood jika belum ada
-                    ]);
-                } else {
-                    // Jika tidak ada report (fallback), buat baru
-                    Report::create([
-                        'progress_id' => $progress->getKey(),
-                        'mahasiswa_id' => auth()->id(),
-                        'mood_id' => $lastMood ? $lastMood->getKey() : null,
-                    ]);
-                }
-
                 return $progress;
             });
 
@@ -70,5 +51,4 @@ class ProgressTrackerController extends Controller
             ], 500);
         }
     }
-
 }

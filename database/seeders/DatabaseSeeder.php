@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
             dosenSeeder::class,
             moodSeeder::class,
             progressSeeder::class,
-            reportSeeder::class,
         ]);
     }
 }

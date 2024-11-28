@@ -29,9 +29,4 @@ class ProgressTracker extends Model
     {
         return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id', 'mahasiswa_id');
     }
-
-    public function reports()
-    {
-        return $this->hasMany(Report::class, 'progress_id', 'progress_id');
-    }
 }

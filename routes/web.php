@@ -7,15 +7,18 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 
 //Controller Mahasiswa
-use App\Http\Controllers\MahasiswaController;
-use App\Http\Controllers\MoodController;
-use App\Http\Controllers\ProgressTrackerController;
-use App\Http\Controllers\MoodCalendarController;
+use App\Http\Controllers\Mahasiswa\MahasiswaController;
+use App\Http\Controllers\Mahasiswa\MoodController;
+use App\Http\Controllers\Mahasiswa\ProgressTrackerController;
+use App\Http\Controllers\Mahasiswa\MoodCalendarController;
+use App\Http\Controllers\Mahasiswa\ReportController;
+use App\Http\Controllers\Mahasiswa\MahasiswaNotifController;
+
 
 //Controller Dosen
-use App\Http\Controllers\DosenController;
-use App\Http\Controllers\DosenHomeController;
-use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Dosen\DosenController;
+use App\Http\Controllers\Dosen\DosenHomeController;
+use App\Http\Controllers\Dosen\DosenNotifController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,14 +77,21 @@ Route::get('/dosen/createUser',function(){
     return view('dosen.createUser');
 })->name('dosen.createUser');
 
-Route::get('/dosen/notifikasi',function(){
-    return view('dosen.notifikasi');
-})->name('dosen.notifikasi');
+Route::prefix('dosen')->group(function () {
+    Route::get('/home', [DosenHomeController::class, 'index'])->name('dosen.home');
+    Route::get('/search', [DosenHomeController::class, 'search'])->name('dosen.search');
+    Route::get('/mahasiswa/delete/{id}', [DosenHomeController::class, 'destroy'])->name('dosen.delete');
+    Route::post('/edit-role/{id}', [DosenHomeController::class, 'editRole']);
+    Route::post('/mahasiswa/{mahasiswaId}/izin', [DosenHomeController::class, 'sendPermissionRequest'])->name('dosen.izin');
+    
+    Route::get('/notifikasi', [DosenNotifController::class, 'showNotifications'])->name('dosen.notifikasi');
 
-Route::get('/dosen/profil', [DosenController::class, 'showProfil'])->name('dosen.profil');
-Route::post('/dosen/update-profil', [DosenController::class, 'updateProfil'])->name('dosen.updateProfil');
+    Route::get('/profil', [DosenController::class, 'showProfil'])->name('dosen.profil');
+    Route::post('/update-profil', [DosenController::class, 'updateProfil'])->name('dosen.updateProfil');
+    Route::get('/editProfil', [DosenController::class, 'bukaEdit'])->name('dosen.editProfil');
+});
 
-Route::get('/dosen/editProfil', [DosenController::class, 'bukaEdit'])->name('dosen.editProfil');
+
 
 Route::get('/dosen/otp',function(){
     return view('dosen.otp');
@@ -119,9 +129,9 @@ Route::post('/update-mood-note/{id}', [MoodCalendarController::class, 'updateMoo
 
 Route::get('/mahasiswa/report', [ReportController::class, 'index'])->name('mahasiswa.report');
 
-Route::get('/mahasiswa/notifikasi',function(){
-    return view('mahasiswa.notifikasi');
-})->name('mahasiswa.notifikasi');
+
+Route::get('/mahasiswa/notifikasi', [MahasiswaNotifController::class, 'index'])->name('mahasiswa.notifikasi');
+Route::post('/mahasiswa/notifikasi/{id}', [MahasiswaNotifController::class, 'update'])->name('mahasiswa.notifikasi.update');
 
 Route::get('/mahasiswa/profil', [MahasiswaController::class, 'showProfil'])->name('mahasiswa.profil');
 Route::post('/mahasiswa/update-profil', [MahasiswaController::class, 'updateProfil'])->name('mahasiswa.updateProfil');

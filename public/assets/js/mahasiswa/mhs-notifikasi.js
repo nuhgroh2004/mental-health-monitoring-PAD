@@ -1,22 +1,44 @@
 function updateNotificationCounts() {
-    // Get the current counts
-    const unreadCount = document.getElementById('unread-notifications').children.length;
-    const historyCount = document.getElementById('history-container').children.length;
+    const unreadCount = document.getElementById('unread-content').children.length;
+    const historyCount = document.getElementById('history-content').children.length;
 
-    // Get the span elements
     const unreadSpan = document.querySelector('[data-tab="unread"] span');
     const historySpan = document.querySelector('[data-tab="history"] span');
 
-    // Update the badges with new counts
     if (unreadSpan) unreadSpan.textContent = unreadCount;
     if (historySpan) historySpan.textContent = historyCount;
-
-    // Optional: Log to verify updates
-    console.log('Unread count:', unreadCount);
-    console.log('History count:', historyCount);
 }
 
-function showApproveConfirmation(button) {
+function updateNotification(id, action) {
+    return fetch(`/mahasiswa/notifikasi/${id}`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action }),
+    }).then(response => response.json());
+}
+
+function moveToHistory(notificationItem, statusText, statusColor) {
+    const historyItem = notificationItem.cloneNode(true);
+
+    historyItem.classList.remove('fade-out');
+    historyItem.classList.add('fade-in');
+
+    const buttonContainer = historyItem.querySelector('.button-container');
+    buttonContainer.innerHTML = `
+        <div class="flex items-center justify-end space-x-4">
+            <span class="font-medium ${statusColor}">${statusText}</span>
+        </div>
+    `;
+
+    document.getElementById('history-content').appendChild(historyItem);
+    notificationItem.remove();
+    updateNotificationCounts();
+}
+
+function showApproveConfirmation(button, id) {
     const notificationItem = button.closest('.notification-item');
 
     Swal.fire({
@@ -34,55 +56,20 @@ function showApproveConfirmation(button) {
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            // Add fade-out animation
-            notificationItem.classList.add('fade-out');
-
-            setTimeout(() => {
-                try {
-                    // Clone the notification for history
-                    const historyItem = notificationItem.cloneNode(true);
-
-                    // Reset animation classes
-                    historyItem.classList.remove('fade-out');
-                    historyItem.classList.add('fade-in');
-
-                    // Replace buttons with status
-                    const buttonContainer = historyItem.querySelector('.button-container');
-                    buttonContainer.innerHTML = `
-                        <div class="flex items-center justify-end space-x-4">
-                            <span class="font-medium text-green-500">Diizinkan</span>
-                            <button class="delete-btn text-gray-500 hover:text-red-500 transition-colors duration-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </button>
-                        </div>`;
-
-                    // Add to history container
-                    const historyContainer = document.getElementById('history-container');
-                    historyContainer.insertBefore(historyItem, historyContainer.firstChild);
-
-                    // Remove the original notification
-                    notificationItem.remove();
-
-                    // Update notification counts after DOM changes
-                    setTimeout(updateNotificationCounts, 0);
-
-                    // Show success message
-                    Swal.fire({
-                        title: "Diizinkan!",
-                        text: "Izin telah diberikan.",
-                        icon: "success"
-                    });
-                } catch (error) {
-                    console.error('Error in approval process:', error);
+            updateNotification(id, 'approve').then(data => {
+                if (data.success) {
+                    // Move the notification to the history tab
+                    moveToHistory(notificationItem, "Diizinkan", "text-green-500");
+                    Swal.fire("Berhasil!", "Izin telah diberikan.", "success");
+                } else {
+                    Swal.fire("Gagal!", "Terjadi kesalahan.", "error");
                 }
-            }, 500);
+            });
         }
     });
 }
 
-function showRejectConfirmation(button) {
+function showRejectConfirmation(button, id) {
     const notificationItem = button.closest('.notification-item');
 
     Swal.fire({
@@ -100,50 +87,15 @@ function showRejectConfirmation(button) {
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            // Add fade-out animation
-            notificationItem.classList.add('fade-out');
-
-            setTimeout(() => {
-                try {
-                    // Clone the notification for history
-                    const historyItem = notificationItem.cloneNode(true);
-
-                    // Reset animation classes
-                    historyItem.classList.remove('fade-out');
-                    historyItem.classList.add('fade-in');
-
-                    // Replace buttons with status
-                    const buttonContainer = historyItem.querySelector('.button-container');
-                    buttonContainer.innerHTML = `
-                        <div class="flex items-center justify-end space-x-4">
-                            <span class="font-medium text-red-500">Ditolak</span>
-                            <button class="delete-btn text-gray-500 hover:text-red-500 transition-colors duration-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </button>
-                        </div>`;
-
-                    // Add to history container
-                    const historyContainer = document.getElementById('history-container');
-                    historyContainer.insertBefore(historyItem, historyContainer.firstChild);
-
-                    // Remove the original notification
-                    notificationItem.remove();
-
-                    // Update notification counts after DOM changes
-                    setTimeout(updateNotificationCounts, 0);
-
-                    // Show success message
-                    Swal.fire({
-                        title: "Ditolak!",
-                        text: "Permintaan izin telah ditolak.",
-                        icon: "success"
-                    });
-                } catch (error) {
-                    console.error('Error in rejection process:', error);
+            updateNotification(id, 'reject').then(data => {
+                if (data.success) {
+                    // Move the notification to the history tab
+                    moveToHistory(notificationItem, "Ditolak", "text-red-500");
+                    Swal.fire("Berhasil!", "Permintaan izin telah ditolak.", "success");
+                } else {
+                    Swal.fire("Gagal!", "Terjadi kesalahan.", "error");
                 }
-            }, 500);
+            });
         }
     });
 }
@@ -223,7 +175,24 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+    document.addEventListener('DOMContentLoaded', () => {
+        updateNotificationCounts();
+
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabContents.forEach(content => content.classList.add('hidden'));
+                document.querySelector(`#${button.dataset.tab}-content`).classList.remove('hidden');
+
+                tabButtons.forEach(btn => btn.classList.remove('border-black', 'opacity-100'));
+                button.classList.add('border-black', 'opacity-100');
+            });
+        });
 
     // Initial count update
     updateNotificationCounts();
+});
+
 });

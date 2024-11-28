@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Mahasiswa;
+use App\Http\Controllers\Controller;
 
 use App\Models\MoodTracker;
-use App\Models\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class MoodController extends Controller
 {
@@ -38,29 +37,15 @@ class MoodController extends Controller
         ]);
 
         try {
-            $mood = DB::transaction(function () use ($moodMap, $request) {
+            DB::transaction(function () use ($moodMap, $request) {
                 // Simpan mood
-                $mood = MoodTracker::create([
+                MoodTracker::create([
                     'mahasiswa_id' => auth()->id(),
                     'mood_id' => $moodMap[$request->selectedEmotion],
                     'mood_level' => $request->selectedIntensity,
                     'mood_intensity' => $request->selectedIntensity,
                     'mood_note' => $request->notes,
                 ]);
-
-                // Buat atau perbarui report
-                $report = Report::updateOrCreate(
-                    [
-                        'mahasiswa_id' => auth()->id(),
-                        'created_at' => Carbon::now()->toDateString()
-                    ],
-                    [
-                        'mood_id' => $mood->getKey(),
-                        'progress_id' => null
-                    ]
-                );
-
-                return $mood;
             });
 
             session()->forget(['selectedEmotion', 'selectedIntensity']);
