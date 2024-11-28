@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Dosen;
 use App\Http\Controllers\Controller;
-
+use App\Models\Mahasiswa;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
-
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Carbon\Carbon;
 
 class DosenNotifController extends Controller
 {
@@ -39,5 +40,30 @@ class DosenNotifController extends Controller
             'approvedNotifications',
             'rejectedNotifications'
         ));
+    }
+
+    public function downloadPDF($notificationId)
+    {
+        // Ambil notifikasi berdasarkan ID
+        $notification = Notification::findOrFail($notificationId);
+
+        // Ambil mahasiswa yang terkait
+        $mahasiswa = Mahasiswa::findOrFail($notification->mahasiswa_id);
+
+        // Hitung tanggal 90 hari lalu
+        $startDate = Carbon::now()->subDays(90);
+
+        // Ambil mood dan progress mahasiswa selama 90 hari
+        $moodProgressData = $mahasiswa->moodProgressData($startDate);
+
+        // Ambil nama mahasiswa dari relasi user dan NIM dari mahasiswa
+        $name = $mahasiswa->user ? $mahasiswa->user->name : 'N/A';  // Nama dari tabel users
+        $nim = $mahasiswa->NIM; // NIM dari tabel mahasiswa
+
+        // Buat view untuk PDF
+        $pdf = FacadePdf::loadView('dosen.pdf_report', compact('moodProgressData', 'name', 'nim'));
+
+        // Download PDF
+        return $pdf->download('mood_progress_report.pdf');
     }
 }

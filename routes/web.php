@@ -83,8 +83,9 @@ Route::prefix('dosen')->group(function () {
     Route::get('/mahasiswa/delete/{id}', [DosenHomeController::class, 'destroy'])->name('dosen.delete');
     Route::post('/edit-role/{id}', [DosenHomeController::class, 'editRole']);
     Route::post('/mahasiswa/{mahasiswaId}/izin', [DosenHomeController::class, 'sendPermissionRequest'])->name('dosen.izin');
-    
+
     Route::get('/notifikasi', [DosenNotifController::class, 'showNotifications'])->name('dosen.notifikasi');
+    Route::get('dosen/download-pdf/{notificationId}', [DosenNotifController::class, 'downloadPDF'])->name('dosen.downloadPDF');
 
     Route::get('/profil', [DosenController::class, 'showProfil'])->name('dosen.profil');
     Route::post('/update-profil', [DosenController::class, 'updateProfil'])->name('dosen.updateProfil');

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,6 +19,29 @@ class Mahasiswa extends Authenticatable
         'nomor_hp',
         'mahasiswa_role'
     ];
+
+    public function moodProgressData($startDate)
+    {
+        // Ambil mood dan progress mahasiswa dari model terkait
+        return $this->mood() // Mengambil mood
+            ->where('created_at', '>=', $startDate)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($mood) {
+                // Ambil data progress dari mahasiswa yang sesuai dengan tanggal mood
+                $progress = $this->progresstracker()  // Akses progress dari model Mahasiswa
+                    ->whereDate('created_at', $mood->created_at->toDateString())
+                    ->first();
+
+                return [
+                    'date' => $mood->created_at->format('d M Y'),
+                    'mood_level' => $mood->mood_level,
+                    'mood_intensity' => $mood->mood_intensity,
+                    'expected_target' => $progress ? $progress->expected_target : 'N/A',
+                    'actual_target' => $progress ? $progress->actual_target : 'N/A',
+                ];
+            });
+    }
 
     public function user()
     {
