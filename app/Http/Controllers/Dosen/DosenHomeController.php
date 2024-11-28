@@ -79,7 +79,6 @@ class DosenHomeController extends Controller
         return response()->json(['success' => false]);
     }
 
-
     public function sendPermissionRequest(Request $request, $mahasiswaId)
     {
         try {

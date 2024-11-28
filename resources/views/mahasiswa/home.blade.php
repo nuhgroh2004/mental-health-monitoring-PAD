@@ -2,20 +2,18 @@
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>Home</title>
-
-
 <body class="flex items-center justify-center bg-gray-100 h-screen">
     <div class="flex flex-col md:flex-row w-full h-full mt-[60px]">
         <!-- Sidebar -->
         <div class="sidebar flex-col w-[100px] bg-white text-black p-4 items-center hidden md:flex ml-4 mb-4 rounded-lg mt-[54px] shadow-lg">
-            <div class="btn-mood  flex-col w-[80px] h-[90px] mb-4 rounded-lg backdrop-blur-md bg-opacity-50 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
+            <button class="btn-mood  flex-col w-[80px] h-[90px] mb-4 rounded-lg backdrop-blur-md bg-opacity-50 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
                 <img class="w-[40px] h-[40px]" src="{{ asset('assets/svg/icon-mood-trakker.svg') }}" alt="Logo" class="">
                 <span class="text-sm text-center">Mood Tracker</span>
-            </div>
-            <div class="btn-target flex-col w-[80px] h-[90px] rounded-lg backdrop-blur-md bg-opacity-50 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
+            </button>
+            <button class="btn-target flex-col w-[80px] h-[90px] rounded-lg backdrop-blur-md bg-opacity-50 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
                 <img class="w-[40px] h-[40px]" src="{{ asset('assets/svg/icon-target.svg') }}" alt="Logo" class="">
                 <span class="text-sm text-center"> Timer</span>
-            </div>
+            </button>
         </div>
         <div class="top-bar flex flex-col w-full">
             <!-- Top Bar (Visible on small screens) -->
@@ -29,7 +27,6 @@
                     <span class="text-lg text-center ml-2">Timer</span>
                 </div>
             </div>
-
 
             <!-- mood section -->
             <div class="mood flex-1 p-4 w-full h-full mt-[-30px]">
@@ -73,7 +70,7 @@
                                 <!-- Action Buttons -->
                                 <div class="flex justify-center space-x-4">
                                     <button id="modal-back" class="w-24 px-6 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors text-center">Kembali</button>
-                                    <a id="modal-ok" class="w-24 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-center">OK</a>
+                                    <button id="modal-ok" class="w-24 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-center">OK</button>
                                 </div>
                             </div>
                         </div>
@@ -156,121 +153,5 @@
 </body>
 <script src="{{ asset('assets/js/mhs-home.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-<script>
-// Constants for DOM elements
-const modal = document.getElementById('emotion-level-modal');
-const emotionText = document.getElementById('selected-emotion-text');
-const levelDescriptionText = document.getElementById('level-description-text');
-const levelDescriptionDiv = document.getElementById('level-description');
-const backButton = document.getElementById('modal-back');
-const okButton = document.getElementById('modal-ok');
-const levelButtons = document.querySelectorAll('.level-btn');
-
-// Variables to store selections
-let selectedEmotion = '';
-let selectedLevel = null;
-
-// Attach click handlers to emoji buttons
-document.querySelectorAll('.emoji-btn').forEach(btn => {
-    btn.addEventListener('click', (event) => {
-        event.preventDefault();
-        selectedEmotion = btn.dataset.emotion;
-
-        // Store emotion in session storage
-        sessionStorage.setItem('selectedEmotion', selectedEmotion);
-
-        // Update modal text and show modal
-        emotionText.textContent = selectedEmotion;
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-
-        // Reset level selection
-        selectedLevel = null;
-        levelButtons.forEach(button => {
-            button.classList.remove('bg-blue-500', 'text-white');
-            button.classList.add('bg-white');
-        });
-        levelDescriptionDiv.classList.add('hidden'); // Hide description on new selection
-    });
-});
-
-// Attach click handlers to level buttons
-levelButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const level = btn.dataset.level;
-        selectedLevel = level;
-
-        // Update visual feedback for selected level
-        levelButtons.forEach(button => {
-            button.classList.remove('bg-blue-500', 'text-white');
-            button.classList.add('bg-white');
-        });
-        btn.classList.remove('bg-white');
-        btn.classList.add('bg-blue-500', 'text-white');
-
-        // Show emotion level description
-        levelDescriptionDiv.classList.remove('hidden');
-        levelDescriptionText.textContent = getEmotionLevelDescription(selectedEmotion, parseInt(level));
-    });
-});
-
-// Function to generate level description
-function getEmotionLevelDescription(emotion, level) {
-    switch (level) {
-        case 1:
-            return `Level 1: Kamu merasa sedikit ${emotion.toLowerCase()}.`;
-        case 2:
-            return `Level 2: Kamu merasa agak ${emotion.toLowerCase()}.`;
-        case 3:
-            return `Level 3: Kamu merasa sangat ${emotion.toLowerCase()}.`;
-        default:
-            return '';
-    }
-}
-
-// Handle back button click
-backButton.addEventListener('click', () => {
-    modal.classList.remove('flex');
-    modal.classList.add('hidden');
-    selectedLevel = null;
-});
-
-// Handle OK button click
-okButton.addEventListener('click', () => {
-    if (!selectedLevel) {
-        const errorMsg = document.createElement('div');
-        errorMsg.className = 'text-red-500 text-sm mt-2';
-        errorMsg.textContent = 'Pilih level intensitas terlebih dahulu';
-        modal.querySelector('.level-btn').parentElement.appendChild(errorMsg);
-        setTimeout(() => errorMsg.remove(), 3000);
-        return;
-    }
-
-    sessionStorage.setItem('selectedIntensity', selectedLevel);
-    window.location.href = okButton.href || '/mahasiswa/notes';
-});
-
-// When the page loads on the notes page, populate fields from session storage
-if (window.location.pathname.includes('notes')) {
-    window.addEventListener('load', () => {
-        const emotion = sessionStorage.getItem('selectedEmotion');
-        const intensity = sessionStorage.getItem('selectedIntensity');
-        const emotionDisplay = document.getElementById('emotion-display');
-        const intensityDisplay = document.getElementById('intensity-display');
-        const emotionInput = document.getElementById('selectedEmotion');
-        const intensityInput = document.getElementById('selectedIntensity');
-
-        if (emotionDisplay && emotionInput) emotionDisplay.textContent = emotion;
-        if (intensityDisplay && intensityInput) intensityDisplay.textContent = intensity;
-        if (emotionInput) emotionInput.value = emotion;
-        if (intensityInput) intensityInput.value = intensity;
-
-        if (!emotion || !intensity) {
-            window.location.href = '/mahasiswa/home';
-        }
-    });
-}
-</script>
-
 
 @endsection

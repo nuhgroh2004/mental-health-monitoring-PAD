@@ -1,12 +1,10 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const emojiButtons = document.querySelectorAll('.emoji-btn');
+document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('emotion-level-modal');
     const levelButtons = document.querySelectorAll('.level-btn');
-    const modalOkButton = document.getElementById('modal-ok');
-    const modalBackButton = document.getElementById('modal-back');
+    const emojiButtons = document.querySelectorAll('.emoji-btn');
+    const backButton = document.getElementById('modal-back');
+    const okButton = document.getElementById('modal-ok');
     const feelingText = document.getElementById('feeling-text');
-    const resetButton = document.getElementById('reset-btn');
-
     let selectedEmotion = '';
     let selectedLevel = null;
     let isAnimating = false;
@@ -36,75 +34,52 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 120);
         }, 120);
     }
+    function resetLevelSelection() {
+        levelButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
+        selectedLevel = null;
+    }
+
 
     // Fungsi untuk menampilkan modal
     function showModal(emotion) {
         selectedEmotion = emotion;
         document.getElementById('selected-emotion-text').textContent = emotion;
         modal.classList.remove('hidden');
-        // Reset level selection
-        levelButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
-        selectedLevel = null;
+        resetLevelSelection();
     }
 
     // Event listener untuk emoji buttons
     emojiButtons.forEach(btn => {
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', e => {
             e.preventDefault();
-            animateEmoji(this);
+            showModal(btn.dataset.emotion);
         });
     });
 
     // Event listener untuk level buttons
     levelButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            // Remove selected class from all buttons
-            levelButtons.forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
-            // Add selected class to clicked button
-            this.classList.add('bg-blue-500', 'text-white');
-            selectedLevel = this.getAttribute('data-level');
+        btn.addEventListener('click', () => {
+            resetLevelSelection();
+            btn.classList.add('bg-blue-500', 'text-white');
+            selectedLevel = btn.dataset.level;
         });
     });
 
     // Event listener untuk tombol Kembali
-    modalBackButton.addEventListener('click', function() {
+    backButton.addEventListener('click', () => {
         modal.classList.add('hidden');
-        selectedLevel = null;
+        resetLevelSelection();
     });
 
     // Event listener untuk tombol OK
-    modalOkButton.addEventListener('click', function() {
-        if (selectedLevel) {
-            // Simpan data di localStorage
-            const data = {
-                emotion: selectedEmotion,
-                level: selectedLevel
-            };
-            localStorage.setItem('selectedEmotion', JSON.stringify(data));
-
-            // Update UI
-            feelingText.textContent = `Saya merasa ${selectedEmotion} level ${selectedLevel} hari ini!`;
-
-            // Sembunyikan emoji lain dan tampilkan hanya yang dipilih
-            emojiButtons.forEach(btn => {
-                if (btn.getAttribute('data-emotion') !== selectedEmotion) {
-                    btn.style.display = 'none';
-                } else {
-                    btn.style.display = 'block';
-                    btn.style.margin = '0 auto';
-                    btn.classList.add('mx-auto', 'pointer-events-none');
-                    btn.style.cursor = 'default';
-                }
-            });
-
-            // Tutup modal
-            modal.classList.add('hidden');
-
-            // Redirect setelah delay
-            setTimeout(() => {
-                window.location.href = "/mahasiswa/notes"; // Replace with the actual URL
-            }, 500);
+    okButton.addEventListener('click', () => {
+        if (!selectedLevel) {
+            alert('Pilih level intensitas terlebih dahulu!');
+            return;
         }
+        sessionStorage.setItem('selectedEmotion', selectedEmotion);
+        sessionStorage.setItem('selectedIntensity', selectedLevel);
+        window.location.href = '/mahasiswa/notes';
     });
 
     // Event listener untuk tombol Reset
@@ -335,5 +310,5 @@ function timerApp() {
                 this.elapsedTime = 0;
             });
         }
-    };
+    }
 }
