@@ -38,8 +38,8 @@
             <nav id="navmenu" class="navmenu">
                 <ul>
                     <li><a href="{{ route('mahasiswa.home') }}" class="{{ request()->routeIs('mahasiswa.home') ? 'active' : '' }}">Home</a></li>
-                    <li><a href="{{ route('mahasiswa.calender') }}" class="{{ request()->routeIs('mahasiswa.calender') ? 'active' : '' }}">View Mood</a></li>
-                    <li><a href="{{ route('mahasiswa.report') }}" class="{{ request()->routeIs('mahasiswa.report') ? 'active' : '' }}">Report</a></li>
+                    <li><a href="{{ route('mahasiswa.calender') }}" class="{{ request()->routeIs('mahasiswa.calender') ? 'active' : '' }}">Mood Kalender</a></li>
+                    <li><a href="{{ route('mahasiswa.report') }}" class="{{ request()->routeIs('mahasiswa.report') ? 'active' : '' }}">Laporan</a></li>
                     <li><a href="{{ route('mahasiswa.notifikasi') }}" class="{{ request()->routeIs('mahasiswa.notifikasi') ? 'active' : '' }}">Notifikasi</a></li>
                     <li><a href="{{ route('mahasiswa.profil') }}" class="{{ request()->routeIs('mahasiswa.profil') ? 'active' : '' }}">Profile</a></li>
                 </ul>

@@ -10,8 +10,8 @@
 
             <div class="p-4">
                 <div class="flex mb-4">
-                    <button onclick="showTab('mood')" class="flex-1 py-2 px-4 text-center text-sm sm:text-base bg-[#76aeb8] text-white" id="moodTab">Mood</button>
-                    <button onclick="showTab('tugas')" class="flex-1 py-2 px-4 text-center text-sm sm:text-base bg-gray-200 text-black" id="tugasTab">Pengerjaan tugas akhir</button>
+                    <button onclick="showTab('mood')" class="flex-1 py-2 px-4 text-center text-sm sm:text-base bg-[#76aeb8] text-white" id="moodTab">Mood Tracker</button>
+                    <button onclick="showTab('tugas')" class="flex-1 py-2 px-4 text-center text-sm sm:text-base bg-gray-200 text-black" id="tugasTab">Pengerjaan Tugas</button>
                 </div>
 
                 <div class="h-[350px] sm:h-[400px]">

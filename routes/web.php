@@ -8,7 +8,7 @@ use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\DosenHomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DosenCreateUserController;
-
+use App\Http\Controllers\MoodCalendarController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,7 +55,11 @@ Route::prefix('dosen')->group(function () {
     Route::post('/edit-role/{id}', [DosenHomeController::class, 'editRole']);
 });
 
-Route::post('/create-user', [CreateUserController::class, 'store'])->name('create-user');
+
+
+Route::post('/api/users/create', [CreateUserController::class, 'store'])
+    ->name('users.store')
+    ->middleware(['web', 'auth']); // Tambahkan middleware sesuai kebutuhan
 
 
 
@@ -74,6 +78,10 @@ Route::get('/mahasiswa/notifikasi', function() { return view('mahasiswa.notifika
 Route::get('/mahasiswa/edit-profil', function() { return view('mahasiswa.edit-profil'); })->name('mahasiswa.edit-profil');
 Route::get('/mahasiswa/view-mood-calendar', function() { return view('mahasiswa.calender'); })->name('mahasiswa.calender');
 Route::get('/mahasiswa/edit-mood-dan-notes', function() { return view('mahasiswa.edit-mood-notes'); })->name('mahasiswa.edit-mood-notes');
+
+
+
+// Route::get('/mahasiswa/view-mood-calendar', [MoodCalendarController::class, 'viewMoodCalendar'])->name('mahasiswa.viewMoodCalendar');
 
 
 // ------------------------ route login register ------------------------- //

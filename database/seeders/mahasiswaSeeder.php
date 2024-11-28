@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Mahasiswa;
 use Illuminate\Support\Facades\Hash;
 
-class mahasiswa_seeder extends Seeder
+class mahasiswaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -35,7 +35,7 @@ class mahasiswa_seeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
             $mahasiswaUser = User::create([
                 'name' => fake()->name(),
-                'email' => fake()->unique()->safeEmail(),
+                'email' => fake()->unique()->userName() . '@mail.ugm.ac.id',
                 'password' => Hash::make('12345678'),
                 'role' => 'Mahasiswa',
             ]);
@@ -53,7 +53,7 @@ class mahasiswa_seeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
             $mahasiswaUser = User::create([
                 'name' => fake()->name(),
-                'email' => fake()->unique()->safeEmail(),
+                'email' => fake()->unique()->userName() . '@mail.ugm.ac.id',
                 'password' => Hash::make('12345678'),
                 'role' => 'Mahasiswa',
             ]);

@@ -11,7 +11,7 @@
             </button>
             <button class="btn-target flex-col w-[80px] h-[90px] rounded-lg backdrop-blur-md bg-opacity-50 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
                 <img class="w-[40px] h-[40px]" src="{{ asset('assets/svg/icon-target.svg') }}" alt="Logo" class="">
-                <span class="text-sm text-center"> Timer</span>
+                <span class="text-sm text-center">Task Log</span>
             </button>
         </div>
         <div class="top-bar flex flex-col w-full">
@@ -23,7 +23,7 @@
                 </div>
                 <div class="btn-target w-[110px] h-[50px] rounded-lg ml-3 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
                     <img class="w-[40px] h-[40px]" src="{{ asset('assets/svg/icon-target.svg') }}" alt="Logo" class="">
-                    <span class="text-lg text-center ml-2">Timer</span>
+                    <span class="text-lg text-center ml-2">Task Log</span>
                 </div>
             </div>
 
@@ -32,7 +32,7 @@
                 <div class="w-full h-full bg-cover bg-center rounded-lg overflow-hidden shadow-lg">
                     <div class=" flex flex-col items-center justify-center p-4">
                         <div id="emoji-container" class="mb-8">
-                            <h2 id="feeling-text" class="text-emoji text-2xl font-bold text-center">HALLO BAGAIMANA PERSAANMU HARI INI</h2>
+                            <h2 id="feeling-text" class="text-emoji text-2xl font-bold text-center">HALO! BAGAIMANA PERASAANMU HARI INI?</h2>
                             <div class="flex space-x-4">
                                 <a href="{{ route('mahasiswa.notes') }}" class="emoji-btn inline-block transition-transform transform" data-emotion="Marah">
                                     <img src="{{ asset('asset/svg/emoji/marah.svg') }}" alt="Marah Emoji" class="inline-block">
@@ -88,7 +88,7 @@
                 <div class=" flex items-center  mt-10 justify-center ">
                     <div x-data="timerApp()"
                          class="bg-white rounded-lg p-8 w-full max-w-2xl mx-auto ">
-                        <h2 class="text-3xl font-bold mb-8 text-center text-[#76aeb8]">Timer Target Pengerjaan</h2>
+                        <h2 class="text-3xl font-bold mb-8 text-center text-[#76aeb8]">Task Log</h2>
 
                         <!-- Bagian Input Target Waktu -->
                         <div class="mb-8">
