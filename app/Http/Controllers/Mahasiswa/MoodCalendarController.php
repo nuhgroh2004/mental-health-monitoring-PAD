@@ -10,7 +10,7 @@ use App\Models\User;
 
 class MoodCalendarController extends Controller
 {
-    public function viewMoodCalendar(Request $request)
+    public function calendar(Request $request)
     {
         $month = $request->query('month', now()->month);
         $year = $request->query('year', now()->year);
@@ -46,7 +46,7 @@ class MoodCalendarController extends Controller
 
         $monthName = $firstDayOfMonth->format('F');
 
-        return view('mahasiswa.viewMoodCalendar', compact('moodByDay', 'month', 'year', 'monthName', 'firstDayOfWeek', 'daysInMonth'));
+        return view('mahasiswa.calendar', compact('moodByDay', 'month', 'year', 'monthName', 'firstDayOfWeek', 'daysInMonth'));
     }
 
     public function showEditMoodsDanNotes(Request $request)
@@ -64,7 +64,7 @@ class MoodCalendarController extends Controller
                     ->first();
 
         // Kirimkan data ke view
-        return view('mahasiswa.editMoodDanNotes', [
+        return view('mahasiswa.edit-mood-notes', [
             'day' => $day,
             'month' => $month,
             'year' => $year,

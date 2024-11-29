@@ -70,9 +70,9 @@ Route::get('/dosen/landingPage', function () {
     return view('dosen.landingPage');
 })->name('dosen.landingPage');
 
-Route::get('/dosen/createUser', function () {
-    return view('dosen.createUser');
-})->name('dosen.createUser');
+Route::get('/dosen/create-user', function()
+{ return view('dosen.create-user');
+})->name('dosen.create-user');
 
 // Dosen Prefix Routes
 Route::prefix('dosen')->group(function () {
@@ -85,7 +85,7 @@ Route::prefix('dosen')->group(function () {
     Route::get('dosen/download-pdf/{notificationId}', [DosenNotifController::class, 'downloadPDF'])->name('dosen.downloadPDF');
     Route::get('/profil', [DosenController::class, 'showProfil'])->name('dosen.profil');
     Route::post('/update-profil', [DosenController::class, 'updateProfil'])->name('dosen.updateProfil');
-    Route::get('/editProfil', [DosenController::class, 'bukaEdit'])->name('dosen.editProfil');
+    Route::get('/edit-profil', [DosenController::class, 'bukaEdit'])->name('dosen.edit-profil');
 });
 
 // ------------------------ Mahasiswa Routes ------------------------- //
@@ -106,12 +106,12 @@ Route::get('/mahasiswa/landingPage', function () {
     return view('mahasiswa.landingPage');
 })->name('mahasiswa.landingPage');
 
-Route::get('/mahasiswa/viewMoodCalendar', [MoodCalendarController::class, 'viewMoodCalendar'])->name('mahasiswa.viewMoodCalendar');
+Route::get('/mahasiswa/calendar', [MoodCalendarController::class, 'calendar'])->name('mahasiswa.calendar');
 Route::get('/mahasiswa/notes', function () {
     return view('mahasiswa.notes');
 })->name('mahasiswa.notes');
 
-Route::get('/mahasiswa/editMoodDanNotes', [MoodCalendarController::class, 'showEditMoodsDanNotes'])->name('mahasiswa.showEditMoodsDanNotes');
+Route::get('/mahasiswa/edit-mood-notes', [MoodCalendarController::class, 'showEditMoodsDanNotes'])->name('mahasiswa.edit-mood-notes');
 Route::post('/update-mood-note/{id}', [MoodCalendarController::class, 'updateMoodNote'])->name('updateMoodNote');
 
 Route::get('/mahasiswa/report', [ReportController::class, 'index'])->name('mahasiswa.report');
@@ -119,7 +119,7 @@ Route::get('/mahasiswa/notifikasi', [MahasiswaNotifController::class, 'index'])-
 Route::post('/mahasiswa/notifikasi/{id}', [MahasiswaNotifController::class, 'update'])->name('mahasiswa.notifikasi.update');
 Route::get('/mahasiswa/profil', [MahasiswaController::class, 'showProfil'])->name('mahasiswa.profil');
 Route::post('/mahasiswa/update-profil', [MahasiswaController::class, 'updateProfil'])->name('mahasiswa.updateProfil');
-Route::get('/mahasiswa/editProfil', [MahasiswaController::class, 'bukaEdit'])->name('mahasiswa.editProfil');
+Route::get('/mahasiswa/edit-profil', [MahasiswaController::class, 'bukaEdit'])->name('mahasiswa.edit-profil');
 Route::get('/mahasiswa/home', function () {
     return view('mahasiswa.home');
 })->name('mahasiswa.home');

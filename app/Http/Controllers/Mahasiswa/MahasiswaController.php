@@ -26,7 +26,7 @@ class MahasiswaController extends Controller
     public function bukaEdit(){
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('mahasiswa_id', $user->user_id)->first();
-        return view('mahasiswa.editProfil', compact('user', 'mahasiswa'));
+        return view('mahasiswa.edit-profil', compact('user', 'mahasiswa'));
     }
 
     public function updateProfil(Request $request) {

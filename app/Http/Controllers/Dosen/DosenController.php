@@ -28,7 +28,7 @@ class DosenController extends Controller
     public function bukaEdit(){
         $user = Auth::user();
         $dosen = Dosen::where('dosen_id', $user->user_id)->first();
-        return view('dosen.editProfil', compact('user', 'dosen'));
+        return view('dosen.edit-profil', compact('user', 'dosen'));
     }
 
     public function updateProfil(Request $request) {

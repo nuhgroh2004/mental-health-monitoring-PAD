@@ -27,13 +27,95 @@ function selectMood(button, mood, moodLevel) {
         selectedButton.classList.remove('selected');
     }
 
+    // Menandai tombol yang dipilih
     button.classList.add('selected');
-
-    // Set mood yang dipilih
     selectedMood = mood;
-    selectedMoodLevel = moodLevel; // Set mood level yang sesuai
     selectedButton = button;
+
+    // Tentukan emosi berdasarkan level mood yang dikirimkan
+    switch (moodLevel) {
+        case 1:
+            selectedEmotion = 'Marah';
+            break;
+        case 2:
+            selectedEmotion = 'Sedih';
+            break;
+        case 3:
+            selectedEmotion = 'Biasa saja';
+            break;
+        case 4:
+            selectedEmotion = 'Senang';
+            break;
+    }
+
+    // Reset level selection dan tampilkan modal
+    showEmotionLevelModal();
 }
+
+function updateLevelDescription(emotion, level) {
+    const levelDescriptionText = document.getElementById('level-description-text');
+    const levelDescriptionDiv = document.getElementById('level-description');
+    levelDescriptionDiv.classList.remove('hidden'); // Tampilkan deskripsi level
+
+    // Berikan deskripsi level berdasarkan emosi dan tingkat intensitas
+    switch (emotion) {
+        case 'Marah':
+            if (level == 1) {
+                levelDescriptionText.textContent = "Saya merasa sedikit kesal hari ini.";
+            } else if (level == 2) {
+                levelDescriptionText.textContent = "Saya merasa marah hari ini.";
+            } else if (level == 3) {
+                levelDescriptionText.textContent = "Saya merasa sangat marah hari ini.";
+            }
+            break;
+        case 'Sedih':
+            if (level == 1) {
+                levelDescriptionText.textContent = "Saya merasa sedikit sedih hari ini.";
+            } else if (level == 2) {
+                levelDescriptionText.textContent = "Saya merasa sedih hari ini.";
+            } else if (level == 3) {
+                levelDescriptionText.textContent = "Saya merasa sangat sedih hari ini.";
+            }
+            break;
+        case 'Biasa saja':
+            if (level == 1) {
+                levelDescriptionText.textContent = "Saya merasa biasa saja hari ini.";
+            } else if (level == 2) {
+                levelDescriptionText.textContent = "Saya merasa cukup biasa hari ini.";
+            } else if (level == 3) {
+                levelDescriptionText.textContent = "Saya merasa benar-benar biasa hari ini.";
+            }
+            break;
+        case 'Senang':
+            if (level == 1) {
+                levelDescriptionText.textContent = "Saya merasa sedikit senang hari ini.";
+            } else if (level == 2) {
+                levelDescriptionText.textContent = "Saya merasa senang hari ini.";
+            } else if (level == 3) {
+                levelDescriptionText.textContent = "Saya merasa sangat senang hari ini.";
+            }
+            break;
+    }
+}
+
+function showEmotionLevelModal() {
+    const modal = document.getElementById('emotion-level-modal');
+    document.getElementById('selected-emotion-text').textContent = selectedEmotion;
+
+    // Reset pilihan level sebelumnya
+    selectedLevel = null;
+    const levelButtons = document.querySelectorAll('.level-btn');
+    levelButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
+
+    // Sembunyikan deskripsi level hingga level dipilih
+    document.getElementById('level-description').classList.add('hidden');
+    document.getElementById('level-description-text').textContent = '';
+
+    // Tampilkan modal
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+
 
 function saveChanges() {
     const noteText = document.getElementById('noteInput').value;

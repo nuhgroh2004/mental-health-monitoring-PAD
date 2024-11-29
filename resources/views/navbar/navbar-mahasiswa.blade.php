@@ -38,8 +38,8 @@
             <nav id="navmenu" class="navmenu">
                 <ul>
                     <li><a href="{{ route('mahasiswa.home') }}" class="{{ request()->routeIs('mahasiswa.home') ? 'active' : '' }}">Home</a></li>
-                    <li><a href="{{ route('mahasiswa.viewMoodCalendar', ['month' => now()->month, 'year' => now()->year]) }}"
-                        class="{{ request()->routeIs('mahasiswa.viewMoodCalendar') ? 'active' : '' }}">
+                    <li><a href="{{ route('mahasiswa.calendar', ['month' => now()->month, 'year' => now()->year]) }}"
+                        class="{{ request()->routeIs('mahasiswa.calendar') ? 'active' : '' }}">
                         View Mood
                      </a></li>
                     <li><a href="{{ route('mahasiswa.report', ['month' => now()->month, 'year' => now()->year]) }}"

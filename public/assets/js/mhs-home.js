@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 120);
         }, 120);
     }
+
     function resetLevelSelection() {
         levelButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
         selectedLevel = null;
@@ -45,6 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedEmotion = emotion;
         document.getElementById('selected-emotion-text').textContent = emotion;
         modal.classList.remove('hidden');
+        document.getElementById('level-description-text').textContent = ''; // Reset level description text
+        document.getElementById('level-description').classList.add('hidden'); // Hide level description
         resetLevelSelection();
     }
 
@@ -52,9 +55,55 @@ document.addEventListener('DOMContentLoaded', () => {
     emojiButtons.forEach(btn => {
         btn.addEventListener('click', e => {
             e.preventDefault();
+            animateEmoji(btn);
             showModal(btn.dataset.emotion);
         });
     });
+
+    function updateLevelDescription(emotion, level) {
+        const levelDescriptionText = document.getElementById('level-description-text');
+        const levelDescriptionDiv = document.getElementById('level-description');
+        levelDescriptionDiv.classList.remove('hidden');
+
+        switch (emotion) {
+            case 'Marah':
+                if (level == 1) {
+                    levelDescriptionText.textContent = "Saya merasa sedikit kesal hari ini.";
+                } else if (level == 2) {
+                    levelDescriptionText.textContent = "Saya merasa marah hari ini.";
+                } else if (level == 3) {
+                    levelDescriptionText.textContent = "Saya merasa sangat marah hari ini.";
+                }
+                break;
+            case 'Sedih':
+                if (level == 1) {
+                    levelDescriptionText.textContent = "Saya merasa sedikit sedih hari ini.";
+                } else if (level == 2) {
+                    levelDescriptionText.textContent = "Saya merasa sedih hari ini.";
+                } else if (level == 3) {
+                    levelDescriptionText.textContent = "Saya merasa sangat sedih hari ini.";
+                }
+                break;
+            case 'Biasa saja':
+                if (level == 1) {
+                    levelDescriptionText.textContent = "Saya merasa biasa saja hari ini.";
+                } else if (level == 2) {
+                    levelDescriptionText.textContent = "Saya merasa cukup biasa hari ini.";
+                } else if (level == 3) {
+                    levelDescriptionText.textContent = "Saya merasa benar-benar biasa hari ini.";
+                }
+                break;
+            case 'Senang':
+                if (level == 1) {
+                    levelDescriptionText.textContent = "Saya merasa sedikit senang hari ini.";
+                } else if (level == 2) {
+                    levelDescriptionText.textContent = "Saya merasa senang hari ini.";
+                } else if (level == 3) {
+                    levelDescriptionText.textContent = "Saya merasa sangat senang hari ini.";
+                }
+                break;
+        }
+    }
 
     // Event listener untuk level buttons
     levelButtons.forEach(btn => {
@@ -62,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
             resetLevelSelection();
             btn.classList.add('bg-blue-500', 'text-white');
             selectedLevel = btn.dataset.level;
+            updateLevelDescription(selectedEmotion, selectedLevel);
         });
     });
 

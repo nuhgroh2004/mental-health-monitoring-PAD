@@ -45,7 +45,7 @@
                             </div>
                         @else
                             <!-- Hari yang bisa diklik -->
-                            <a href="{{ route('mahasiswa.showEditMoodsDanNotes', ['day' => $day, 'month' => $month, 'year' => $year, 'user_id' => auth()->id() ])}}"
+                            <a href="{{ route('mahasiswa.edit-mood-notes', ['day' => $day, 'month' => $month, 'year' => $year, 'user_id' => auth()->id() ])}}"
                                 class="aspect-square bg-white rounded-lg shadow hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-center p-1">
                                 <span class="text-sm mb-1">{{ $day }}</span>
                                 <div class="w-4 h-4 sm:w-6 sm:h-6" title="{{ $mood ? ucfirst($mood->mood_level) : '' }}">

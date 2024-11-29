@@ -22,7 +22,7 @@ class DosenHomeController extends Controller
             ->select('mahasiswa.*', 'users.name', 'users.email')
             ->paginate($batas);
         $no = $batas * ($dataMahasiswa->currentPage() - 1);
-        return view('dosen.landingPage', compact('batas', 'no', 'dataMahasiswa'));
+        return view('dosen.home', compact('batas', 'no', 'dataMahasiswa'));
     }
 
 
