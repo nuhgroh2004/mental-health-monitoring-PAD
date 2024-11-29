@@ -41,7 +41,7 @@ class LoginController extends Controller
             if ($lecturer && Hash::check($credentials['password'], $lecturer->password)) {
                 Auth::login($lecturer);
                 $request->session()->regenerate();
-                return redirect()->route('dosen.landingPage')->withSuccess('Logged in as a lecturer!');
+                return redirect()->route('dosen.home')->withSuccess('Logged in as a lecturer!');
             }
         }
 

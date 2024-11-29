@@ -66,10 +66,6 @@ Route::get('/dosen/register', function () {
     return view('dosen.register');
 })->name('dosen.register');
 
-Route::get('/dosen/landingPage', function () {
-    return view('dosen.landingPage');
-})->name('dosen.landingPage');
-
 Route::get('/dosen/create-user', function()
 { return view('dosen.create-user');
 })->name('dosen.create-user');
