@@ -18,12 +18,12 @@ class MahasiswaMiddleware
     {
         // Periksa apakah pengguna sudah login
         if (!Auth::check()) {
-            return redirect('/login')->with('alert', 'Silakan login terlebih dahulu');
+            return redirect('/home')->with('alert', 'Silakan login terlebih dahulu');
         }
 
         // Periksa role Mahasiswa
         if (Auth::user()->role !== 'Mahasiswa') {
-            return redirect('/login')->with('alert', 'Anda harus login sebagai Mahasiswa terlebih dahulu');
+            return redirect('/home')->with('alert', 'Anda harus login sebagai Mahasiswa terlebih dahulu');
         }
 
         return $next($request);

@@ -84,7 +84,8 @@
                 <img src="assets/img/hero-services-img.webp" class="img-fluid hero-img" alt="" data-aos="zoom-out" data-aos-delay="300">
             </div>
         </div>
-    </section><!-- /Hero Section -->
+    </section>
+<!-- /Hero Section -->
 <!---------------------------------------------------------------- Section 1 Welcomme ------------------------------------------------------------------------>
 
 <!---------------------------------------------------------------- Section 2 About ------------------------------------------------------------------------>
@@ -463,6 +464,12 @@
     </div>
 
   </footer>
+    @if(session('alert'))
+    <script>
+        // Menampilkan alert dengan JavaScript
+        alert("{{ session('alert') }}");
+    </script>
+    @endif
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

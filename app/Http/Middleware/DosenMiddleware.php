@@ -19,7 +19,7 @@ class DosenMiddleware
     {
     // Pertama, periksa apakah pengguna sudah login
     if (!Auth::check()) {
-        return redirect('/login')->with('alert', 'Silakan login terlebih dahulu');
+        return redirect('/home')->with('alert', 'Silakan login terlebih dahulu');
     }
 
     // Dapatkan user yang sedang login
@@ -27,7 +27,7 @@ class DosenMiddleware
 
     // Periksa apakah user memiliki role dosen
     if ($user->role !== 'dosen') {
-        return redirect('/login')->with('alert', 'Anda tidak memiliki akses');
+        return redirect('/home')->with('alert', 'Anda tidak memiliki akses');
     }
 
     // Cari data dosen berdasarkan user_id
@@ -35,7 +35,7 @@ class DosenMiddleware
 
     // Periksa apakah dosen ditemukan dan sudah diverifikasi
     if (!$dosen || $dosen->verified !== 'yes') {
-        return redirect('/login')->with('alert', 'Akun Anda belum diverifikasi');
+        return redirect('/home')->with('alert', 'Akun Anda belum diverifikasi');
     }
 
     return $next($request);

@@ -22,11 +22,6 @@
 
                 <!-- Form Login -->
                 <form class="space-y-4 md:space-y-6" action="{{ route('authenticate') }}" method="POST">
-                    @if(session('alert'))
-                        <div class="alert alert-warning bg-yellow-100 text-yellow-800 p-4 mb-4 rounded-md">
-                            {{ session('alert') }}
-                        </div>
-                    @endif
                     @csrf
                     <!-- Input Email -->
                     <div>
