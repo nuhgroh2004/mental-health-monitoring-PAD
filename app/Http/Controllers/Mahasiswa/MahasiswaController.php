@@ -32,12 +32,27 @@ class MahasiswaController extends Controller
     public function updateProfil(Request $request) {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'password' => 'nullable|string|min:8',
-            'NIM' => 'required|string|max:20',
-            'prodi' => 'required|string|max:100',
-            'tanggal_lahir' => 'required|date',
-            'nomor_hp' => 'required|string|max:15',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                'regex:/^[a-zA-Z0-9._%+-]+@mail\.ugm\.ac\.id$/',
+            ],
+            'prodi' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|date_format:Y-m-d',
+            'phone_number' => 'nullable|string|size:11|regex:/^[0-9]+$/',
+            'NIM' => [
+                'required',
+                'string',
+                'max:20',
+                'regex:/^\d{2}\/\d{6}\/[A-Za-z]{2}\/\d{5}$/', // Format XX/XXXXXX/AA/XXXXX
+            ],
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d).+$/',
+            ],
         ]);
 
         $user = Auth::user();

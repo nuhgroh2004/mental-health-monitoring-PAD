@@ -15,13 +15,13 @@ class mahasiswaSeeder extends Seeder
         $firstUser = User::create([
             'name' => 'Mahasiswa1',
             'email' => 'mahasiswa@mail.ugm.ac.id',
-            'password' => Hash::make('12345678'),
+            'password' => Hash::make('ABCD1234'),
             'role' => 'Mahasiswa',
         ]);
 
         Mahasiswa::create([
             'mahasiswa_id' => $firstUser->user_id,
-            'NIM' => '1234567890123',
+            'NIM' => '23/519254/SV/23148',
             'prodi' => 'Teknik Informatika',
             'tanggal_lahir' => '2000-01-01',
             'nomor_hp' => '12345678901',

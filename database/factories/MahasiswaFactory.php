@@ -12,11 +12,11 @@ class MahasiswaFactory extends Factory
     public function definition()
     {
         return [
-            'NIM' => $this->faker->numerify('###########'),
-            'prodi' => 'Teknik Informatika',
-            'tanggal_lahir' => $this->faker->date(),
-            'nomor_hp' => $this->faker->numerify('###########'),
-            'mahasiswa_role' => 'role_1'
+            'NIM' => $this->faker->regexify('\d{2}/\d{6}/[A-Z]{2}/\d{5}'),
+            'prodi' => $this->faker->randomElement(['Teknik Informatika', 'Sistem Informasi', 'Teknik Elektro']),
+            'tanggal_lahir' => $this->faker->date('Y-m-d', '-18 years'), // Minimal 18 tahun ke atas
+            'nomor_hp' => $this->faker->regexify('\d{11}'), // Nomor HP sepanjang 11 digit
+            'mahasiswa_role' => 'role_1',
         ];
     }
 

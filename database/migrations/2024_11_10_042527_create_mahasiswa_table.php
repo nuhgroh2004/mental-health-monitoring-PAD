@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('mahasiswa', function (Blueprint $table) {
             $table->unsignedBigInteger('mahasiswa_id');
             $table->foreign('mahasiswa_id')->references('user_id')->on('users')->onDelete('cascade');
-            $table->string('NIM', 13)->unique();
-            $table->string('prodi', 100);
+            $table->string('NIM', 20)->unique();
+            $table->string('prodi');
             $table->date('tanggal_lahir');
             $table->string('nomor_hp', 11);
             $table->enum('mahasiswa_role', ['role_1', 'role_2']);
             $table->timestamps();
- 
+
             $table->primary('mahasiswa_id');
         });
     }

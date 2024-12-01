@@ -34,7 +34,7 @@ use App\Http\Controllers\Dosen\DosenNotifController;
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
 Route::get('/navbar/navbar1', function () {
     return view('navbar.navbar1');

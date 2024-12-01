@@ -31,13 +31,30 @@ class RegisterController extends Controller
     public function storeMahasiswa(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|max:50|unique:users,email',
-            'prodi' => 'required|string|max:100',
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                'unique:users,email',
+                'regex:/^[a-zA-Z0-9._%+-]+@mail\.ugm\.ac\.id$/',
+            ],
+            'prodi' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date_format:Y-m-d',
             'phone_number' => 'nullable|string|size:11|regex:/^[0-9]+$/',
-            'nim' => 'required|string|max:15|unique:mahasiswa,NIM',
-            'password' => 'required|min:8',
+            'nim' => [
+                'required',
+                'string',
+                'max:20',
+                'unique:mahasiswa,NIM',
+                'regex:/^\d{2}\/\d{6}\/[A-Za-z]{2}\/\d{5}$/', // Format XX/XXXXXX/AA/XXXXX
+            ],
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d).+$/',
+            ],
             'g-recaptcha-response' => 'required|captcha',
         ]);
 
@@ -66,9 +83,20 @@ class RegisterController extends Controller
     public function storeDosen(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|max:50|unique:users,email',
-            'password' => 'required|min:8',
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                'unique:users,email',
+                'regex:/^[a-zA-Z0-9._%+-]+@ugm\.ac\.id$/',
+            ],
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d).+$/',
+            ],
             'g-recaptcha-response' => 'required|captcha',
         ]);
 
@@ -92,7 +120,10 @@ class RegisterController extends Controller
         // Auth::attempt($request->only('email', 'password'));
         // $request->session()->regenerate();
 
+        Auth::attempt($request->only('email', 'password'));
+        $request->session()->regenerate();
+
         return redirect()->route('dosen.home')->withSuccess('Registered & logged in!');
     }
-
 }
+

@@ -34,8 +34,18 @@ class DosenController extends Controller
     public function updateProfil(Request $request) {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'password' => 'nullable|string|min:8',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                'regex:/^[a-zA-Z0-9._%+-]+@ugm\.ac\.id$/',
+            ],
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d).+$/',
+            ],
         ]);
 
         $user = Auth::user();

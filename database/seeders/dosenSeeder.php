@@ -18,7 +18,7 @@ class dosenSeeder extends Seeder
         $dosenUser = User::create([
             'name' => 'Dosen1',
             'email'=> 'dosen@ugm.ac.id',
-            'password'=> Hash::make('12345678'),
+            'password'=> Hash::make('ABCD1234'),
             'role' => 'Dosen',
         ]);
 

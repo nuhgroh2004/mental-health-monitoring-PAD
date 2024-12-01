@@ -21,7 +21,7 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->userName() . '@mail.ugm.ac.id',
-            'password' => Hash::make('12345678'), // Default password for all users
+            'password' => Hash::make('ABCD1234'), // Default password for all users
             'role' => 'Mahasiswa',
         ];
     }
