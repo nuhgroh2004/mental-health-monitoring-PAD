@@ -17,11 +17,13 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
-        $guards = empty($guards) ? [null] : $guards;
-
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+        // Jika pengguna sudah login
+        if (Auth::check()) {
+            // Redirect berdasarkan role user
+            if (Auth::user()->role === 'Mahasiswa') {
+                return redirect()->route('mahasiswa.home'); // Ganti dengan route yang sesuai
+            } elseif (Auth::user()->role === 'Dosen') {
+                return redirect()->route('dosen.home'); // Ganti dengan route yang sesuai
             }
         }
 

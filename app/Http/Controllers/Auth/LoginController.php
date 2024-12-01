@@ -18,13 +18,6 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        if (Auth::check()) {
-            if (Auth::user()->role === 'Mahasiswa') {
-                return redirect()->route('mahasiswa.home')->withSuccess('You are already logged in as a student!');
-            } elseif (Auth::user()->role === 'Dosen') {
-                return redirect()->route('dosen.home')->withSuccess('You are already logged in as a lecturer!');
-            }
-        }
         return view('login');
     }
 

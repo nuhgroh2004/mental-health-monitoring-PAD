@@ -26,7 +26,7 @@ class DosenMiddleware
     $user = Auth::user();
 
     // Periksa apakah user memiliki role dosen
-    if ($user->role !== 'dosen') {
+    if ($user->role !== 'Dosen') {
         return redirect('/home')->with('alert', 'Anda tidak memiliki akses');
     }
 

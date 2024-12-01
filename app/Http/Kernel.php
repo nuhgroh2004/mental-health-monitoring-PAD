@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'mahasiswa' => \App\Http\Middleware\MahasiswaMiddleware::class,
         'dosen' => \App\Http\Middleware\DosenMiddleware::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
     ];
 }
