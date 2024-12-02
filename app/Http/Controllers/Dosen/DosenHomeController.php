@@ -14,7 +14,7 @@ class DosenHomeController extends Controller
 {
     public function index(Request $request)
     {
-        $batas = 5;
+        $batas = 10;
         $dataMahasiswa = Mahasiswa::join('users', 'mahasiswa.mahasiswa_id', '=', 'users.user_id')
             ->where('users.role', 'Mahasiswa')
             ->distinct()

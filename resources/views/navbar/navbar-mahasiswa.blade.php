@@ -40,13 +40,13 @@
                     <li><a href="{{ route('mahasiswa.home') }}" class="{{ request()->routeIs('mahasiswa.home') ? 'active' : '' }}">Home</a></li>
                     <li><a href="{{ route('mahasiswa.calendar', ['month' => now()->month, 'year' => now()->year]) }}"
                         class="{{ request()->routeIs('mahasiswa.calendar') ? 'active' : '' }}">
-                        View Mood
+                        Kalender Mood
                      </a></li>
                     <li><a href="{{ route('mahasiswa.report', ['month' => now()->month, 'year' => now()->year]) }}"
                         class="{{ request()->routeIs('mahasiswa.report') ? 'active' : '' }}">
                         Report</a></li>
                     <li><a href="{{ route('mahasiswa.notifikasi') }}" class="{{ request()->routeIs('mahasiswa.notifikasi') ? 'active' : '' }}">Notifikasi</a></li>
-                    <li><a href="{{ route('mahasiswa.profil') }}" class="{{ request()->routeIs('mahasiswa.profil') ? 'active' : '' }}">Profile</a></li>
+                    <li><a href="{{ route('mahasiswa.profil') }}" class="{{ request()->routeIs('mahasiswa.profil') ? 'active' : '' }}">Profil</a></li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>

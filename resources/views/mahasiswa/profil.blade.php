@@ -45,7 +45,7 @@
         </div>
                 <div class="mb-6">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="NIM">
-                Phone Number
+                Nomor HP
             </label>
             <div class="border rounded-md p-2 bg-gray-100">
                 <span id="NIM" class="text-gray-800">{{ $mahasiswa->nomor_hp }}</span>

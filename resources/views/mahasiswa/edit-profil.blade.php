@@ -39,7 +39,7 @@
                 </label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                        id="password" name="password" type="password"
-                       placeholder="Leave blank to keep current password">
+                       placeholder="Biarkan kosong jika tidak ingin mengganti password">
                 @error('password')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -79,7 +79,7 @@
             </div>
             <div>
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="nomor_hp">
-                    Phone Number
+                    Nomor HP
                 </label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                        id="nomor_hp" name="nomor_hp" type="number"
@@ -101,7 +101,7 @@
                     <svg class="h-5 w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                         <path d="M5 13l4 4L19 7"></path>
                     </svg>
-                    Save
+                    Simpan
                 </button>
             </div>
         </form>
