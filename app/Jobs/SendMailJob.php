@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\OTPMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -15,14 +16,18 @@ class SendMailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $otp;
-    public function __construct(Int $otp)
+    private $otp;
+    private $email;
+
+    public function __construct($otp, $email)
     {
         $this->otp = $otp;
+        $this->email = $email;
     }
-    public function handle(): void
+
+    public function handle()
     {
-        $email = new SendEmail($this->otp);
-        Mail::to($this->otp['email'])->send($email);
+        Mail::to($this->email)
+            ->send(new OTPMail($this->otp));
     }
 }

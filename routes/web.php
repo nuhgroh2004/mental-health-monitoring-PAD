@@ -18,6 +18,7 @@ use App\Http\Controllers\Mahasiswa\MahasiswaNotifController;
 use App\Http\Controllers\Dosen\DosenController;
 use App\Http\Controllers\Dosen\DosenHomeController;
 use App\Http\Controllers\Dosen\DosenNotifController;
+use App\Http\Controllers\OTPController;
 
 /*
 |--------------------------------------------------------------------------
@@ -137,6 +138,7 @@ Route::post('/store/mahasiswa', [RegisterController::class, 'storeMahasiswa'])->
 Route::post('/store/dosen', [RegisterController::class, 'storeDosen'])->name('store.dosen');
 
 // ------------------------ Register Routes ------------------------- //
+
 Route::get('/dosen/register', function () {
     return view('dosen.register');
 })->name('dosen.register');
@@ -144,3 +146,8 @@ Route::get('/dosen/register', function () {
 Route::get('/mahasiswa/register', function () {
     return view('mahasiswa.register');
 })->name('mahasiswa.register');
+
+// ------------------------ OTP Routes ------------------------- //
+
+Route::get('/otp-verification', [OTPController::class, 'otpVerificationForm'])->name('otp-verification');
+Route::post('/otp-verification', [OTPController::class, 'verifyOTP'])->name('verify-otp');

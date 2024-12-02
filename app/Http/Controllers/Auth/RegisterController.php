@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use App\Jobs\SendMailJob;
 use App\Mail\SendEmail;
 use App\http\conroller\sendEmailController;
+use App\Models\OTP;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,7 +31,8 @@ class RegisterController extends Controller
     }
     public function storeMahasiswa(Request $request)
     {
-        $request->validate([
+        // Aturan validasi
+        $rules = [
             'name' => 'required|string|max:255',
             'email' => [
                 'required',
@@ -56,8 +58,49 @@ class RegisterController extends Controller
                 'regex:/^(?=.*[A-Za-z])(?=.*\d).+$/',
             ],
             'g-recaptcha-response' => 'required|captcha',
-        ]);
+        ];
 
+        // Pesan error khusus
+        $messages = [
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa teks.',
+            'name.max' => 'Nama maksimal 255 karakter.',
+
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email maksimal 255 karakter.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'email.regex' => 'Email harus menggunakan domain @mail.ugm.ac.id.',
+
+            'prodi.required' => 'Program studi wajib diisi.',
+            'prodi.string' => 'Program studi harus berupa teks.',
+            'prodi.max' => 'Program studi maksimal 255 karakter.',
+
+            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
+            'tanggal_lahir.date_format' => 'Format tanggal lahir harus YYYY-MM-DD.',
+
+            'phone_number.size' => 'Nomor telepon harus 11 digit.',
+            'phone_number.regex' => 'Nomor telepon hanya boleh mengandung angka.',
+
+            'nim.required' => 'NIM wajib diisi.',
+            'nim.string' => 'NIM harus berupa teks.',
+            'nim.max' => 'NIM maksimal 20 karakter.',
+            'nim.unique' => 'NIM sudah terdaftar.',
+            'nim.regex' => 'Format NIM tidak valid. Contoh yang benar: XX/XXXXXX/AA/XXXXX.',
+
+            'password.required' => 'Password wajib diisi.',
+            'password.string' => 'Password harus berupa teks.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.regex' => 'Password harus mengandung setidaknya satu huruf dan satu angka.',
+
+            'g-recaptcha-response.required' => 'Verifikasi CAPTCHA wajib dilakukan.',
+            'g-recaptcha-response.captcha' => 'Verifikasi CAPTCHA gagal.',
+        ];
+
+        // Validasi request
+        $request->validate($rules, $messages);
+
+        // Membuat User
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -65,6 +108,7 @@ class RegisterController extends Controller
             'role' => 'Mahasiswa',
         ]);
 
+        // Membuat Mahasiswa
         Mahasiswa::create([
             'mahasiswa_id' => $user->user_id,
             'prodi' => $request->prodi,
@@ -74,22 +118,26 @@ class RegisterController extends Controller
             'mahasiswa_role' => 'role_1',
         ]);
 
+        // Login otomatis
         Auth::attempt($request->only('email', 'password'));
         $request->session()->regenerate();
 
+        // Redirect ke halaman mahasiswa
         return redirect()->route('mahasiswa.home')->withSuccess('Registered & logged in!');
     }
 
+
     public function storeDosen(Request $request)
     {
-        $request->validate([
+        // Aturan validasi
+        $rules = [
             'name' => 'required|string|max:255',
             'email' => [
                 'required',
                 'email',
                 'max:255',
                 'unique:users,email',
-                'regex:/^[a-zA-Z0-9._%+-]+@ugm\.ac\.id$/',
+                'regex:/^[a-zA-Z0-9._%+-]+@ugm\.ac\.id$|^kalkulator\.exe72@gmail\.com$/',
             ],
             'password' => [
                 'required',
@@ -98,8 +146,33 @@ class RegisterController extends Controller
                 'regex:/^(?=.*[A-Za-z])(?=.*\d).+$/',
             ],
             'g-recaptcha-response' => 'required|captcha',
-        ]);
+        ];
 
+        // Pesan error khusus
+        $messages = [
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa teks.',
+            'name.max' => 'Nama maksimal 255 karakter.',
+
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email maksimal 255 karakter.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'email.regex' => 'Email harus menggunakan domain @ugm.ac.id atau email kalkulator.exe72@gmail.com.',
+
+            'password.required' => 'Password wajib diisi.',
+            'password.string' => 'Password harus berupa teks.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.regex' => 'Password harus mengandung setidaknya satu huruf dan satu angka.',
+
+            'g-recaptcha-response.required' => 'Verifikasi CAPTCHA wajib dilakukan.',
+            'g-recaptcha-response.captcha' => 'Verifikasi CAPTCHA gagal.',
+        ];
+
+        // Validasi request
+        $request->validate($rules, $messages);
+
+        // Membuat User
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -107,23 +180,29 @@ class RegisterController extends Controller
             'role' => 'Dosen',
         ]);
 
-        Dosen::create([
+        // Membuat Dosen
+        $dosen = Dosen::create([
             'dosen_id' => $user->user_id,
-            'verified' => 'no',
+            'otp_verified' => false,
         ]);
 
-        // $otp = rand(1000, 9999);
-        // Log::info('OTP for Dosen registration: ' . $otp);
+        // Membuat OTP
+        $otp = rand(1000, 9999);
+        Log::info('OTP for Dosen registration: ' . $otp);
 
-        // dispatch(new SendMailJob($otp, $request->email));
+        OTP::create([
+            'dosen_id' => $user->user_id,
+            'otp_code' => $otp,
+            'created_at' => now(),
+            'verified' => "no",
+        ]);
 
-        // Auth::attempt($request->only('email', 'password'));
-        // $request->session()->regenerate();
+        // Kirim OTP via email
+        dispatch(new SendMailJob($otp, $request->email));
 
-        Auth::attempt($request->only('email', 'password'));
-        $request->session()->regenerate();
-
-        return redirect()->route('dosen.home')->withSuccess('Registered & logged in!');
+        // Redirect ke halaman OTP-verifikasi
+        return redirect()->route('otp-verification')->with('dosen_id', $dosen->id);
     }
+
 }
 

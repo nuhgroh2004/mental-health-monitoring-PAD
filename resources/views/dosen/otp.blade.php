@@ -36,7 +36,7 @@
                         </div>
 
                         <div class="max-w-[260px] mx-auto mt-4">
-                            <button type="submit" formaction="{{ route('dosen.landingPage') }}"
+                            <button type="submit" formaction="{{ route('dosen.home') }}"
                                 class="w-full inline-flex justify-center whitespace-nowrap rounded-lg bg-[#76aeb8] px-3.5 py-2.5 text-sm font-medium text-white shadow-sm shadow-indigo-950/10 hover:bg-[#36a0aa] focus:outline-none focus:ring focus:ring-[#b3e1e9] focus-visible:outline-none focus-visible:ring transition-colors duration-150">Verify
                                 Email</button>
                         </div>
@@ -44,7 +44,7 @@
                     <div class="text-sm text-slate-500 mt-4">
                         Didn't receive code?
                         <button id="resendOtp" class="font-medium text-[#62989d] hover:text-[#36a0aa]" disabled>Resend</button>
-                    <div id="timer" class="text-lg text-slate-500 mt-2">60</div>
+                    <div id="timer" class="text-lg text-slate-500 mt-2">300</div>
                 </div>
             </div>
         </div>

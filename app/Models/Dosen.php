@@ -22,4 +22,9 @@ class Dosen extends Authenticatable
     {
         return $this->belongsTo(User::class);
     }
+
+    public function otp()
+    {
+        return $this->hasMany(OTP::class);
+    }
 }
