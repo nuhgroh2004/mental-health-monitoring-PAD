@@ -25,10 +25,6 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    public function showRegistrationForm()
-    {
-        return view('auth.register');
-    }
     public function storeMahasiswa(Request $request)
     {
         // Aturan validasi
@@ -219,7 +215,7 @@ class RegisterController extends Controller
             'otp_code' => $otp,
             'created_at' => now(),
             'verified' => "no",
-            'expired_at' => now()->addMinutes(5)
+            'expired_at' => now()->addMinutes(1)
         ]);
 
         // Kirim OTP via email

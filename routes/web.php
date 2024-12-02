@@ -133,7 +133,6 @@ Route::middleware(['mahasiswa'])->group(function () {
 Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/store/mahasiswa', [RegisterController::class, 'storeMahasiswa'])->name('store.mahasiswa');
 Route::post('/store/dosen', [RegisterController::class, 'storeDosen'])->name('store.dosen');
 
@@ -151,3 +150,5 @@ Route::get('/mahasiswa/register', function () {
 
 Route::get('/otp-verification', [OTPController::class, 'otpVerificationForm'])->name('otp-verification');
 Route::post('/otp-verification', [OTPController::class, 'verifyOTP'])->name('verify-otp');
+Route::post('/resend-otp', [OTPController::class, 'resendOtp'])->name('resend-otp');
+Route::post('/check-otp-status', [OTPController::class, 'checkOtpStatus'])->name('check-otp-status');

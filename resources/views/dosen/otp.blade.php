@@ -45,35 +45,65 @@
                         </div>
                     </form>
 
-                    <div class="text-sm text-slate-500 mt-4">
-                        Tidak menerima kode?
-                        <button id="resendOtp" class="font-medium text-[#62989d] hover:text-[#36a0aa]" disabled>Kirim ulang</button>
-                    <div id="timer" class="text-lg text-slate-500 mt-2">300</div>
+                <!-- Tombol Kirim Ulang -->
+                <div class="text-sm text-slate-500 mt-4">
+                    Tidak menerima kode?
+                    <form id="resendOtpForm" action="{{ route('resend-otp') }}" method="POST">
+                        @csrf
+                        <button type="submit" id="resendOtp" class="font-medium text-[#62989d] hover:text-[#36a0aa]">
+                            Kirim ulang
+                        </button>
+                    </form>
+                    <div id="timer" class="text-lg text-slate-500 mt-2">{{ sprintf('%02d:%02d', floor($remainingTime / 60), $remainingTime % 60) }}</div>
                 </div>
+
             </div>
         </div>
     </main>
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        let timeLeft = 300; // 5 menit dalam detik
-        const timerElement = document.getElementById('timer');
-        const resendButton = document.getElementById('resendOtp');
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get timer element
+            const timerElement = document.getElementById('timer');
+            const resendButton = document.getElementById('resendOtp');
 
-        // Fungsi untuk menghitung mundur waktu
-        const countdown = setInterval(() => {
-            timeLeft--;
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
+            // Initial remaining time from server (in seconds)
+            let timeLeft = {{ $remainingTime }};
 
-            // Format waktu menjadi MM:SS
-            timerElement.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+            // Countdown function
+            function updateTimer() {
+                // Calculate minutes and seconds
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
 
-            if (timeLeft === 0) {
-                clearInterval(countdown);
-                resendButton.disabled = false; // Aktifkan tombol resend setelah waktu habis
+                // Format time with leading zeros
+                const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Update timer display
+                timerElement.textContent = formattedTime;
+
+                // Check if time is up
+                if (timeLeft <= 0) {
+                    timerElement.textContent = '00:00';
+                    resendButton.disabled = false;
+                    return;
+                }
+
+                // Decrement time
+                timeLeft--;
             }
-        }, 1000);
-    });
+
+            // Start the countdown immediately
+            updateTimer();
+
+            // Update timer every second
+            const timerInterval = setInterval(updateTimer, 1000);
+
+            // Optional: Clear interval if page is closed/navigated away
+            window.addEventListener('beforeunload', () => {
+                clearInterval(timerInterval);
+            });
+        });
+
 
         // Fungsi untuk memperbesar ukuran font timer
         function increaseFontSize() {
