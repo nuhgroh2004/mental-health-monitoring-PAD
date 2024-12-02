@@ -28,11 +28,17 @@ class OTPController extends Controller
 
         $dosenId = $request->session()->get('dosen_id');
 
+        // Add some logging or debugging
+        \Log::info('Dosen ID: ' . $dosenId);
+        \Log::info('Submitted OTP: ' . $otpCode);
+
         $otpRecord = OTP::where('dosen_id', $dosenId)
                         ->where('otp_code', $otpCode)
                         ->where('verified', 'no')
                         ->where('is_expired', 'no')
                         ->first();
+
+        \Log::info('OTP Record: ' . ($otpRecord ? 'Found' : 'Not Found'));
 
         if ($otpRecord) {
             $otpRecord->verified = 'yes';

@@ -226,7 +226,8 @@ class RegisterController extends Controller
         dispatch(new SendMailJob($otp, $request->email));
 
         // Redirect ke halaman OTP-verifikasi
-        return redirect()->route('otp-verification')->with('dosen_id', $dosen->id);
+        $request->session()->put('dosen_id', $user->user_id); // Simpan `dosen_id` ke dalam sesi
+        return redirect()->route('otp-verification');
     }
 
 }
