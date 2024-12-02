@@ -17,30 +17,43 @@ class OTPController extends Controller
 
     public function verifyOTP(Request $request)
     {
+        // Gabungkan array menjadi string
+        $otpCode = implode('', $request->input('otp_code', []));
+
+        // Validasi OTP
+        $request->merge(['otp_code' => $otpCode]);
         $request->validate([
             'otp_code' => 'required|numeric|digits:4',
         ]);
 
         $dosenId = $request->session()->get('dosen_id');
+
         $otpRecord = OTP::where('dosen_id', $dosenId)
-                            ->where('otp_code', $request->otp_code)
-                            ->where('verified', 'no')
-                            ->first();
+                        ->where('otp_code', $otpCode)
+                        ->where('verified', 'no')
+                        ->where('is_expired', 'no')
+                        ->first();
 
         if ($otpRecord) {
-            $otpRecord->verified = true;
+            $otpRecord->verified = 'yes';
+            $otpRecord->is_expired = 'yes'; // Mark as expired after successful verification
             $otpRecord->save();
 
             $dosen = Dosen::find($dosenId);
-            $dosen->otp_verified = true;
+            $dosen->verified = 'yes';
             $dosen->save();
 
-            Auth::attempt(['email' => $dosen->email, 'password' => $request->password]);
-            $request->session()->regenerate();
+            // Find the user associated with this dosen
+            $user = \App\Models\User::find($dosenId);
 
-            return redirect()->route('dosen.home')->withSuccess('Registered & logged in!');
+            if ($user) {
+                Auth::login($user);
+                return redirect()->route('dosen.home')->withSuccess('Registered & logged in!');
+            } else {
+                return back()->withErrors(['otp' => 'User not found.']);
+            }
         } else {
-            return back()->withErrors(['otp_code' => 'Invalid OTP code.']);
+            return back()->withErrors(['otp' => 'Kode OTP salah. Silakan coba lagi.']);
         }
     }
 }

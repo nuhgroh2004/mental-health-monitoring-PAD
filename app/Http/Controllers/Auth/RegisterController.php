@@ -136,8 +136,16 @@ class RegisterController extends Controller
                 'required',
                 'email',
                 'max:255',
-                'unique:users,email',
                 'regex:/^[a-zA-Z0-9._%+-]+@ugm\.ac\.id$|^kalkulator\.exe72@gmail\.com$/',
+                function ($attribute, $value, $fail) {
+                    $userExists = User::where('email', $value)->first();
+                    if ($userExists) {
+                        $dosenExists = Dosen::where('dosen_id', $userExists->user_id)->first();
+                        if ($dosenExists && $dosenExists->verified === 'yes') {
+                            $fail('Email sudah terdaftar dan telah diverifikasi. Silakan login.');
+                        }
+                    }
+                },
             ],
             'password' => [
                 'required',
@@ -158,7 +166,7 @@ class RegisterController extends Controller
             'email.email' => 'Format email tidak valid.',
             'email.max' => 'Email maksimal 255 karakter.',
             'email.unique' => 'Email sudah terdaftar.',
-            'email.regex' => 'Email harus menggunakan domain @ugm.ac.id atau email kalkulator.exe72@gmail.com.',
+            'email.regex' => 'Email harus menggunakan domain @ugm.ac.id',
 
             'password.required' => 'Password wajib diisi.',
             'password.string' => 'Password harus berupa teks.',
@@ -172,6 +180,22 @@ class RegisterController extends Controller
         // Validasi request
         $request->validate($rules, $messages);
 
+        $userExists = User::where('email', $request->email)->first();
+        if ($userExists) {
+            $dosenExists = Dosen::where('dosen_id', $userExists->user_id)->first();
+            if ($dosenExists && $dosenExists->verified === 'no') {
+                // Hapus data OTP yang terkait
+                OTP::where('dosen_id', $userExists->user_id)->delete();
+
+                // Hapus data dosen
+                $dosenExists->delete();
+
+                // Hapus data user
+                $userExists->delete();
+            }
+        }
+
+
         // Membuat User
         $user = User::create([
             'name' => $request->name,
@@ -183,7 +207,7 @@ class RegisterController extends Controller
         // Membuat Dosen
         $dosen = Dosen::create([
             'dosen_id' => $user->user_id,
-            'otp_verified' => false,
+            'verified' => 'no',
         ]);
 
         // Membuat OTP
@@ -195,6 +219,7 @@ class RegisterController extends Controller
             'otp_code' => $otp,
             'created_at' => now(),
             'verified' => "no",
+            'expired_at' => now()->addMinutes(5)
         ]);
 
         // Kirim OTP via email

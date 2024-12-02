@@ -35,6 +35,9 @@ class DosenMiddleware
 
     // Periksa apakah dosen ditemukan dan sudah diverifikasi
     if (!$dosen || $dosen->verified !== 'yes') {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect('/home')->with('alert', 'Akun Anda belum diverifikasi');
     }
 

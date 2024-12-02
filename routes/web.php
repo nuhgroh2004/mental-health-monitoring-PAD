@@ -43,7 +43,7 @@ Route::get('/navbar/navbar1', function () {
 
 Route::get('/login', function () {
     return view('login');
-})->name('login')->middleware('guest');
+})->name('login')->middleware('redirectifauthenticated');
 
 Route::get('/home', function () {
     return view('home');
