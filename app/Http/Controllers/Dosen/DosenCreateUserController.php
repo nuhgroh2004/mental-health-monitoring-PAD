@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dosen;
+use App\Http\Controllers\Controller;
 
-use App\Models\User;
 use App\Models\Mahasiswa;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,16 +12,15 @@ class DosenCreateUserController extends Controller
 {
     public function create()
     {
-        return view('dosen.users.create');
+        return view('dosen.create-user');
     }
 
     public function store(Request $request)
     {
-        dd($request->all());
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|confirmed',
             'nim' => 'required|string|unique:mahasiswa,NIM',
             'prodi' => 'nullable|string|max:255',
             'tanggal_lahir' => 'nullable|date',

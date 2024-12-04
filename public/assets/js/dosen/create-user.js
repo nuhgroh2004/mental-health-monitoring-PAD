@@ -45,10 +45,10 @@ function createUserForm() {
                     email: 'example@email.com',
                     password: 'password123',
                     name: 'John Doe',
-                    nim: '12345',
-                    prodi: null,
-                    tanggal_lahir: null,
-                    phone: null,
+                    nim: 'XX/XXXXXX/AA/XXXXX',
+                    prodi: 'nama prodi',
+                    tanggal_lahir: 'YYYY-MM-DD',
+                    phone: '1234567890',
                     role: 'role 1'
                 }
             ];

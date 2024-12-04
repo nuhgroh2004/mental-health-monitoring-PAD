@@ -19,6 +19,7 @@ use App\Http\Controllers\Dosen\DosenController;
 use App\Http\Controllers\Dosen\DosenHomeController;
 use App\Http\Controllers\Dosen\DosenNotifController;
 use App\Http\Controllers\OTPController;
+use App\Http\Controllers\Dosen\DosenCreateUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,9 +61,7 @@ Route::middleware(['dosen'])->group(function () {
         return view('navbar.navbar-dosen');
     });
 
-    Route::get('/dosen/create-user', function()
-    { return view('dosen.create-user');
-    })->name('dosen.create-user');
+
 
     // Dosen Prefix Routes
     Route::prefix('dosen')->group(function () {
@@ -71,8 +70,12 @@ Route::middleware(['dosen'])->group(function () {
         Route::get('/mahasiswa/delete/{id}', [DosenHomeController::class, 'destroy'])->name('dosen.delete');
         Route::post('/edit-role/{id}', [DosenHomeController::class, 'editRole']);
         Route::post('/mahasiswa/{mahasiswaId}/izin', [DosenHomeController::class, 'sendPermissionRequest'])->name('dosen.izin');
+
+        Route::get('/create-user', [DosenCreateUserController::class, 'create'])->name('dosen.create-user');
+
         Route::get('/notifikasi', [DosenNotifController::class, 'showNotifications'])->name('dosen.notifikasi');
         Route::get('dosen/download-pdf/{notificationId}', [DosenNotifController::class, 'downloadPDF'])->name('dosen.downloadPDF');
+
         Route::get('/profil', [DosenController::class, 'showProfil'])->name('dosen.profil');
         Route::post('/update-profil', [DosenController::class, 'updateProfil'])->name('dosen.updateProfil');
         Route::get('/edit-profil', [DosenController::class, 'bukaEdit'])->name('dosen.edit-profil');
