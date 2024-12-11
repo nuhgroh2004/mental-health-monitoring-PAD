@@ -72,6 +72,7 @@ Route::middleware(['dosen'])->group(function () {
         Route::post('/mahasiswa/{mahasiswaId}/izin', [DosenHomeController::class, 'sendPermissionRequest'])->name('dosen.izin');
 
         Route::get('/create-user', [DosenCreateUserController::class, 'create'])->name('dosen.create-user');
+        Route::post('/users', [DosenCreateUserController::class, 'store']);
 
         Route::get('/notifikasi', [DosenNotifController::class, 'showNotifications'])->name('dosen.notifikasi');
         Route::get('dosen/download-pdf/{notificationId}', [DosenNotifController::class, 'downloadPDF'])->name('dosen.downloadPDF');

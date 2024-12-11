@@ -1,6 +1,8 @@
 @extends('navbar/navbar-dosen') <!-- Meng-extend layout navbar -->
 @section('content') <!-- Menentukan bagian konten yang akan diisi -->
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <title>Create User</title>
 <body class="bg-gray-100">
     <!-- Menambahkan container untuk form dengan Alpine.js untuk data binding -->
