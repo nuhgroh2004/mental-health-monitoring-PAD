@@ -41,8 +41,7 @@ class MoodController extends Controller
                 // Simpan mood
                 MoodTracker::create([
                     'mahasiswa_id' => auth()->id(),
-                    'mood_id' => $moodMap[$request->selectedEmotion],
-                    'mood_level' => $request->selectedIntensity,
+                    'mood_level' => $moodMap[$request->selectedEmotion],
                     'mood_intensity' => $request->selectedIntensity,
                     'mood_note' => $request->notes,
                 ]);

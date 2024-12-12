@@ -1,4 +1,5 @@
-let selectedMood = '{{ asset("asset/svg/emojiKecil/marah.svg") }}';
+// let selectedMood = '{{ asset("asset/svg/emojiKecil/marah.svg") }}';
+let selectedMood = null;
 let selectedButton = null;
 let selectedLevel = null; // Track selected level
 let originalMood = selectedMood;
@@ -29,9 +30,8 @@ function selectMood(button, mood, moodLevel) {
 
     // Tandai tombol yang dipilih
     button.classList.add('selected');
-    selectedMood = mood;
+    selectedMood = moodLevel;
     selectedButton = button;
-    selectedMoodLevel = moodLevel; // Langsung set level saat mood dipilih
 
     // Tentukan emosi berdasarkan level mood yang dikirimkan
     switch (moodLevel) {
@@ -52,14 +52,6 @@ function selectMood(button, mood, moodLevel) {
     // Tampilkan modal untuk memilih level
     showEmotionLevelModal();
 }
-
-
-document.querySelectorAll('.mood-button').forEach(button => {
-    button.addEventListener('click', function() {
-        const moodLevel = parseInt(this.getAttribute('data-level'));
-        selectMood(this, selectedMood, moodLevel);
-    });
-});
 
 document.getElementById('modal-back').addEventListener('click', () => {
     const modal = document.getElementById('emotion-level-modal');
@@ -166,8 +158,24 @@ function showEmotionLevelModal() {
     // Tampilkan modal
     modal.classList.remove('hidden');
     modal.classList.add('flex');
-}
 
+    // Tambahkan event listener baru untuk memilih level
+    document.querySelectorAll('.level-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            // Hapus seleksi level sebelumnya
+            document.querySelectorAll('.level-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-500', 'text-white');
+            });
+
+            // Tandai level yang dipilih
+            button.classList.add('bg-blue-500', 'text-white');
+            selectedLevel = button.getAttribute('data-level');
+
+            // Perbarui deskripsi level
+            updateLevelDescription(selectedEmotion, selectedLevel);
+        });
+    });
+}
 
 function saveChanges() {
     const noteText = document.getElementById('noteInput').value;
@@ -182,20 +190,24 @@ function saveChanges() {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         },
         body: JSON.stringify({
-            mood_level: selectedMoodLevel, // Mood level yang dipilih
+            mood_level: selectedMood, // Mood level yang dipilih
             mood_note: noteText
         }),
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            Swal.fire('Sukses!', 'Catatan berhasil disimpan!', 'success');
-
-            // Perbarui UI dengan mood dan note terbaru
-            document.getElementById('noteText').innerText = noteText;
-            document.getElementById('moodEmoji').innerHTML = `<img src="${selectedMood}" alt="Mood Image" class="inline-block w-[100px] h-[100px] object-contain">`;
-
-            toggleEdit(); // Tutup form edit
+            Swal.fire({
+                title: 'Sukses!',
+                text: 'Catatan berhasil disimpan!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Fungsi dijalankan setelah tombol OK ditekan
+                    window.location.reload();
+                }
+            });
         } else {
             Swal.fire('Error!', 'Gagal menyimpan catatan.', 'error');
         }

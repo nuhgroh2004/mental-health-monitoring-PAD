@@ -51,7 +51,7 @@ class MoodCalendarController extends Controller
 
     public function showEditMoodsDanNotes(Request $request)
     {
-        $day = $request->input('day');
+        $day = $request->input('day');  
         $month = $request->input('month');
         $year = $request->input('year');
         $user_id = auth()->user()->user_id; // Dapatkan ID pengguna yang sedang login
