@@ -93,10 +93,6 @@ Route::middleware(['mahasiswa'])->group(function () {
         return view('navbar.navbar-mahasiswa');
     });
 
-    Route::get('/mahasiswa/landingPage', function () {
-        return view('mahasiswa.landingPage');
-    })->name('mahasiswa.landingPage');
-
     Route::get('/mahasiswa/calendar', [MoodCalendarController::class, 'calendar'])->name('mahasiswa.calendar');
     Route::get('/mahasiswa/notes', function () {
         return view('mahasiswa.notes');

@@ -1,6 +1,6 @@
 let selectedMood = '{{ asset("asset/svg/emojiKecil/marah.svg") }}';
-let selectedMoodLevel = 3; // Default mood level (3 adalah 'Marah')
 let selectedButton = null;
+let selectedLevel = null; // Track selected level
 let originalMood = selectedMood;
 let originalNoteText = '';
 
@@ -27,10 +27,11 @@ function selectMood(button, mood, moodLevel) {
         selectedButton.classList.remove('selected');
     }
 
-    // Menandai tombol yang dipilih
+    // Tandai tombol yang dipilih
     button.classList.add('selected');
     selectedMood = mood;
     selectedButton = button;
+    selectedMoodLevel = moodLevel; // Langsung set level saat mood dipilih
 
     // Tentukan emosi berdasarkan level mood yang dikirimkan
     switch (moodLevel) {
@@ -48,9 +49,60 @@ function selectMood(button, mood, moodLevel) {
             break;
     }
 
-    // Reset level selection dan tampilkan modal
+    // Tampilkan modal untuk memilih level
     showEmotionLevelModal();
 }
+
+
+document.querySelectorAll('.mood-button').forEach(button => {
+    button.addEventListener('click', function() {
+        const moodLevel = parseInt(this.getAttribute('data-level'));
+        selectMood(this, selectedMood, moodLevel);
+    });
+});
+
+document.getElementById('modal-back').addEventListener('click', () => {
+    const modal = document.getElementById('emotion-level-modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+
+    // Reset mood selection to original state
+    if (selectedButton) {
+        selectedButton.classList.remove('selected');
+    }
+    selectedMood = originalMood; // Reset mood to original
+    selectedMoodLevel = moodLevel; // Default level
+});
+
+document.querySelectorAll('.level-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        // Hapus seleksi level sebelumnya
+        document.querySelectorAll('.level-btn').forEach(btn => {
+            btn.classList.remove('bg-blue-500', 'text-white');
+        });
+
+        // Tandai level yang dipilih
+        button.classList.add('bg-blue-500', 'text-white');
+        selectedLevel = button.getAttribute('data-level');
+
+        // Perbarui deskripsi level
+        updateLevelDescription(selectedEmotion, selectedLevel);
+    });
+});
+
+document.getElementById('modal-ok').addEventListener('click', () => {
+    if (selectedLevel) {
+        selectedMoodLevel = parseInt(selectedLevel); // Simpan level terpilih
+
+        // Sembunyikan modal
+        const modal = document.getElementById('emotion-level-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    } else {
+        Swal.fire('Pilih Level', 'Anda harus memilih level sebelum melanjutkan.', 'warning');
+    }
+});
+
 
 function updateLevelDescription(emotion, level) {
     const levelDescriptionText = document.getElementById('level-description-text');
@@ -120,7 +172,9 @@ function showEmotionLevelModal() {
 function saveChanges() {
     const noteText = document.getElementById('noteInput').value;
 
-    // Kirim data mood_level dan mood_note ke backend
+    console.log('Selected Mood Level:', selectedMoodLevel); // Debugging
+    console.log('Selected Mood:', selectedMood);
+
     fetch(`/update-mood-note/${moodId}`, {
         method: 'POST',
         headers: {
@@ -128,7 +182,7 @@ function saveChanges() {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         },
         body: JSON.stringify({
-            mood_level: selectedMoodLevel, // Anda dapat menyimpan mood level di sini, pastikan nilai ini sesuai dengan ID emoji
+            mood_level: selectedMoodLevel, // Mood level yang dipilih
             mood_note: noteText
         }),
     })
@@ -136,7 +190,11 @@ function saveChanges() {
     .then(data => {
         if (data.success) {
             Swal.fire('Sukses!', 'Catatan berhasil disimpan!', 'success');
+
+            // Perbarui UI dengan mood dan note terbaru
             document.getElementById('noteText').innerText = noteText;
+            document.getElementById('moodEmoji').innerHTML = `<img src="${selectedMood}" alt="Mood Image" class="inline-block w-[100px] h-[100px] object-contain">`;
+
             toggleEdit(); // Tutup form edit
         } else {
             Swal.fire('Error!', 'Gagal menyimpan catatan.', 'error');
@@ -146,5 +204,4 @@ function saveChanges() {
         console.error('Error:', error);
         Swal.fire('Error!', 'Terjadi kesalahan server.', 'error');
     });
-
 }

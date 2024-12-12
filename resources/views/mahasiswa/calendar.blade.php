@@ -70,7 +70,7 @@
 
         // Fungsi untuk memperbarui URL
         function updateUrl(newMonth, newYear) {
-            const baseUrl = "{{ url('mahasiswa/viewMoodCalendar') }}"; // URL dasar ke viewMoodCalendar
+            const baseUrl = "{{ url('mahasiswa/calendar') }}"; // URL dasar ke calendar
             const newUrl = `${baseUrl}?month=${newMonth}&year=${newYear}`;
             window.location.href = newUrl; // Redirect ke URL baru
         }

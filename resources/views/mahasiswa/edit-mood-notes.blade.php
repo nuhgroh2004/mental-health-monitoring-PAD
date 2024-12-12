@@ -30,10 +30,10 @@
 
         @php
         $moodSvgs = [
-            '4' => asset('asset/svg/emojiKecil/senang.svg'),
-            '2' => asset('asset/svg/emojiKecil/sedih.svg'),
             '1' => asset('asset/svg/emojiKecil/marah.svg'),
+            '2' => asset('asset/svg/emojiKecil/sedih.svg'),
             '3' => asset('asset/svg/emojiKecil/biasaSaja.svg'),
+            '4' => asset('asset/svg/emojiKecil/senang.svg'),
         ];
         @endphp
 
