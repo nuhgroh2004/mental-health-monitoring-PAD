@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dosen;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use App\Models\Mahasiswa;
+use App\Models\Notification;
 use App\Models\User;
 
 class DosenHomeController extends Controller
 {
     public function index(Request $request)
     {
-        $batas = 5;
+        $batas = 10;
         $dataMahasiswa = Mahasiswa::join('users', 'mahasiswa.mahasiswa_id', '=', 'users.user_id')
             ->where('users.role', 'Mahasiswa')
             ->distinct()
@@ -75,5 +78,51 @@ class DosenHomeController extends Controller
         }
         return response()->json(['success' => false]);
     }
+
+    public function sendPermissionRequest(Request $request, $mahasiswaId)
+    {
+        try {
+            $dosenId = Auth::user()->user_id;
+
+            // Cek apakah mahasiswa sudah memiliki permintaan izin yang masih pending, accepted, atau rejected
+            $existingNotification = Notification::where('mahasiswa_id', $mahasiswaId)
+                ->whereIn('request_status', ['pending']) // Cek status permintaan
+                ->first();
+
+            // Jika sudah ada permintaan izin yang belum diproses
+            if ($existingNotification) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Anda sudah memiliki permintaan izin yang belum diproses.',
+                ], 400); // Mengembalikan status 400 (Bad Request)
+            }
+
+            // Jika belum ada permintaan izin sebelumnya, buat permintaan baru
+            $notification = Notification::create([
+                'mahasiswa_id' => $mahasiswaId,
+                'dosen_id' => $dosenId,
+                'mood_id' => null,
+                'progress_id' => null,
+                'request_status' => 'pending',
+                'read_status' => 'unread',
+                'created_at' => now(), // Explicitly set created_at
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Permintaan izin berhasil dikirim!',
+                'notification' => $notification,
+            ]);
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            \Log::error('Permission Request Error: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengirim permintaan izin: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
 }
 ?>

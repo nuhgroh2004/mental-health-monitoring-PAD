@@ -8,7 +8,7 @@
                 Email
             </label>
             <div class="border rounded-md p-2 bg-gray-100">
-                <span id="email" class="text-gray-800">user@example.com</span>
+                <span id="email" class="text-gray-800">{{ $user->email }}</span>
             </div>
         </div>
         <div class="mb-6">
@@ -16,7 +16,7 @@
                 Nama
             </label>
             <div class="border rounded-md p-2 bg-gray-100">
-                <span id="name" class="text-gray-800">John Doe</span>
+                <span id="name" class="text-gray-800">{{ $user->name }}</span>
             </div>
         </div>
         <div class="mb-6">
@@ -24,7 +24,7 @@
                 NIM
             </label>
             <div class="border rounded-md p-2 bg-gray-100">
-                <span id="NIM" class="text-gray-800">12333</span>
+                <span id="NIM" class="text-gray-800">{{ $mahasiswa->NIM }}</span>
             </div>
         </div>
         <div class="mb-6">
@@ -32,7 +32,7 @@
                 Prodi
             </label>
             <div class="border rounded-md p-2 bg-gray-100">
-                <span id="prodi" class="text-gray-800">Teknologi rekayasa perangkat lunak</span>
+                <span id="prodi" class="text-gray-800">{{ $mahasiswa->prodi }}</span>
             </div>
         </div>
         <div class="mb-6">
@@ -40,15 +40,15 @@
                 Tanggal Lahir
             </label>
             <div class="border rounded-md p-2 bg-gray-100">
-                <span id="NIM" class="text-gray-800">12/15/2024</span>
+                <span id="NIM" class="text-gray-800">{{ $mahasiswa->tanggal_lahir }}</span>
             </div>
         </div>
                 <div class="mb-6">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="NIM">
-                Phone Number
+                Nomor HP
             </label>
             <div class="border rounded-md p-2 bg-gray-100">
-                <span id="NIM" class="text-gray-800">1233239842934</span>
+                <span id="NIM" class="text-gray-800">{{ $mahasiswa->nomor_hp }}</span>
             </div>
         </div>
         <div class="flex justify-between">

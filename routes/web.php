@@ -2,13 +2,25 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Controller Auth
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\SendEmailController;
-use App\Http\Controllers\DosenHomeController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\DosenCreateUserController;
-use App\Http\Controllers\MoodCalendarController;
+
+// Controller Mahasiswa
+use App\Http\Controllers\Mahasiswa\MahasiswaController;
+use App\Http\Controllers\Mahasiswa\MoodController;
+use App\Http\Controllers\Mahasiswa\ProgressTrackerController;
+use App\Http\Controllers\Mahasiswa\MoodCalendarController;
+use App\Http\Controllers\Mahasiswa\ReportController;
+use App\Http\Controllers\Mahasiswa\MahasiswaNotifController;
+
+// Controller Dosen
+use App\Http\Controllers\Dosen\DosenController;
+use App\Http\Controllers\Dosen\DosenHomeController;
+use App\Http\Controllers\Dosen\DosenNotifController;
+use App\Http\Controllers\OTPController;
+use App\Http\Controllers\Dosen\DosenCreateUserController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,88 +31,124 @@ use App\Http\Controllers\MoodCalendarController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-// ------------------------ lading page utama ------------------------- //
+
+// ------------------------ Landing Page ------------------------- //
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
+})->name('home');
+
+Route::get('/navbar/navbar1', function () {
+    return view('navbar.navbar1');
 });
 
-Route::get('/login',function(){
+Route::get('/login', function () {
     return view('login');
-})-> name('login');
+})->name('login')->middleware('redirectifauthenticated');
 
 Route::get('/home', function () {
     return view('home');
 })->name('home');
 
+// ------------------------ Dosen Routes ------------------------- //
 
-// ------------------------ lading page utama ------------------------- //
+Route::middleware(['dosen'])->group(function () {
+    Route::get('/navbar/navbar2', function () {
+        return view('navbar.navbar2');
+    });
+
+    Route::get('/navbar/navbar-dosen', function () {
+        return view('navbar.navbar-dosen');
+    });
 
 
 
-// ------------------------ route untuk dosen ------------------------- //
-Route::get('/dosen/otp', function() { return view('dosen.otp'); })->name('dosen.otp');
-Route::get('/navbar/navbar-dosen', function() { return view('navbar.navbar-dosen'); });
-Route::get('/dosen/home', function() { return view('dosen.home'); })->name('dosen.home');
-Route::get('/dosen/profil', function() { return view('dosen.profil'); })->name('dosen.profil');
-Route::get('/dosen/register', function() { return view('dosen.register'); })->name('dosen.register');
-Route::get('/dosen/notifikasi', function() { return view('dosen.notifikasi'); })->name('dosen.notifikasi');
-Route::get('/dosen/edit-profil', function() { return view('dosen.edit-profil'); })->name('dosen.edit-profil');
-Route::get('/dosen/create-user', function() { return view('dosen.create-user'); })->name('dosen.create-user');
+    // Dosen Prefix Routes
+    Route::prefix('dosen')->group(function () {
+        Route::get('/home', [DosenHomeController::class, 'index'])->name('dosen.home');
+        Route::get('/search', [DosenHomeController::class, 'search'])->name('dosen.search');
+        Route::get('/mahasiswa/delete/{id}', [DosenHomeController::class, 'destroy'])->name('dosen.delete');
+        Route::post('/edit-role/{id}', [DosenHomeController::class, 'editRole']);
+        Route::post('/mahasiswa/{mahasiswaId}/izin', [DosenHomeController::class, 'sendPermissionRequest'])->name('dosen.izin');
 
-Route::prefix('dosen')->group(function () {
-    Route::get('/home', [DosenHomeController::class, 'index'])->name('dosen.home');
-    Route::get('/search', [DosenHomeController::class, 'search'])->name('dosen.search');
-    Route::get('/mahasiswa/delete/{id}', [DosenHomeController::class, 'destroy'])->name('dosen.delete');
-    Route::post('/edit-role/{id}', [DosenHomeController::class, 'editRole']);
+        Route::get('/create-user', [DosenCreateUserController::class, 'create'])->name('dosen.create-user');
+        Route::post('/users', [DosenCreateUserController::class, 'store']);
+
+        Route::get('/notifikasi', [DosenNotifController::class, 'showNotifications'])->name('dosen.notifikasi');
+        Route::get('dosen/download-pdf/{notificationId}', [DosenNotifController::class, 'downloadPDF'])->name('dosen.downloadPDF');
+
+        Route::get('/profil', [DosenController::class, 'showProfil'])->name('dosen.profil');
+        Route::post('/update-profil', [DosenController::class, 'updateProfil'])->name('dosen.updateProfil');
+        Route::get('/edit-profil', [DosenController::class, 'bukaEdit'])->name('dosen.edit-profil');
+    });
+});
+
+// ------------------------ Mahasiswa Routes ------------------------- //
+Route::middleware(['mahasiswa'])->group(function () {
+    Route::get('/navbar/navbar3', function () {
+        return view('navbar.navbar3');
+    });
+
+    Route::get('/navbar/navbar-mahasiswa', function () {
+        return view('navbar.navbar-mahasiswa');
+    });
+
+    Route::get('/mahasiswa/calendar', [MoodCalendarController::class, 'calendar'])->name('mahasiswa.calendar');
+    Route::get('/mahasiswa/notes', function () {
+        return view('mahasiswa.notes');
+    })->name('mahasiswa.notes');
+
+    Route::get('/mahasiswa/edit-mood-notes', [MoodCalendarController::class, 'showEditMoodsDanNotes'])->name('mahasiswa.edit-mood-notes');
+    Route::post('/update-mood-note/{id}', [MoodCalendarController::class, 'updateMoodNote'])->name('updateMoodNote');
+
+    Route::get('/mahasiswa/report', [ReportController::class, 'index'])->name('mahasiswa.report');
+    Route::get('/mahasiswa/notifikasi', [MahasiswaNotifController::class, 'index'])->name('mahasiswa.notifikasi');
+    Route::post('/mahasiswa/notifikasi/{id}', [MahasiswaNotifController::class, 'update'])->name('mahasiswa.notifikasi.update');
+    Route::get('/mahasiswa/profil', [MahasiswaController::class, 'showProfil'])->name('mahasiswa.profil');
+    Route::post('/mahasiswa/update-profil', [MahasiswaController::class, 'updateProfil'])->name('mahasiswa.updateProfil');
+    Route::get('/mahasiswa/edit-profil', [MahasiswaController::class, 'bukaEdit'])->name('mahasiswa.edit-profil');
+    Route::get('/mahasiswa/home', function () {
+        return view('mahasiswa.home');
+    })->name('mahasiswa.home');
+
+    // Kembali Route
+    Route::get('/kembali', function () {
+        session()->forget('selectedEmotion');
+        session()->forget('selectedIntensity');
+        return redirect()->route('mahasiswa.home');
+    })->name('mahasiswa.kembali');
+
+    // Mood Routes
+    Route::get('/mahasiswa/notes', [MoodController::class, 'showNotes'])->name('mahasiswa.notes');
+    Route::post('/mahasiswa/store-mood', [MoodController::class, 'storeMood'])->name('mahasiswa.storeMood');
+
+    // Progress Routes
+    Route::post('/progress/store', [ProgressTrackerController::class, 'store'])->name('progress.store');
 });
 
 
+// ------------------------ Auth Routes ------------------------- //
 
-Route::post('/api/users/create', [CreateUserController::class, 'store'])
-    ->name('users.store')
-    ->middleware(['web', 'auth']); // Tambahkan middleware sesuai kebutuhan
-
-
-
-// ------------------------ route untuk dosen ------------------------- //
-
-
-// ------------------------ route untuk mahasiswa ------------------------- //
-
-Route::get('/navbar/navbar-mahasiswa', function() { return view('navbar.navbar-mahasiswa'); });
-Route::get('/mahasiswa/home', function() { return view('mahasiswa.home'); })->name('mahasiswa.home');
-Route::get('/mahasiswa/notes', function() { return view('mahasiswa.notes'); })->name('mahasiswa.notes');
-Route::get('/mahasiswa/report', function() { return view('mahasiswa.report'); })->name('mahasiswa.report');
-Route::get('/mahasiswa/profil', function() { return view('mahasiswa.profil'); })->name('mahasiswa.profil');
-Route::get('/mahasiswa/register', function() { return view('mahasiswa.register'); })->name('mahasiswa.register');
-Route::get('/mahasiswa/notifikasi', function() { return view('mahasiswa.notifikasi'); })->name('mahasiswa.notifikasi');
-Route::get('/mahasiswa/edit-profil', function() { return view('mahasiswa.edit-profil'); })->name('mahasiswa.edit-profil');
-Route::get('/mahasiswa/view-mood-calendar', function() { return view('mahasiswa.calender'); })->name('mahasiswa.calender');
-Route::get('/mahasiswa/edit-mood-dan-notes', function() { return view('mahasiswa.edit-mood-notes'); })->name('mahasiswa.edit-mood-notes');
-
-
-
-// Route::get('/mahasiswa/view-mood-calendar', [MoodCalendarController::class, 'viewMoodCalendar'])->name('mahasiswa.viewMoodCalendar');
-
-
-// ------------------------ route login register ------------------------- //
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+// Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/store/mahasiswa', [RegisterController::class, 'storeMahasiswa'])->name('store.mahasiswa');
 Route::post('/store/dosen', [RegisterController::class, 'storeDosen'])->name('store.dosen');
 
+// ------------------------ Register Routes ------------------------- //
 
-// ------------------------ route login register ------------------------- //
+Route::get('/dosen/register', function () {
+    return view('dosen.register');
+})->name('dosen.register');
 
+Route::get('/mahasiswa/register', function () {
+    return view('mahasiswa.register');
+})->name('mahasiswa.register');
 
-// ------------------------ route untuk OTP ------------------------- //
-// Route::post('/post-email', [SendEmailController::class, 'store'])->name('post-email');
-// ------------------------ route untuk OTP ------------------------- //
+// ------------------------ OTP Routes ------------------------- //
 
-
-
-
+Route::get('/otp-verification', [OTPController::class, 'otpVerificationForm'])->name('otp-verification');
+Route::post('/otp-verification', [OTPController::class, 'verifyOTP'])->name('verify-otp');
+Route::post('/resend-otp', [OTPController::class, 'resendOtp'])->name('resend-otp');
+Route::post('/check-otp-status', [OTPController::class, 'checkOtpStatus'])->name('check-otp-status');

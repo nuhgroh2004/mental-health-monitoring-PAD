@@ -35,7 +35,7 @@
             <nav id="navmenu" class="navmenu">
                 <ul>
                     <li><a href="{{ route('dosen.home') }}" class="{{ request()->routeIs('dosen.home') ? 'active' : '' }}">Home</a></li>
-                    <li><a href="{{ route('dosen.create-user') }}" class="{{ request()->routeIs('dosen.create-user') ? 'active' : '' }}">Create user</a></li>
+                    <li><a href="{{ route('dosen.create-user') }}" class="{{ request()->routeIs('dosen.create-user') ? 'active' : '' }}">Buat User</a></li>
                     <li><a href="{{ route('dosen.notifikasi') }}" class="{{ request()->routeIs('dosen.notifikasi') ? 'active' : '' }}">Notifikasi</a></li>
                     <li><a href="{{ route('dosen.profil') }}" class="{{ request()->routeIs('dosen.profil') ? 'active' : '' }}">Profile</a></li>
                 </ul>

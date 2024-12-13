@@ -1,27 +1,30 @@
-
-document.addEventListener('DOMContentLoaded', function() {
-    const emojiButtons = document.querySelectorAll('.emoji-btn');
+document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('emotion-level-modal');
     const levelButtons = document.querySelectorAll('.level-btn');
-    const modalOkButton = document.getElementById('modal-ok');
-    const modalBackButton = document.getElementById('modal-back');
+    const emojiButtons = document.querySelectorAll('.emoji-btn');
+    const backButton = document.getElementById('modal-back');
+    const okButton = document.getElementById('modal-ok');
     const feelingText = document.getElementById('feeling-text');
-    const resetButton = document.getElementById('reset-btn');
-
     let selectedEmotion = '';
     let selectedLevel = null;
     let isAnimating = false;
 
+    // Fungsi untuk animasi pembesaran emoji
     function animateEmoji(emojiButton) {
         if (isAnimating) return;
         isAnimating = true;
 
+        // Simpan ukuran dan posisi awal
         const originalScale = 1;
-        const targetScale = 1.2;
+        const targetScale = 1.2; // Perkecil skala animasi
 
-        emojiButton.style.transition = 'transform 0.2s ease-in-out';
+        // Tambahkan transition untuk animasi yang smooth
+        emojiButton.style.transition = 'transform 0.2s ease-in-out'; // Perpendek durasi animasi
+
+        // Efek membesar
         emojiButton.style.transform = `scale(${targetScale})`;
 
+        // Kembali ke ukuran semula setelah animasi selesai
         setTimeout(() => {
             emojiButton.style.transform = `scale(${originalScale})`;
             setTimeout(() => {
@@ -32,80 +35,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 120);
     }
 
+    function resetLevelSelection() {
+        levelButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
+        selectedLevel = null;
+    }
+
+
+    // Fungsi untuk menampilkan modal
     function showModal(emotion) {
         selectedEmotion = emotion;
         document.getElementById('selected-emotion-text').textContent = emotion;
         modal.classList.remove('hidden');
-        levelButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
-        selectedLevel = null;
         document.getElementById('level-description-text').textContent = ''; // Reset level description text
         document.getElementById('level-description').classList.add('hidden'); // Hide level description
+        resetLevelSelection();
     }
 
+    // Event listener untuk emoji buttons
     emojiButtons.forEach(btn => {
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', e => {
             e.preventDefault();
-            animateEmoji(this);
+            animateEmoji(btn);
+            showModal(btn.dataset.emotion);
         });
     });
-
-    levelButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            levelButtons.forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
-            this.classList.add('bg-blue-500', 'text-white');
-            selectedLevel = this.getAttribute('data-level');
-            updateLevelDescription(selectedEmotion, selectedLevel);
-        });
-    });
-
-    modalBackButton.addEventListener('click', function() {
-        modal.classList.add('hidden');
-        selectedLevel = null;
-    });
-
-    modalOkButton.addEventListener('click', function () {
-        if (selectedLevel) {
-            const data = {
-                emotion: selectedEmotion,
-                level: selectedLevel
-            };
-            // Simpan data ke localStorage
-            localStorage.setItem('selectedEmotion', JSON.stringify(data));
-
-            // Perbarui teks dan tombol emoji
-            feelingText.textContent = getFeelingText(data.emotion);
-            updateEmojiButtons(selectedEmotion);
-
-            // Tutup modal
-            modal.classList.add('hidden');
-
-            // Redirect setelah sedikit delay
-            setTimeout(() => {
-                window.location.href = "/mahasiswa/notes";
-            }, 500);
-        } else {
-            // Tampilkan alert jika level belum dipilih
-            Swal.fire({
-                title: "Peringatan",
-                text: "Silakan pilih level emosi terlebih dahulu!",
-                icon: "warning",
-                confirmButtonColor: "#3085d6"
-            });
-        }
-    });
-
-
-    resetButton.addEventListener('click', function() {
-        localStorage.removeItem('selectedEmotion');
-        resetUI();
-    });
-
-    const savedData = localStorage.getItem('selectedEmotion');
-    if (savedData) {
-        const data = JSON.parse(savedData);
-        feelingText.textContent = getFeelingText(data.emotion);
-        updateEmojiButtons(data.emotion);
-    }
 
     function updateLevelDescription(emotion, level) {
         const levelDescriptionText = document.getElementById('level-description-text');
@@ -152,13 +105,59 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function getFeelingText(emotion) {
-        return `Saya merasa ${emotion} hari ini.`;
-    }
+    // Event listener untuk level buttons
+    levelButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            resetLevelSelection();
+            btn.classList.add('bg-blue-500', 'text-white');
+            selectedLevel = btn.dataset.level;
+            updateLevelDescription(selectedEmotion, selectedLevel);
+        });
+    });
 
-    function updateEmojiButtons(selectedEmotion) {
+    // Event listener untuk tombol Kembali
+    backButton.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        resetLevelSelection();
+    });
+
+    // Event listener untuk tombol OK
+    okButton.addEventListener('click', () => {
+        if (!selectedLevel) {
+            alert('Pilih level intensitas terlebih dahulu!');
+            return;
+        }
+        sessionStorage.setItem('selectedEmotion', selectedEmotion);
+        sessionStorage.setItem('selectedIntensity', selectedLevel);
+        window.location.href = '/mahasiswa/notes';
+    });
+
+    // Event listener untuk tombol Reset
+    resetButton.addEventListener('click', function() {
+        // Hapus data dari localStorage
+        localStorage.removeItem('selectedEmotion');
+
+        // Reset UI
+        feelingText.textContent = 'HALLO BAGAIMANA PERSAANMU HARI INI';
+
+        // Reset tampilan emoji
         emojiButtons.forEach(btn => {
-            if (btn.getAttribute('data-emotion') !== selectedEmotion) {
+            btn.style.display = 'inline-block';
+            btn.style.margin = '';
+            btn.classList.remove('mx-auto', 'pointer-events-none');
+            btn.style.cursor = 'pointer';
+            btn.style.transform = 'scale(1)';  // Reset scale
+        });
+    });
+
+    // Check localStorage saat halaman dimuat
+    const savedData = localStorage.getItem('selectedEmotion');
+    if (savedData) {
+        const data = JSON.parse(savedData);
+        feelingText.textContent = `Saya merasa ${data.emotion} level ${data.level} hari ini!`;
+
+        emojiButtons.forEach(btn => {
+            if (btn.getAttribute('data-emotion') !== data.emotion) {
                 btn.style.display = 'none';
             } else {
                 btn.style.display = 'block';
@@ -168,19 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    function resetUI() {
-        feelingText.textContent = 'HALLO BAGAIMANA PERSAANMU HARI INI';
-        emojiButtons.forEach(btn => {
-            btn.style.display = 'inline-block';
-            btn.style.margin = '';
-            btn.classList.remove('mx-auto', 'pointer-events-none');
-            btn.style.cursor = 'pointer';
-            btn.style.transform = 'scale(1)';
-        });
-    }
 });
-
 
 // pindah menenu ke target
 const moodButtons = document.querySelectorAll('.btn-mood');
@@ -283,18 +270,70 @@ function timerApp() {
         },
 
         finishTimer() {
-            clearInterval(this.timerInterval); // Hentikan timer saat tombol Finish ditekan
-            this.isRunning = false;            // Tandai bahwa timer sedang tidak berjalan
-
-            // Perbarui status apakah target tercapai atau belum sebelum menampilkan dialog
+            clearInterval(this.timerInterval);
+            this.isRunning = false;
             this.isTargetAchieved = this.elapsedTime >= this.targetSeconds;
 
-            // Panggil SweetAlert dan hanya reset jika hasilnya dikonfirmasi
-            handleFinishConfirmation(this.isTargetAchieved).then((result) => {
-                if (result.isConfirmed) { // Jika pengguna memilih "Ya"
-                    this.resetTimer();    // Reset timer
+            const self = this; // Store reference to 'this' for use in Promise
+
+            Swal.fire({
+                title: 'Selesai!',
+                text: this.isTargetAchieved ?
+                    'Selamat! Anda telah mencapai target waktu.' :
+                    'Anda belum mencapai target waktu. Apakah anda ingin menyimpan progress?',
+                icon: this.isTargetAchieved ? 'success' : 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya!',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Prepare the data for the API call
+                    const data = {
+                        expected_target: self.targetSeconds,
+                        actual_target: self.elapsedTime,
+                        is_achieved: self.isTargetAchieved
+                    };
+
+                    // Get CSRF token from meta tag
+                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                    // Make the API call
+                    fetch('/progress/store', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': token,
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Berhasil!',
+                                text: 'Progress berhasil disimpan',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                self.resetTimer();
+                            });
+                        } else {
+                            throw new Error(data.message || 'Gagal menyimpan progress');
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: error.message || 'Terjadi kesalahan saat menyimpan progress',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            self.toggleTimer(); // Resume timer if save fails
+                        });
+                    });
                 } else {
-                    this.toggleTimer();   // Lanjutkan timer jika pengguna memilih "Tidak"
+                    self.toggleTimer(); // Resume timer if user clicks "Tidak"
                 }
             });
         },
@@ -321,5 +360,5 @@ function timerApp() {
                 this.elapsedTime = 0;
             });
         }
-    };
+    }
 }

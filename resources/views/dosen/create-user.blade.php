@@ -6,7 +6,7 @@
     <!-- Menambahkan container untuk form dengan Alpine.js untuk data binding -->
     <div class="container mx-auto p-4 mt-[100px]" x-data="createUserForm()">
         <!-- Judul form -->
-        <h1 class="text-3xl font-bold mb-6 text-center">Create User</h1>
+        <h1 class="text-3xl font-bold mb-6 text-center">Tambah User</h1>
 
         <form @submit.prevent="submitForm" class="space-y-6">
             <template x-for="(user, index) in users" :key="index">
@@ -48,12 +48,12 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" :for="'name-' + index">Name</label>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" :for="'name-' + index">Nama</label>
                         <div class="relative">
                             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10"
                                 :id="'name-' + index"
                                 type="text"
-                                placeholder="Name"
+                                placeholder="Nama"
                                 x-model="user.name"
                                 required>
                         </div>
@@ -94,12 +94,12 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" :for="'phone-' + index">Phone Number</label>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" :for="'phone-' + index">Nomor HP</label>
                         <div class="relative">
                             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10"
                                 :id="'phone-' + index"
                                 type="tel"
-                                placeholder="Phone Number"
+                                placeholder="Nomor HP"
                                 x-model="user.phone">
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                     </div>
 
                     <button type="button" @click="removeUser(index)" class="mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform duration-300 ease-in-out transform hover:scale-105">
-                        Remove
+                        Hapus Form
                     </button>
                 </div>
             </template>
@@ -127,10 +127,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
-                    Add User
+                    Tambah Form
                 </button>
                 <button type="submit"  onclick="submitForm()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform duration-300 ease-in-out transform hover:scale-105">
-                    Create Users
+                    Tambah User
                 </button>
             </div>
         </form>
@@ -143,11 +143,11 @@
                         <p><strong>No:</strong> <span x-text="index + 1"></span></p>
                         <p><strong>Email:</strong> <span x-text="user.email"></span></p>
                         <p><strong>Password:</strong> <span x-text="user.password"></span></p>
-                        <p><strong>Name:</strong> <span x-text="user.name"></span></p>
+                        <p><strong>Nama:</strong> <span x-text="user.name"></span></p>
                         <p><strong>NIM:</strong> <span x-text="user.nim"></span></p>
                         <p><strong>Program Studi:</strong> <span x-text="user.prodi || '-'"></span></p>
                         <p><strong>Tanggal Lahir:</strong> <span x-text="user.tanggal_lahir || '-'"></span></p>
-                        <p><strong>Phone Number:</strong> <span x-text="user.phone || '-'"></span></p>
+                        <p><strong>Nomor HP:</strong> <span x-text="user.phone || '-'"></span></p>
                         <p><strong>Role:</strong> <span x-text="user.role || '-'"></span></p>
                     </div>
                     <script>
@@ -164,13 +164,13 @@
 
 
             <button @click="downloadExcel" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform duration-300 ease-in-out transform hover:scale-105">
-                Download as Excel
+                Download sebagai Excel
             </button>
         </div>
 
         <!-- Bagian untuk mengimpor user dari file Excel -->
         <div class="mt-8">
-            <h2 class="text-2xl font-bold mb-4">Import Users from Excel</h2>
+            <h2 class="text-2xl font-bold mb-4">Import User-User dari Excel</h2>
             <div class="flex justify-between items-center mb-4">
                 <!-- Tombol untuk mengunduh template Excel -->
                 <button @click="downloadTemplate" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform duration-300 ease-in-out transform hover:scale-105">
@@ -202,9 +202,9 @@
             <template x-if="!fileName">
                 <!-- Tampilan awal untuk upload file -->
                 <div>
-                    <p class="text-gray-600 mb-2">Drag and drop your Excel file here, or click to select</p>
+                    <p class="text-gray-600 mb-2">Drag and drop file excel ke dalam ini, atau klik untuk memilih</p>
                     <label class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer inline-block transition-transform duration-300 ease-in-out transform hover:scale-105">
-                        <span>Select Excel File</span>
+                        <span>Pilih File Excel</span>
                         <input type="file" x-ref="fileInput" class="hidden" accept=".xlsx, .xls" @change="handleFileSelect">
                     </label>
                 </div>
@@ -233,7 +233,7 @@
 
             <!-- Tombol untuk membuat user dari file Excel -->
             <button @click="submitExcel" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform duration-300 ease-in-out transform hover:scale-105 mb-8">
-                Create from Excel
+                Tambah User dari File Excel
             </button>
         </div>
 

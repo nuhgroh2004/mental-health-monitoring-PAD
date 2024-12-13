@@ -28,6 +28,10 @@ function saveChanges() {
         },
         buttonsStyling: false
     });
+
+    // Ambil URL dari tombol save
+    const updateUrl = document.querySelector('button[onclick="saveChanges()"]').dataset.url;
+
     swalWithBootstrapButtons.fire({
         title: "Apa kamu yakin?",
         text: "Ingin mengubah profil!",
@@ -37,26 +41,67 @@ function saveChanges() {
         cancelButtonText: "Tidak!",
         reverseButtons: true,
         customClass: {
-                confirmButton: "btn btn-success w-24 mx-2",
-                cancelButton: "btn btn-danger w-24 mx-2"
-            }
-        }).then((result) => {
+            confirmButton: "btn btn-success w-24 mx-2",
+            cancelButton: "btn btn-danger w-24 mx-2"
+        }
+    }).then((result) => {
         if (result.isConfirmed) {
-            // Add your delete logic here
+            // Membuat form data
+            const formData = new FormData();
+            formData.append('name', document.getElementById('name').value);
+            formData.append('email', document.getElementById('email').value);
+            formData.append('password', document.getElementById('password').value);
+            formData.append('NIM', document.getElementById('nim').value);
+            formData.append('prodi', document.getElementById('prodi').value);
+            formData.append('tanggal_lahir', document.getElementById('tanggal_lahir').value);
+            formData.append('nomor_hp', document.getElementById('nomor_hp').value);
+            formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
 
-            swalWithBootstrapButtons.fire({
-            title: "Berhasil!",
-            text: "Profil telah diperbaruin",
-            icon: "success"
-            }).then(() => {
-            window.location.href = "/mahasiswa/profil";
+            // Kirim request ke endpoint update profil menggunakan URL dari data attribute
+            fetch(updateUrl, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => Promise.reject(err));
+                }
+                return response.json();
+            })
+            .then(data => {
+                swalWithBootstrapButtons.fire({
+                    title: "Berhasil!",
+                    text: "Profil telah diperbarui",
+                    icon: "success"
+                }).then(() => {
+                    window.location.href = "/mahasiswa/profil";
+                });
+            })
+            .catch(error => {
+                let errorMessage = "Terjadi kesalahan saat memperbarui profil";
+                if (error.message) {
+                    errorMessage = error.message;
+                } else if (error.errors) {
+                    errorMessage = Object.values(error.errors).flat().join('\n');
+                }
+
+                swalWithBootstrapButtons.fire({
+                    title: "Gagal!",
+                    text: errorMessage,
+                    icon: "error"
+                });
             });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
+        } else {
             swalWithBootstrapButtons.fire({
-            title: "Batal",
-            text: "Profil gagal diperbarui :)",
-            icon: "error"
+                title: "Batal",
+                text: "Profil gagal diperbarui :)",
+                icon: "error"
             });
         }
-        });
+    });
 }

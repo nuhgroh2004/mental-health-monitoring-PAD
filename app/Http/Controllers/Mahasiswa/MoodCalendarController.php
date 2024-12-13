@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Mahasiswa;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -9,7 +10,7 @@ use App\Models\User;
 
 class MoodCalendarController extends Controller
 {
-    public function viewMoodCalendar(Request $request)
+    public function calendar(Request $request)
     {
         $month = $request->query('month', now()->month);
         $year = $request->query('year', now()->year);
@@ -45,7 +46,7 @@ class MoodCalendarController extends Controller
 
         $monthName = $firstDayOfMonth->format('F');
 
-        return view('mahasiswa.calender', compact('moodByDay', 'month', 'year', 'monthName', 'firstDayOfWeek', 'daysInMonth'));
+        return view('mahasiswa.calendar', compact('moodByDay', 'month', 'year', 'monthName', 'firstDayOfWeek', 'daysInMonth'));
     }
 
     public function showEditMoodsDanNotes(Request $request)

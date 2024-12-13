@@ -211,14 +211,15 @@ function handleEditRole(mahasiswaId) {
 
 
 
-function handlePermissionRequest() {
+function handlePermissionRequest(mahasiswaId) {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
-            confirmButton: "btn btn-success",
-            cancelButton: "btn btn-danger"
+            confirmButton: "btn btn-success w-24 mx-2",
+            cancelButton: "btn btn-danger w-24 mx-2"
         },
         buttonsStyling: false
     });
+
     swalWithBootstrapButtons.fire({
         title: "Apa kamu yakin?",
         text: "Ingin mengirim permintaan izin!",
@@ -227,19 +228,31 @@ function handlePermissionRequest() {
         confirmButtonText: "Ya!",
         cancelButtonText: "Tidak!",
         reverseButtons: true,
-        customClass: {
-                    confirmButton: "btn btn-success w-24 mx-2",
-                    cancelButton: "btn btn-danger w-24 mx-2"
-                }
     }).then((result) => {
         if (result.isConfirmed) {
-            // Add your delete logic here
-
-            swalWithBootstrapButtons.fire({
-                title: "Dikirim!",
-                text: "Permintaan izin berhasil dikirim.",
-                icon: "success"
-            });
+            axios.post(`/dosen/mahasiswa/${mahasiswaId}/izin`)
+                .then(response => {
+                    if (response.data.success) {
+                        swalWithBootstrapButtons.fire({
+                            title: "Berhasil!",
+                            text: response.data.message,
+                            icon: "success",
+                        });
+                    } else {
+                        swalWithBootstrapButtons.fire({
+                            title: "Gagal",
+                            text: "Permintaan gagal diproses.",
+                            icon: "error",
+                        });
+                    }
+                })
+                .catch(error => {
+                    swalWithBootstrapButtons.fire({
+                        title: "Gagal",
+                        text: error.response?.data?.message || "Terjadi kesalahan jaringan atau server!",
+                        icon: "error",
+                    });
+                });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire({
                 title: "Dibatalkan",
@@ -249,3 +262,4 @@ function handlePermissionRequest() {
         }
     });
 }
+

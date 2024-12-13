@@ -1,5 +1,6 @@
 @extends('navbar/navbar-mahasiswa')
 @section('content')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <title>Home</title>
 <body class="flex items-center justify-center bg-gray-100 h-screen">
     <div class="flex flex-col md:flex-row w-full h-full mt-[60px]">
@@ -32,7 +33,7 @@
                 <div class="w-full h-full bg-cover bg-center rounded-lg overflow-hidden shadow-lg">
                     <div class=" flex flex-col items-center justify-center p-4">
                         <div id="emoji-container" class="mb-8">
-                            <h2 id="feeling-text" class="text-emoji text-2xl font-bold text-center">HALO! BAGAIMANA PERASAANMU HARI INI?</h2>
+                            <h2 id="feeling-text" class="text-emoji text-2xl font-bold text-center">HALLO BAGAIMANA PERSAANMU HARI INI</h2>
                             <div class="flex space-x-4">
                                 <a href="{{ route('mahasiswa.notes') }}" class="emoji-btn inline-block transition-transform transform" data-emotion="Marah">
                                     <img src="{{ asset('asset/svg/emoji/marah.svg') }}" alt="Marah Emoji" class="inline-block">
@@ -74,10 +75,10 @@
                             </div>
                         </div>
 
-                        <!-- Tombol Reset -->
+                        {{-- <!-- Tombol Reset -->
                         <button id="reset-btn" class="mt-4 px-6 py-2 bg-[#76aeb8] ">
                     .
-                        </button>
+                        </button> --}}
                     </div>
                 </div>
             </div>

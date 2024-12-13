@@ -3,8 +3,8 @@
 <html lang="en">
 <head>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/css/mahasiswa/mhs-viewMoodCalender.css') }}">
     <title>GamaPulse</title>
 
     <link rel="icon" href="{{ asset('asset/logo.png') }}" type="image/png">
@@ -28,23 +28,36 @@
             </div>
         </div>
 
-
+        @php
+        $moodSvgs = [
+            '4' => asset('asset/svg/emojiKecil/senang.svg'),
+            '2' => asset('asset/svg/emojiKecil/sedih.svg'),
+            '1' => asset('asset/svg/emojiKecil/marah.svg'),
+            '3' => asset('asset/svg/emojiKecil/biasaSaja.svg'),
+        ];
+        @endphp
 
         <div class="text-center mb-4">
             <span class="text-4xl" id="moodEmoji">
-                <img src="{{ asset('asset/svg/emojiKecil/marah.svg') }}" alt="Mood Emoji" class="inline-block w-[100px] h-[100px]">
+                @if(isset($mood) && isset($mood->mood_level) && isset($moodSvgs[$mood->mood_level]))
+                    <img src="{{ $moodSvgs[$mood->mood_level] }}" alt="{{ $mood->mood_level }} mood" class="inline-block w-[100px] h-[100px] object-contain">
+                @else
+                    ?
+                @endif
             </span>
         </div>
 
-
         <div class="bg-gray-100 p-4 rounded-lg mb-4 min-h-[200px]">
-            <p id="noteText" class="text-gray-800">Belum ada satu bulan
-                Ku yakin masih ada sisa wangiku di bajumu
-                Namun kau tampak baik saja
-                Bahkan senyummu lebih lepas
-                Sedang aku di sini hampir gila
-                </p>
+            <p id="noteText" class="text-gray-800">
+                @if(isset($mood) && $mood->mood_note != null)
+                    {{ $mood->mood_note }}
+                @else
+                    Belum ada catatan mood untuk hari ini.
+                @endif
+            </p>
         </div>
+
+
 
         <button onclick="toggleEdit()" class="bg-[#76aeb8] text-white px-4 py-2 rounded-lg w-full hover:bg-[#5a8d96] transition duration-300 flex items-center justify-center mb-4">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -53,38 +66,49 @@
             Edit
         </button>
 
-        <!-- Tombol Kembali -->
-        <button onclick="history.back()" class="bg-gray-500 text-white px-4 py-2 rounded-lg w-full hover:bg-gray-600 transition duration-300 flex items-center justify-center">
-            <svg class="h-5 w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-            <path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-            </svg>
-            Kembali
-        </button>
+                   <!-- Tombol Kembali dan Refresh -->
+            <button onclick="goBackAndRefresh({{ $month }}, {{ $year }})" class="bg-gray-500 text-white px-4 py-2 rounded-lg w-full hover:bg-gray-600 transition duration-300 flex items-center justify-center">
+                <svg class="h-5 w-5 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Kembali
+            </button>
+
+            <script>
+                function goBackAndRefresh(month, year) {
+                    const baseUrl = "{{ url('mahasiswa/calendar') }}"; // URL dasar ke calendar
+                    const newUrl = `${baseUrl}?month=${month}&year=${year}`;
+                    window.location.href = newUrl; // Redirect ke URL baru
+                }
+            </script>
 
         <div id="editForm" class="hidden mt-4 ">
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Select Mood:</label>
                 <div class="flex justify-between">
-                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/marah.svg') }}')" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
+                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/marah.svg') }}', 1)" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
                         <img src="{{ asset('asset/svg/emojiKecil/marah.svg') }}" alt="Marah" class="w-[100px] h-[100px]">
                     </button>
-                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/sedih.svg') }}')" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
+                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/sedih.svg') }}', 2)" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
                         <img src="{{ asset('asset/svg/emojiKecil/sedih.svg') }}" alt="Sedih" class="w-[100px] h-[100px]">
                     </button>
-                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/biasaSaja.svg') }}')" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
-                        <img src="{{ asset('asset/svg/emojiKecil/biasaSaja.svg') }}" alt="Senyum" class="w-[100px] h-[100px]">
+                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/biasaSaja.svg') }}', 3)" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
+                        <img src="{{ asset('asset/svg/emojiKecil/biasaSaja.svg') }}" alt="Biasa Saja" class="w-[100px] h-[100px]">
                     </button>
-                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/senang.svg') }}')" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
-                        <img src="{{ asset('asset/svg/emojiKecil/senang.svg') }}" alt="Tertawa" class="w-[100px] h-[100px]">
+                    <button onclick="selectMood(this, '{{ asset('asset/svg/emojiKecil/senang.svg') }}', 4)" class="mood-button p-2 rounded hover:bg-gray-200 bg-white">
+                        <img src="{{ asset('asset/svg/emojiKecil/senang.svg') }}" alt="Senang" class="w-[100px] h-[100px]">
                     </button>
                 </div>
                 <style>
-
+                    .selected {
+                        background-color: #3399ab;
+                        color: white;
+                    }
                 </style>
             </div>
 
-             <!-- Modal untuk menampilkan level emosi -->
-             <div id="emotion-level-modal" class="emotion-level fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+            <!-- Modal untuk menampilkan level emosi -->
+            <div id="emotion-level-modal" class="emotion-level fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
                 <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full m-4">
                     <h3 class="text-xl font-bold mb-4 text-center">Seberapa <span id="selected-emotion-text"></span> kamu?</h3>
 
@@ -116,10 +140,12 @@
                 Simpan
             </button>
         </div>
-
     </div>
     <script src="{{ asset('assets/js/mahasiswa/mhs-edit-mood-notes.js') }}"></script>
-
+    <script>
+        const moodId = @json($mood ? $mood->mood_id : null); // Kirim ID jika mood ada
+        const moodSvgs = @json($moodSvgs); // Mengirimkan svg sesuai mood
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 
 </body>

@@ -23,9 +23,4 @@ class MoodTracker extends Model
     {
         return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id', 'mahasiswa_id');
     }
-
-    public function reports()
-    {
-        return $this->hasMany(Report::class, 'mood_id', 'mood_id');
-    }
 }

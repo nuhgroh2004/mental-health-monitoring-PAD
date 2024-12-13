@@ -17,7 +17,7 @@ class Notification extends Model
         'mahasiswa_id',
         'report_id',
         'request_status',
-        'status',
+        'read_status',
         'accepted_at',
     ];
 
@@ -31,8 +31,13 @@ class Notification extends Model
         return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id', 'mahasiswa_id');
     }
 
-    public function report()
+    public function mood()
     {
-        return $this->belongsTo(Report::class, 'report_id', 'report_id');
+        return $this->hasMany(MoodTracker::class, 'mahasiswa_id', 'mahasiswa_id');
+    }
+
+    public function progresstracker()
+    {
+        return $this->hasMany(ProgressTracker::class, 'mahasiswa_id', 'mahasiswa_id');
     }
 }

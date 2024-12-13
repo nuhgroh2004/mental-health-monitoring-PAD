@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Dosen extends Authenticatable
 {
+    use HasFactory;
+
     protected $table = 'dosen';
     protected $primaryKey = 'dosen_id';
 
@@ -19,5 +21,10 @@ class Dosen extends Authenticatable
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function otp()
+    {
+        return $this->hasMany(OTP::class);
     }
 }
