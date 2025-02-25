@@ -107,9 +107,12 @@ Route::middleware(['mahasiswa'])->group(function () {
     Route::get('/mahasiswa/profil', [MahasiswaController::class, 'showProfil'])->name('mahasiswa.profil');
     Route::post('/mahasiswa/update-profil', [MahasiswaController::class, 'updateProfil'])->name('mahasiswa.updateProfil');
     Route::get('/mahasiswa/edit-profil', [MahasiswaController::class, 'bukaEdit'])->name('mahasiswa.edit-profil');
-    Route::get('/mahasiswa/home', function () {
-        return view('mahasiswa.home');
-    })->name('mahasiswa.home');
+
+    Route::get('/mahasiswa/home', [MoodController::class, 'showHome'])->name('mahasiswa.home');
+
+    // Route::get('/mahasiswa/home', function () {
+    //     return view('mahasiswa.home');
+    // })->name('mahasiswa.home');
 
     // Kembali Route
     Route::get('/kembali', function () {

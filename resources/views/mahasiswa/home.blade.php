@@ -1,5 +1,8 @@
 @extends('navbar/navbar-mahasiswa')
 @section('content')
+@php
+    $userRole = auth()->user()->mahasiswa->mahasiswa_role ?? 'guest';
+@endphp
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>Home</title>
 <body class="flex items-center justify-center bg-gray-100 h-screen">
@@ -57,9 +60,17 @@
 
                                 <!-- Level Buttons -->
                                 <div class="flex justify-center space-x-2 mb-6">
-                                    <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="1">1</button>
-                                    <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="2">2</button>
-                                    <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="3">3</button>
+                                    @if($userRole === 'role_1')
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="{{ $i }}">{{ $i }}</button>
+                                        @endfor
+                                    @elseif($userRole === 'role_2')
+                                        @for ($i = 1; $i <= 10; $i++)
+                                            <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="{{ $i }}">{{ $i }}</button>
+                                        @endfor
+                                    @else
+                                        <p class="text-red-500">Role tidak ditemukan</p>
+                                    @endif
                                 </div>
 
                                 <!-- Penjelasan Level -->

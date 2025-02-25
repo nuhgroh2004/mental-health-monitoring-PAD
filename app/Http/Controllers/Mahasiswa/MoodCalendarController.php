@@ -51,7 +51,7 @@ class MoodCalendarController extends Controller
 
     public function showEditMoodsDanNotes(Request $request)
     {
-        $day = $request->input('day');  
+        $day = $request->input('day');
         $month = $request->input('month');
         $year = $request->input('year');
         $user_id = auth()->user()->user_id; // Dapatkan ID pengguna yang sedang login
@@ -77,6 +77,7 @@ class MoodCalendarController extends Controller
         $request->validate([
             'mood_level' => 'required|integer',
             'mood_note' => 'nullable|string|max:300',
+            'mood_intensity' => 'required|string',
         ]);
 
         // Cari row berdasarkan id atau mahasiswa_id jika tidak menggunakan ID unik
@@ -88,6 +89,7 @@ class MoodCalendarController extends Controller
 
         $mood->mood_level = $request->mood_level;
         $mood->mood_note = $request->mood_note;
+        $mood->mood_intensity = $request->mood_intensity;
         $mood->save();
 
         return response()->json([
