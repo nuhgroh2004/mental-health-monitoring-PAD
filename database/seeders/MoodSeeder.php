@@ -19,17 +19,24 @@ class moodSeeder extends Seeder
         $mahasiswaRole2 = Mahasiswa::where('mahasiswa_role', 'role_2')
             ->first();
 
-        $mahasiswas = [$mahasiswaRole1, $mahasiswaRole2];
+        $mahasiswas = [
+            ['mahasiswa' => $mahasiswaRole1, 'role' => 'role_1'],
+            ['mahasiswa' => $mahasiswaRole2, 'role' => 'role_2']
+        ];
 
-        foreach ($mahasiswas as $mahasiswa) {
         $days = 90;
         $today = Carbon::today();
+
+        foreach ($mahasiswas as $data) {
+            $mahasiswa = $data['mahasiswa'];
+            $role = $data['role'];
 
         for ($i = 0; $i < $days; $i++) {
             $date = $today->copy()->subDays($i);
 
             MoodTracker::factory()
                 ->forDate($date)
+                ->forMahasiswaRole($role)
                 ->create([
                     'mahasiswa_id' => $mahasiswa->mahasiswa_id
                 ]);

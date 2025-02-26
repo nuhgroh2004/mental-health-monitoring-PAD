@@ -26,20 +26,10 @@ function processChartData(chartData, year, month, week = null) {
     labels: chartData.labels,
     datasets: [
       {
-        label: 'Sangat Senang (5)',
-        data: chartData.labels.map(day => {
-          const dayMood = chartData.mood[day];
-          return dayMood && dayMood.mood_level === 5 ? 5 : null;
-        }),
-        backgroundColor: '#4dd0e1',
-        stack: 'mood',
-        barPercentage: 0.5
-      },
-      {
         label: 'Senang (4)',
         data: chartData.labels.map(day => {
           const dayMood = chartData.mood[day];
-          return dayMood && dayMood.mood_level === 4 ? 4 : null;
+          return dayMood && dayMood.mood_level === 4 ? dayMood.mood_intensity : null;
         }),
         backgroundColor: '#81c784',
         stack: 'mood',
@@ -49,7 +39,7 @@ function processChartData(chartData, year, month, week = null) {
         label: 'Biasa (3)',
         data: chartData.labels.map(day => {
           const dayMood = chartData.mood[day];
-          return dayMood && dayMood.mood_level === 3 ? 3 : null;
+          return dayMood && dayMood.mood_level === 3 ? dayMood.mood_intensity : null;
         }),
         backgroundColor: '#fff59d',
         stack: 'mood',
@@ -59,17 +49,17 @@ function processChartData(chartData, year, month, week = null) {
         label: 'Sedih (2)',
         data: chartData.labels.map(day => {
           const dayMood = chartData.mood[day];
-          return dayMood && dayMood.mood_level === 2 ? 2 : null;
+          return dayMood && dayMood.mood_level === 2 ? dayMood.mood_intensity : null;
         }),
         backgroundColor: '#ffb74d',
         stack: 'mood',
         barPercentage: 0.5
       },
       {
-        label: 'Sangat Sedih (1)',
+        label: 'Marah (1)',
         data: chartData.labels.map(day => {
           const dayMood = chartData.mood[day];
-          return dayMood && dayMood.mood_level === 1 ? 1 : null;
+          return dayMood && dayMood.mood_level === 1 ? dayMood.mood_intensity : null;
         }),
         backgroundColor: '#e57373',
         stack: 'mood',
@@ -238,9 +228,14 @@ function updateChart() {
           beginAtZero: true,
           title: {
             display: true,
-            text: currentTab === 'mood' ? 'Tingkat Mood (1-4)' : 'Jam'
+            text: currentTab === 'mood' ? 'Tingkat Mood' : 'Jam'
           },
-          max: currentTab === 'mood' ? 4: undefined,
+          max: currentTab === 'mood'
+            ? Math.max(5, ...chartData.labels.map(day => {
+                const dayMood = chartData.mood[day];
+                return dayMood ? dayMood.mood_intensity : 0;
+            }))
+            : undefined, // Ambil nilai terbesar, tapi minimal 5
           ticks: currentTab === 'mood' ? {
             stepSize: 1,
             callback: function(value) {
