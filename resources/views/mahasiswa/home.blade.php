@@ -1,5 +1,8 @@
 @extends('navbar/navbar-mahasiswa')
 @section('content')
+@php
+    $userRole = auth()->user()->mahasiswa->mahasiswa_role ?? 'guest';
+@endphp
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>Home</title>
 <body class="flex items-center justify-center bg-gray-100 h-screen">
@@ -12,7 +15,7 @@
             </button>
             <button class="btn-target flex-col w-[80px] h-[90px] rounded-lg backdrop-blur-md bg-opacity-50 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
                 <img class="w-[40px] h-[40px]" src="{{ asset('assets/svg/icon-target.svg') }}" alt="Logo" class="">
-                <span class="text-sm text-center">Task Log</span>
+                <span class="text-sm text-center"> Timer</span>
             </button>
         </div>
         <div class="top-bar flex flex-col w-full">
@@ -24,7 +27,7 @@
                 </div>
                 <div class="btn-target w-[110px] h-[50px] rounded-lg ml-3 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
                     <img class="w-[40px] h-[40px]" src="{{ asset('assets/svg/icon-target.svg') }}" alt="Logo" class="">
-                    <span class="text-lg text-center ml-2">Task Log</span>
+                    <span class="text-lg text-center ml-2">Timer</span>
                 </div>
             </div>
 
@@ -57,9 +60,17 @@
 
                                 <!-- Level Buttons -->
                                 <div class="flex justify-center space-x-2 mb-6">
-                                    <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="1">1</button>
-                                    <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="2">2</button>
-                                    <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="3">3</button>
+                                    @if($userRole === 'role_1')
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="{{ $i }}">{{ $i }}</button>
+                                        @endfor
+                                    @elseif($userRole === 'role_2')
+                                        @for ($i = 1; $i <= 10; $i++)
+                                            <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="{{ $i }}">{{ $i }}</button>
+                                        @endfor
+                                    @else
+                                        <p class="text-red-500">Role tidak ditemukan</p>
+                                    @endif
                                 </div>
 
                                 <!-- Penjelasan Level -->
@@ -75,10 +86,10 @@
                             </div>
                         </div>
 
-                        {{-- <!-- Tombol Reset -->
+                        <!-- Tombol Reset -->
                         <button id="reset-btn" class="mt-4 px-6 py-2 bg-[#76aeb8] ">
                     .
-                        </button> --}}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -89,7 +100,7 @@
                 <div class=" flex items-center  mt-10 justify-center ">
                     <div x-data="timerApp()"
                          class="bg-white rounded-lg p-8 w-full max-w-2xl mx-auto ">
-                        <h2 class="text-3xl font-bold mb-8 text-center text-[#76aeb8]">Task Log</h2>
+                        <h2 class="text-3xl font-bold mb-8 text-center text-[#76aeb8]">Timer Target Pengerjaan</h2>
 
                         <!-- Bagian Input Target Waktu -->
                         <div class="mb-8">

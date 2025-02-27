@@ -191,10 +191,12 @@ function saveChanges() {
         },
         body: JSON.stringify({
             mood_level: selectedMood, // Mood level yang dipilih
+            mood_intensity: selectedLevel,
             mood_note: noteText
         }),
     })
-    .then(response => response.json())
+    .then(response => 
+        response.json())
     .then(data => {
         if (data.success) {
             Swal.fire({

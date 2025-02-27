@@ -42,28 +42,30 @@ class DosenNotifController extends Controller
         ));
     }
 
+
     public function downloadPDF($notificationId)
     {
         // Ambil notifikasi berdasarkan ID
         $notification = Notification::findOrFail($notificationId);
-
+    
         // Ambil mahasiswa yang terkait
         $mahasiswa = Mahasiswa::findOrFail($notification->mahasiswa_id);
-
+    
         // Hitung tanggal 90 hari lalu
         $startDate = Carbon::now()->subDays(90);
-
+    
         // Ambil mood dan progress mahasiswa selama 90 hari
         $moodProgressData = $mahasiswa->moodProgressData($startDate);
-
+    
         // Ambil nama mahasiswa dari relasi user dan NIM dari mahasiswa
         $name = $mahasiswa->user ? $mahasiswa->user->name : 'N/A';  // Nama dari tabel users
         $nim = $mahasiswa->NIM; // NIM dari tabel mahasiswa
-
+    
         // Buat view untuk PDF
-        $pdf = FacadePdf::loadView('dosen.pdf_report', compact('moodProgressData', 'name', 'nim'));
-
-        // Download PDF
-        return $pdf->download('mood_progress_report.pdf');
+        $pdf = FacadePdf::loadView('dosen.dosen-pdf-report', compact('moodProgressData', 'name', 'nim'));
+    
+        // Tampilkan PDF di browser
+        return $pdf->stream('mood_progress_report.pdf');
     }
+
 }

@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\DB;
 
 class MoodController extends Controller
 {
+    public function showHome()
+    {
+
+        $user = auth()->user()->load('mahasiswa'); // Ambil data mahasiswa
+        // dd(auth()->user());
+        return view('mahasiswa.home', ['user' => auth()->user()]);
+    }
+
     public function showNotes()
     {
         return view('mahasiswa.notes');
