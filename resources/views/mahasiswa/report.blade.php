@@ -79,12 +79,12 @@
         const ctx = document.getElementById('averageMoodChart').getContext('2d');
 
         const data = {
-            labels: ['Marah', 'Sedih', 'Biasa', 'Senang'],
+            labels: ['Marah %', 'Sedih %', 'Biasa %', 'Senang %', 'Tidak Mengisi %'],
             datasets: [{
-                label: '(%)',
-                data: [averageMood[1], averageMood[2], averageMood[3], averageMood[4]],
-                backgroundColor: ['#e57373', '#ffb74d', '#fff59d', '#81c784'],
-                borderColor: ['#e57373', '#ffb74d', '#fff59d', '#81c784'],
+                label: '',
+                data: [averageMood[1], averageMood[2], averageMood[3], averageMood[4], averageMood['unknown']],
+                backgroundColor: ['#e57373', '#ffb74d', '#fff59d', '#81c784', '#cfd8dc'],
+                borderColor: ['#e57373', '#ffb74d', '#fff59d', '#81c784', '#cfd8dc'],
                 borderWidth: 1
             }]
         };

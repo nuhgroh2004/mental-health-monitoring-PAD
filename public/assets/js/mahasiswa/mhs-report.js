@@ -280,7 +280,7 @@ function updateAverageMoodChart() {
   const ctx = document.getElementById('averageMoodChart').getContext('2d');
 
   const data = {
-      labels: ['Marah (1)', 'Sedih (2)', 'Biasa (3)', 'Senang (4)'],
+      labels: ['Marah', 'Sedih', 'Biasa', 'Senang'],
       datasets: [{
           label: 'Rata-rata Mood All Time (%)',
           data: [averageMood[1], averageMood[2], averageMood[3], averageMood[4]],

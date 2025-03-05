@@ -100,22 +100,24 @@ class ReportController extends Controller
     private function calculateAverageMood($mahasiswaId)
     {
         $moodData = MoodTracker::where('mahasiswa_id', $mahasiswaId)->get();
-
-        $moodLevels = [1, 2, 3, 4];
+    
+        $moodLevels = [1, 2, 3, 4, 'unknown'];
         $moodCounts = array_fill_keys($moodLevels, 0);
         $totalMoods = $moodData->count();
-
+    
         foreach ($moodData as $mood) {
-            if (in_array($mood->mood_level, $moodLevels)) {
+            if (in_array($mood->mood_level, [1, 2, 3, 4])) {
                 $moodCounts[$mood->mood_level]++;
+            } else {
+                $moodCounts['unknown']++;
             }
         }
-
+    
         $averageMood = [];
         foreach ($moodLevels as $level) {
             $averageMood[$level] = $totalMoods ? ($moodCounts[$level] / $totalMoods) * 100 : 0;
         }
-
+    
         return $averageMood;
     }
 }

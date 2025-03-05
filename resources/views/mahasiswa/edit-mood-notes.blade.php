@@ -48,6 +48,32 @@
                     ?
                 @endif
             </span>
+            <!-- Tambahkan bagian intensitas mood di sini -->
+            @if(isset($mood) && isset($mood->mood_intensity))
+                <div class="mt-3">
+                    @php
+                        $maxIntensity = $userRole === 'role_1' ? 5 : 10;
+                        $intensityPercent = ($mood->mood_intensity / $maxIntensity) * 100;
+                        
+                        // Menentukan warna berdasarkan intensitas
+                        if ($mood->mood_intensity <= 2 || ($userRole === 'role_2' && $mood->mood_intensity <= 4)) {
+                            $color = 'bg-blue-200 text-blue-700';
+                            $ringColor = 'ring-blue-300';
+                        } elseif ($mood->mood_intensity <= 3 || ($userRole === 'role_2' && $mood->mood_intensity <= 7)) {
+                            $color = 'bg-blue-400 text-white';
+                            $ringColor = 'ring-blue-500';
+                        } else {
+                            $color = 'bg-blue-600 text-white';
+                            $ringColor = 'ring-blue-700';
+                        }
+                    @endphp
+                    
+                    <span class="font-semibold text-gray-600 inline-block mr-2">Intensitas:</span>
+                    <span class="inline-flex items-center justify-center {{ $color }} rounded-full w-5 h-5 text-lg font-bold ring-2 {{ $ringColor }} shadow-md">
+                        {{ $mood->mood_intensity }}
+                    </span>
+                </div>
+            @endif
         </div>
 
         <div class="bg-gray-100 p-4 rounded-lg mb-4 min-h-[200px]">
