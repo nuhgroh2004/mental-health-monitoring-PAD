@@ -39,7 +39,11 @@ function saveChanges() {
         showCancelButton: true,
         confirmButtonText: "Ya!",
         cancelButtonText: "Tidak!",
-        reverseButtons: true
+        reverseButtons: true,
+        customClass: {
+            confirmButton: "btn btn-success w-24 mx-2",
+            cancelButton: "btn btn-danger w-24 mx-2"
+        }
     }).then((result) => {
         if (result.isConfirmed) {
             // Membuat form data

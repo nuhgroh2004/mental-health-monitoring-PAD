@@ -14,7 +14,7 @@
             }, 10);
 
             // Here you would typically fetch and display actual results
-            // For now, we're just showing the dummy content
+            // For now, we're just showing the dummy content 
         });
     });
 // <<<<<<<<<<<<<<<<<<---------- ladning page dose animasi munculnya hasil pencarian ---------------->>>>>>>>>>>>>>>>>>>> //

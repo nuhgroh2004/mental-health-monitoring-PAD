@@ -117,20 +117,20 @@ function handleDelete(mahasiswaId) {
 // fungsi edit role mahasiswa
 function handleEditRole(mahasiswaId) {
     Swal.fire({
-        title: "Pilih Role",
+        title: "Pilih Rentang Intensitas Mood",
         html: `
             <div id="roleImages" class="flex justify-center space-x-4">
-                <img id="emojiMarah" src="/asset/svg/emoji/marah.svg" alt="Marah Emoji" class="inline-block w-[70px] h-[70px]">
-                <img id="emojiSedih" src="/asset/svg/emoji/sedih.svg" alt="Sedih Emoji" class="inline-block w-[70px] h-[70px]">
-                <img id="emojiBiasaSaja" src="/asset/svg/emoji/biasaSaja.svg" alt="Biasa Saja Emoji" class="inline-block w-[70px] h-[70px]">
-                <img id="emojiHappy" src="/asset/svg/emoji/happy.svg" alt="Happy Emoji" class="inline-block w-[70px] h-[70px]">
+                <img id="emojiMarah" >
+                <img id="emojiSedih" >
+                <img id="emojiBiasaSaja">
+                <img id="emojiHappy" >
             </div>
             <div class="flex justify-center space-x-4 mt-4">
                 <button id="role1" class="swal2-confirm swal2-styled  px-4 py-2 rounded">
-                    Role 1
+                    1 sampai 5
                 </button>
                 <button id="role2" class="swal2-confirm swal2-styled  px-4 py-2 rounded">
-                    Role 2
+                    5 sampai 10
                 </button>
             </div>
         `,

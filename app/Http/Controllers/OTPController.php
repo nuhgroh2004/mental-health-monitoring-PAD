@@ -73,7 +73,7 @@ class OTPController extends Controller
     
         $dosenId = $request->session()->get('dosen_id');
     
-        // Log untuk debugging
+        // Log untuk debugging 
         \Log::info('Dosen ID: ' . $dosenId);
         \Log::info('Submitted OTP: ' . $otpCode);
     

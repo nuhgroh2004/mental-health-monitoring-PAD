@@ -1,3 +1,4 @@
+<!-- filepath: /c:/mental-health-monitoring-PAD/resources/views/mahasiswa/calendar.blade.php -->
 @extends('navbar/navbar-mahasiswa')
 @section('content')
 
@@ -39,8 +40,8 @@
                             <!-- Hari setelah hari ini tidak bisa diklik -->
                             <div class="aspect-square bg-gray-200 rounded-lg shadow-inner flex flex-col items-center justify-center p-1 opacity-50">
                                 <span class="text-sm mb-1">{{ $day }}</span>
-                                <div class="w-4 h-4 sm:w-6 sm:h-6">
-                                    <span class="text-gray-400">Not yet</span>
+                                <div class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10">
+        
                                 </div>
                             </div>
                         @else
@@ -48,11 +49,11 @@
                             <a href="{{ route('mahasiswa.edit-mood-notes', ['day' => $day, 'month' => $month, 'year' => $year, 'user_id' => auth()->id() ])}}"
                                 class="aspect-square bg-white rounded-lg shadow hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-center p-1">
                                 <span class="text-sm mb-1">{{ $day }}</span>
-                                <div class="w-4 h-4 sm:w-6 sm:h-6" title="{{ $mood ? ucfirst($mood->mood_level) : '' }}">
+                                <div class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 flex items-center justify-center" title="{{ $mood ? ucfirst($mood->mood_level) : '' }}">
                                     @if(isset($mood->mood_level) && isset($moodSvgs[$mood->mood_level]))
-                                        <img src="{{ $moodSvgs[$mood->mood_level] }}" alt="{{ $mood->mood_level }} mood" class="w-full h-full">
+                                        <img src="{{ $moodSvgs[$mood->mood_level] }}" alt="{{ $mood->mood_level }} mood" class="w-full h-full object-contain">
                                     @else
-                                        <span class="text-gray-400">No Mood</span>
+                                        <span class="text-gray-400 text-xs sm:text-sm flex items-center justify-center w-full h-full text-center">Tidak Mengisi</span>
                                     @endif
                                 </div>
                             </a>

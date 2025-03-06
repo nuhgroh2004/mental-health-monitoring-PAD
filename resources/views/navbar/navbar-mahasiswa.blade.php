@@ -44,7 +44,7 @@
                      </a></li>
                     <li><a href="{{ route('mahasiswa.report', ['month' => now()->month, 'year' => now()->year]) }}"
                         class="{{ request()->routeIs('mahasiswa.report') ? 'active' : '' }}">
-                        Report</a></li>
+                        Laporan</a></li>
                     <li><a href="{{ route('mahasiswa.notifikasi') }}" class="{{ request()->routeIs('mahasiswa.notifikasi') ? 'active' : '' }}">Notifikasi</a></li>
                     <li><a href="{{ route('mahasiswa.profil') }}" class="{{ request()->routeIs('mahasiswa.profil') ? 'active' : '' }}">Profil</a></li>
                 </ul>

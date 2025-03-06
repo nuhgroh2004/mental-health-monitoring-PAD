@@ -9,10 +9,10 @@
 <title>Login</title>
 
 <!-- Section Utama untuk Halaman Login -->
-<section class="min-h-screen bg-cover bg-center" style="background-image: url('{{ asset('assets/img/background.jpg') }}');">
+<section class="min-h-screen bg-cover bg-[#F2FFFF]">
     <div class="container flex flex-col items-center justify-center px-6 py-8 mx-auto">
         <!-- Kontainer Card Login -->
-        <div class="w-full bg-white/30 backdrop-blur-lg rounded-2xl shadow-md md:sm:max-w-md xl:p-0 lg:mt-10 mt-[100px]">
+        <div class="w-full bg-white backdrop-blur-lg rounded-2xl shadow-md md:sm:max-w-md xl:p-0 lg:mt-10 mt-[100px]">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
 
                 <!-- Judul Login -->
