@@ -362,3 +362,5 @@ function timerApp() {
         }
     }
 }
+// ini adalah code yang belum sempurna masih banyak bug dan ada beberapa fungsi yang belum bisa berjalan dengan baik.
+// saran saya anda perlu menambahkan beberpa fung si lain dalam, agar code ini tampak lebih baik, secara tampilan sudah bagus animasi mulus.

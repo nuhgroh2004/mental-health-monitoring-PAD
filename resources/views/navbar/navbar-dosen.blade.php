@@ -10,8 +10,6 @@
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
-
-
     <!-- Vendor CSS Files -->
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
@@ -30,17 +28,16 @@
 <!---------------------------------------------Narbar ------------------------------------------------------------------------>
     <header id="header" class="header d-flex align-items-center fixed-top bg-white shadow-sm">
         <div class="container-fluid container-xl position-relative d-flex align-items-center">
-
         <a href="index.html" class="logo d-flex align-items-center me-auto">
             <img src="{{ asset('asset/logo.png') }}" alt="">
             <h1 class="sitename">GamaPulse</h1>
         </a>
             <nav id="navmenu" class="navmenu">
                 <ul>
-                    <li><a href="{{ route('dosen.home') }}" class="{{ request()->routeIs('dosen.landingPage') ? 'active' : '' }}">Home</a></li>
-                    <li><a href="{{ route('dosen.create-user') }}" class="{{ request()->routeIs('dosen.createUser') ? 'active' : '' }}">Tambah User</a></li>
+                    <li><a href="{{ route('dosen.home') }}" class="{{ request()->routeIs('dosen.home') ? 'active' : '' }}">Home</a></li>
+                    <li><a href="{{ route('dosen.create-user') }}" class="{{ request()->routeIs('dosen.create-user') ? 'active' : '' }}">Buat User</a></li>
                     <li><a href="{{ route('dosen.notifikasi') }}" class="{{ request()->routeIs('dosen.notifikasi') ? 'active' : '' }}">Notifikasi</a></li>
-                    <li><a href="{{ route('dosen.profil') }}" class="{{ request()->routeIs('dosen.profil') ? 'active' : '' }}">Profil</a></li>
+                    <li><a href="{{ route('dosen.profil') }}" class="{{ request()->routeIs('dosen.profil') ? 'active' : '' }}">Profile</a></li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
@@ -61,8 +58,6 @@
     <script src="{{ asset('assets/js/dosen/notifikasi.js') }}"></script>
     <script src="{{ asset('assets/js/dosen/create-user.js') }}"></script>
     <script src="{{ asset('assets/js/dosen/dosen-profil.js') }}"></script>
-
-
     <script src="{{ asset('JS/script.js') }}"></script>
 </body>
 @yield('content')

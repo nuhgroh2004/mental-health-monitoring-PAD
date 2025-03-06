@@ -5,9 +5,9 @@
     @vite('resources/css/app.css')
 </head>
 <title>Register</title>
-<section class="min-h-screen bg-cover bg-center" style="background-image: url('{{ asset('assets/img/background.jpg') }}');">
+<section class="min-h-screen bg-cover bg-[#F2FFFF]">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 ">
-        <div class="w-full bg-white/30 backdrop-blur-lg rounded-2xl shadow-md md:sm:max-w-md xl:p-0 mt-5 mb-5">
+        <div class="w-full bg-white backdrop-blur-lg rounded-2xl shadow-md md:sm:max-w-md xl:p-0 mt-5 mb-5">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-black md:text-2xl">
                     Create a student account

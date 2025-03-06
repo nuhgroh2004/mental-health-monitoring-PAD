@@ -1,13 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Mahasiswa;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use App\Models\ProgressTracker;
 use App\Models\MoodTracker;
-use App\Models\Report;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class ReportController extends Controller
@@ -62,12 +60,13 @@ class ReportController extends Controller
             })
             ->keyBy('day');
 
-        // dd($moodData,$progressData);
-
         // Siapkan data untuk chart
         $chartData = $this->prepareChartData($moodData, $progressData, $month, $year);
 
-        return view('mahasiswa.report', compact('months', 'month', 'year', 'chartData'));
+        // Hitung rata-rata mood sepanjang waktu
+        $averageMood = $this->calculateAverageMood(auth()->user()->user_id);
+
+        return view('mahasiswa.report', compact('months', 'month', 'year', 'chartData', 'averageMood'));
     }
 
     private function prepareChartData($moodData, $progressData, $month, $year)
@@ -96,5 +95,29 @@ class ReportController extends Controller
             'mood' => $chartData['mood'],
             'progress' => $chartData['progress']
         ];
+    }
+
+    private function calculateAverageMood($mahasiswaId)
+    {
+        $moodData = MoodTracker::where('mahasiswa_id', $mahasiswaId)->get();
+    
+        $moodLevels = [1, 2, 3, 4, 'unknown'];
+        $moodCounts = array_fill_keys($moodLevels, 0);
+        $totalMoods = $moodData->count();
+    
+        foreach ($moodData as $mood) {
+            if (in_array($mood->mood_level, [1, 2, 3, 4])) {
+                $moodCounts[$mood->mood_level]++;
+            } else {
+                $moodCounts['unknown']++;
+            }
+        }
+    
+        $averageMood = [];
+        foreach ($moodLevels as $level) {
+            $averageMood[$level] = $totalMoods ? ($moodCounts[$level] / $totalMoods) * 100 : 0;
+        }
+    
+        return $averageMood;
     }
 }

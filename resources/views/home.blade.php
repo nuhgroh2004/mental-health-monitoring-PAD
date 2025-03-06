@@ -21,7 +21,7 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="index-page" style="overflow-x: hidden;">
+<body class="index-page">
 <!----------------------------------------------------------------- Narbar ------------------------------------------------------------------------>
     <header id="header" class="header d-flex align-items-center fixed-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center">
@@ -34,8 +34,8 @@
             <!-- Navigation Menu -->
             <nav id="navmenu" class="navmenu">
                 <ul>
-                    <li><a href="#hero" class="active">Home</a></li>
-                    <li><a href="#about">About</a></li>
+                    <li><a href="#hero" class="active">Beranda</a></li>
+                    <li><a href="#about">Tentang</a></li>
                     <li><a href="#services">Fitur</a></li>
                     <li><a href="#detail">Detail</a></li>
                 </ul>
@@ -69,7 +69,7 @@
 
     <main class="main">
 
-<!---------------------------------------------------------------- Section 1 Welcomme ------------------------------------------------------------------------>
+<!---------------------------------------------------------------- Section 1 Welcome ------------------------------------------------------------------------>
     <section id="hero" class="hero section">
         <div class="hero-bg">
             <img src="assets/img/hero-bg-light.webp" alt="">
@@ -77,399 +77,325 @@
         <div class="container text-center">
             <div class="d-flex flex-column justify-content-center align-items-center">
                 <h1 data-aos="fade-up">Welcome to <span>GamaPulse</span></h1>
-                <p data-aos="fade-up" data-aos-delay="100">ayoo pantau mental anda dengan gamapulse<br></p>
+                <p data-aos="fade-up" data-aos-delay="100">Peduli Kesehatan Mental, Menjadi Lebih Baik Setiap Hari dengan Gamapulse!<br></p>
                 <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
                     <a href="{{ route('login') }}" class="btn-get-started transition-transform duration-300 ease-in-out transform hover:scale-110">Login</a>
                 </div>
                 <img src="assets/img/hero-services-img.webp" class="img-fluid hero-img" alt="" data-aos="zoom-out" data-aos-delay="300">
             </div>
         </div>
-    </section>
-<!-- /Hero Section -->
-<!---------------------------------------------------------------- Section 1 Welcomme ------------------------------------------------------------------------>
+    </section><!-- /Hero Section -->
+<!---------------------------------------------------------------- Section 1 Welcome ------------------------------------------------------------------------>
 
 <!---------------------------------------------------------------- Section 2 About ------------------------------------------------------------------------>
-    <section id="about" class="about section">
-        <div class="container">
-            <div class="row gy-4">
-                <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
-                    <p class="who-we-are">website Apakah ini? </p>
-                    <h3>Memantau Emosi Harian Anda</h3>
-                    <p class="fst-italic">
-                    Kami menyediakan solusi pemantauan kesehatan mental yang mudah dan efektif bagi mahasiswa,
-                    serta memberikan laporan dari data secara bulanan dan mingguan.
-                    </p>
-                    <ul>
-                        <li><i class="bi bi-check-circle"></i> <span>Memberikan pelacakan suasana hati harian yang mudah diakses.</span></li>
-                        <li><i class="bi bi-check-circle"></i> <span>Menyediakan laporan mingguan dan bulanan yang dapat membantu mengidentifikasi tren suasana hati.</span></li>
-                        <li><i class="bi bi-check-circle"></i> <span>Menawarkan pengaturan target harian dan pelaporan pencapaian untuk menjaga motivasi tetap tinggi.</span></li>
-                    </ul>
-                    <a href="#" class="read-more"><span>Ayo coba sekarang</span><i class="bi bi-arrow-right"></i></a>
-                </div>
-                <div class="col-lg-6 about-images" data-aos="fade-up" data-aos-delay="200">
-                    <div class="row gy-4">
-                        <div class="col-lg-6">
-                            <img src="assets/img/home/home1.png" class="img-fluid" alt="">
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="row gy-4">
-                                <div class="col-lg-12">
-                                    <img src="assets/img/home/home2.jpg" class="img-fluid" alt="">
-                                </div>
-                                <div class="col-lg-12">
-                                    <img src="assets/img/home/home3.jpg" class="img-fluid" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-<!---------------------------------------------------------------- Section 2 About ------------------------------------------------------------------------>
-
-<!---------------------------------------------------------------- Section 3 Fitur ------------------------------------------------------------------------>
-    <section id="services" class="services section light-background">
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Fitur</h2>
-            <p>Temukan berbagai fitur yang akan membantu Anda mengelola mood dan progress tugas akhir dengan lebih efektif</p>
-        </div>
-
-        <div class="container lg:pl-[70px] lg:pr-[70px]">
-
-            <div class="row g-5">
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" class="">
-                    <div class="service-item item-cyan position-relative">
-                        <i class="bi bi-emoji-smile icon"></i>
-                        <div>
-                            <h3>Mood trackker</h3>
-                            <p>Catat dan pantau suasana hati Anda setiap hari. Fitur ini membantu Anda mengidentifikasi pola mood, memahami pemicu perubahan emosi, dan mengelola kesehatan mental dengan lebih baik selama perjalanan tugas akhir Anda.</p>
-                            <a href="#mood-trakker" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-item item-orange position-relative">
-                        <i class="bi bi-stopwatch icon"></i>
-                        <div>
-                            <h3>Trakker pengerjaan tugas akhir</h3>
-                            <p>Pantau dan kelola progress pengerjaan tugas akhir Anda dengan sistematis. Fitur ini memungkinkan Anda membuat timeline, menentukan target, dan memantau pencapaian setiap tahap pengerjaan tugas akhir.</p>
-                            <a href="#trakker-perngerjaan-tugas-akhir" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="service-item item-teal position-relative">
-                        <i class="bi bi-calendar4-week icon"></i>
-                        <div>
-                            <h3>View mood calender</h3>
-                            <p>Visualisasikan perubahan mood Anda dalam bentuk kalender interaktif. Lihat pola mood harian, mingguan, dan bulanan untuk memahami tren kesehatan mental Anda selama proses pengerjaan tugas akhir.</p>
-                            <a href="#view-mood-calender" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-                    <div class="service-item item-red position-relative">
-                        <i class="bi bi-journal-text icon"></i>
-                        <div>
-                            <h3>Notes</h3>
-                            <p>Catat semua ide, pemikiran, dan refleksi Anda dalam satu tempat. Fitur ini memudahkan Anda untuk mendokumentasikan progress, menulis catatan penting, dan menyimpan referensi terkait tugas akhir.</p>
-                            <a href="#notes" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
-                    <div class="service-item item-indigo position-relative">
-                        <i class="bi bi-bar-chart icon"></i>
-                        <div>
-                            <h3>Laporan mood</h3>
-                            <p>Dapatkan analisis komprehensif tentang pola mood Anda. Fitur ini menyajikan laporan detail tentang tren emosi, faktor pemicu, dan rekomendasi untuk meningkatkan kesehatan mental Anda.</p>
-                            <a href="#laporan-mood" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="600">
-                    <div class="service-item item-pink position-relative">
-                        <i class="bi bi-bar-chart icon"></i>
-                        <div>
-                            <h3>Laporan pengerjaan tugas akhir</h3>
-                            <p>Monitor kemajuan tugas akhir Anda melalui laporan terstruktur. Fitur ini memberikan gambaran jelas tentang progress, deadline, dan capaian dalam proses pengerjaan tugas akhir Anda.</p>
-                            <a href="#laporan-pengerjaan-tugas-akhir" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-<!---------------------------------------------------------------- Section 3 Fitur ------------------------------------------------------------------------>
-
-<!---------------------------------------------------------------- Section 4 Detail mood trakker ------------------------------------------------------------------------>
-<section  class="features-details section">
-
-    <div id="detail" class="container lg:pl-[70px] lg:pr-[70px]">
-
-      <!----------------------------------------------------------------  ------------------------------------------------------------------------>
-
-      <div id="mood-trakker" class="row gy-4 justify-content-between features-item">
-           <div id="view-mood-calender" class="container section-title" data-aos="fade-up">
-          <h2>Mood tracker</h2>
-        </div>
-
-        <div class="col-lg-5 d-flex align-items-center order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
-
-          <div class="content">
-            <h3>Neque ipsum omnis sapiente quod quia dicta</h3>
-            <p>
-              Quidem qui dolore incidunt aut. In assumenda harum id iusto lorena plasico mares
-            </p>
-            <ul>
-              <li><i class="bi bi-easel flex-shrink-0"></i> Et corporis ea eveniet ducimus.</li>
-              <li><i class="bi bi-patch-check flex-shrink-0"></i> Exercitationem dolorem sapiente.</li>
-              <li><i class="bi bi-brightness-high flex-shrink-0"></i> Veniam quia modi magnam.</li>
-            </ul>
-            <p></p>
-            <a href="#" class="btn more-btn">Learn More</a>
-          </div>
-
-        </div>
-
-        <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
-          <img src="assets/img/features-2.jpg" class="img-fluid" alt="">
-        </div>
-
-      </div>
-       <!---------------------------------------------------------------- Section 6 Detail view mood calender ------------------------------------------------------------------------>
-
-    </div>
-
-  </section>
-<!---------------------------------------------------------------- Section 4 Detail mood trakker ------------------------------------------------------------------------>
-
-
-    <section  class="features-details section">
-
-      <div class="container">
-        <!---------------------------------------------------------------- Section 5 Detail pengerjaan tugas akhir ------------------------------------------------------------------------>
-        <div class="row gy-4 justify-content-between features-item lg:pl-[70px] lg:pr-[70px]">
-            <div id="trakker-perngerjaan-tugas-akhir" class="container section-title" data-aos="fade-up">
-                <h2>Tracker pengerjaan tugas akhir</h2>
-            </div>
-
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-                <img src="assets/img/features-1.jpg" class="img-fluid" alt="">
-            </div>
-            <div class="col-lg-5 d-flex align-items-center" data-aos="fade-up" data-aos-delay="200">
-                <div class="content">
-                    <h3>Buat target pengerjaan tugas akhir</h3>
-                    <p class="text-justify">
-                        Kami menyediakan sebuah fitur yang memungkinkan Anda untuk memantau progress pengerjaan tugas akhir dengan lebih efektif.
-                        Fitur ini memungkinkan Anda untuk membuat target seberapa lama anda mengerjakan tugas akhir,
-                        System mencatat waktu yang anda gunakan untuk mengerjakan tugas akhir, dan memberikan laporan pencapaian setiap tahap pengerjaan tugas akhir.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <!---------------------------------------------------------------- Section 5 Detail pengerjaan tugas akhir ------------------------------------------------------------------------>
-
-        <!---------------------------------------------------------------- Section 6 Detail view mood calender ------------------------------------------------------------------------>
-
-        <div class="row gy-4 justify-content-between features-item lg:pl-[70px] lg:pr-[70px]">
-             <div id="view-mood-calender" class="container section-title" data-aos="fade-up">
-            <h2>View mood calender</h2>
-          </div>
-
-          <div class="col-lg-5 d-flex align-items-center order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
-
-            <div class="content">
-              <h3>Neque ipsum omnis sapiente quod quia dicta</h3>
-              <p>
-                Quidem qui dolore incidunt aut. In assumenda harum id iusto lorena plasico mares
+<section id="about" class="about section">
+  <div class="container">
+      <div class="row gy-4">
+          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
+              <p class="who-we-are">Apa itu GamaPulse?</p>
+              <h3>Memahami Mood Setiap Hari dengan GamaPulse</h3>
+              <p class="fst-italic">
+                  GamaPulse adalah platform yang dirancang untuk membantu mahasiswa memantau dan mengelola kesehatan mental mereka dengan cara yang mudah dan menyenangkan. Dengan laporan mendalam setiap minggu dan bulan, kami membantu Anda mengenali pola suasana hati untuk menciptakan keseimbangan dalam kehidupan akademis Anda.
               </p>
               <ul>
-                <li><i class="bi bi-easel flex-shrink-0"></i> Et corporis ea eveniet ducimus.</li>
-                <li><i class="bi bi-patch-check flex-shrink-0"></i> Exercitationem dolorem sapiente.</li>
-                <li><i class="bi bi-brightness-high flex-shrink-0"></i> Veniam quia modi magnam.</li>
+                  <li><i class="bi bi-check-circle"></i> <span>Pelacakan mood harian yang mudah diakses di setiap saat, kapan pun Anda butuh.</span></li>
+                  <li><i class="bi bi-check-circle"></i> <span>Laporan mingguan dan bulanan untuk membantu Anda mengenali perubahan suasana hati.</span></li>
+                  <li><i class="bi bi-check-circle"></i> <span>Pengaturan target harian yang memotivasi Anda untuk terus maju dan tetap produktif.</span></li>
               </ul>
-              <p></p>
-              <a href="#" class="btn more-btn">Learn More</a>
-            </div>
-
+              <a href="#" class="read-more"><span>Mulai Sekarang dan Rasakan Perbedaannya!</span><i class="bi bi-arrow-right"></i></a>
           </div>
-
-          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
-            <img src="assets/img/features-2.jpg" class="img-fluid" alt="">
-          </div>
-
-        </div>
-         <!---------------------------------------------------------------- Section 6 Detail view mood calender ------------------------------------------------------------------------>
-
-      </div>
-
-    </section>
-
-
-    <section class="features-details section">
-
-        <div class="container">
-            <!---------------------------------------------------------------- Section 7 Detail notes ------------------------------------------------------------------------>
-
-            <div class="row gy-4 justify-content-between features-item lg:pl-[70px] lg:pr-[70px]">
-                <div id="notes" class="container section-title" data-aos="fade-up">
-                    <h2>Notes</h2>
+          <div class="col-lg-6 about-images" data-aos="fade-up" data-aos-delay="200">
+              <div class="row gy-4">
+                  <div class="col-lg-6">
+                      <img src="assets/img/home/home1.png" class="img-fluid" alt="Track Mood">
                   </div>
-
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-              <img src="assets/img/features-1.jpg" class="img-fluid" alt="">
-            </div>
-
-            <div class="col-lg-5 d-flex align-items-center" data-aos="fade-up" data-aos-delay="200">
-              <div class="content">
-                <h3>Corporis temporibus maiores provident</h3>
-                <p>
-                  Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                  velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
-                </p>
-                <a href="#" class="btn more-btn">Learn More</a>
+                  <div class="col-lg-6">
+                      <div class="row gy-4">
+                          <div class="col-lg-12">
+                              <img src="assets/img/home/home2.jpg" class="img-fluid" alt="Mental Health Support">
+                          </div>
+                          <div class="col-lg-12">
+                              <img src="assets/img/home/home3.jpg" class="img-fluid" alt="Academic Journey">
+                          </div>
+                      </div>
+                  </div>
               </div>
-            </div>
-
           </div>
-            <!---------------------------------------------------------------- Section 7 Detail notes ------------------------------------------------------------------------>
+      </div>
+  </div>
+</section>
 
-            <!---------------------------------------------------------------- Section 7 Detail laporan mood ------------------------------------------------------------------------>
+<!---------------------------------------------------------------- Section 2 About ------------------------------------------------------------------------>
 
-          <div class="row gy-4 justify-content-between features-item lg:pl-[70px] lg:pr-[70px]">
-            <div id="laporan-mood" class="container section-title" data-aos="fade-up">
-                <h2>Laporan mood</h2>
+<!---------------------------------------------------------------- Section 3 Fitur ------------------------------------------------------------------------>
+
+
+<section id="services" class="services section light-background">
+  <div class="container section-title" data-aos="fade-up">
+      <h2>Fitur Unggulan </h2>
+      <p>GamaPulse menawarkan fitur inovatif yang akan membantu memahami diri lebih baik dan mendukung perjalanan akademis Anda dengan lebih efektif.</p>
+  </div>
+
+  <div class="container">
+      <div class="row g-5">
+          <!-- Mood Tracker -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+              <div class="service-item item-cyan position-relative">
+                  <i class="bi bi-emoji-smile icon"></i>
+                  <div>
+                      <h3>Mood Tracker</h3>
+                      <p>Catat suasana hati Anda setiap hari dan pelajari bagaimana perasaan Anda memengaruhi produktivitas. Dengan pemantauan rutin, Anda bisa lebih mudah mengenali pola mood Anda dan menjaga kesehatan mental Anda tetap stabil.</p>
+                      <a href="#mood-tracker" class="read-more stretched-link">Pelajari Lebih Lanjut <i class="bi bi-arrow-right"></i></a>
+                  </div>
               </div>
-
-            <div class="col-lg-5 d-flex align-items-center order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
-
-              <div class="content">
-                <h3>Neque ipsum omnis sapiente quod quia dicta</h3>
-                <p>
-                  Quidem qui dolore incidunt aut. In assumenda harum id iusto lorena plasico mares
-                </p>
-                <ul>
-                  <li><i class="bi bi-easel flex-shrink-0"></i> Et corporis ea eveniet ducimus.</li>
-                  <li><i class="bi bi-patch-check flex-shrink-0"></i> Exercitationem dolorem sapiente.</li>
-                  <li><i class="bi bi-brightness-high flex-shrink-0"></i> Veniam quia modi magnam.</li>
-                </ul>
-                <p></p>
-                <a href="#" class="btn more-btn">Learn More</a>
-              </div>
-
-            </div>
-
-            <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
-              <img src="assets/img/features-2.jpg" class="img-fluid" alt="">
-            </div>
-
           </div>
-          <!---------------------------------------------------------------- Section 7 Detail laporan mood ------------------------------------------------------------------------>
 
-        </div>
-
-      </section><!-- /Features Details Section -->
-
-      <section id="trakker-perngerjaan-tugas-akhir" class="features-details section lg:pl-[70px] lg:pr-[70px]">
-
-        <div class="container">
-            <!---------------------------------------------------------------- Section 7 Detail laporan pengerjaan tugas akhir ------------------------------------------------------------------------>
-          <div class="row gy-4 justify-content-between features-item">
-            <div id="laporan-pengerjaan-tugas-akhir" class="container section-title" data-aos="fade-up">
-                <h2>Laporan pengerjaan tugas akhir</h2>
+          <!-- Daily Task Log -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+              <div class="service-item item-orange position-relative">
+                  <i class="bi bi-stopwatch icon"></i>
+                  <div>
+                      <h3>Task Log</h3>
+                      <p>Kelola progres tugas Anda dengan sistematis. Atur timeline pengerjaan, tentukan target, dan evaluasi pencapaian Anda setiap hari. Fitur ini membantu Anda tetap fokus pada tujuan dan menyelesaikan tugas tepat waktu.</p>
+                      <a href="#daily-task-log" class="read-more stretched-link">Pelajari Lebih Lanjut <i class="bi bi-arrow-right"></i></a>
+                  </div>
               </div>
+          </div>
 
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-              <img src="assets/img/features-1.jpg" class="img-fluid" alt="">
-            </div>
-
-            <div class="col-lg-5 d-flex align-items-center" data-aos="fade-up" data-aos-delay="200">
-              <div class="content">
-                <h3>Corporis temporibus maiores provident</h3>
-                <p>
-                  Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                  velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
-                </p>
-                <a href="#" class="btn more-btn">Learn More</a>
+          <!-- Mood Calendar -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+              <div class="service-item item-teal position-relative">
+                  <i class="bi bi-calendar4-week icon"></i>
+                  <div>
+                      <h3>Kalender Mood</h3>
+                      <p>Visualisasikan perubahan mood Anda dalam format kalender yang interaktif. Amati tren suasana hati Anda dari hari ke hari, minggu ke minggu, untuk lebih memahami pengaruhnya terhadap kesehatan mental Anda secara keseluruhan.</p>
+                      <a href="#mood-calendar" class="read-more stretched-link">Pelajari Lebih Lanjut <i class="bi bi-arrow-right"></i></a>
+                  </div>
               </div>
-            </div>
-        </div>
-            <!---------------------------------------------------------------- Section 7 Detail laporan pengerjaan tugas akhir ------------------------------------------------------------------------>
+          </div>
 
-      </section><!-- /Features Details Section -->
+          <!-- Daily Journal -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+              <div class="service-item item-red position-relative">
+                  <i class="bi bi-journal-text icon"></i>
+                  <div>
+                      <h3>Catatan Harian</h3>
+                      <p>Simak refleksi dan ide-ide Anda setiap hari. Jurnal ini memudahkan Anda untuk merekam kemajuan tugas, menulis catatan penting, dan menyimpan informasi yang relevan dengan mudah.</p>
+                      <a href="#daily-journal" class="read-more stretched-link">Pelajari Lebih Lanjut <i class="bi bi-arrow-right"></i></a>
+                  </div>
+              </div>
+          </div>
+
+          <!-- GamaPulse Reports -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
+              <div class="service-item item-indigo position-relative">
+                  <i class="bi bi-bar-chart icon"></i>
+                  <div>
+                      <h3>Laporan GamaPulse</h3>
+                      <p>Terima analisis mendalam tentang tren mood Anda. Laporan ini membantu Anda memahami pemicu perasaan, serta memberikan rekomendasi untuk meningkatkan kesejahteraan mental Anda sepanjang perjalanan akademis.</p>
+                      <a href="#gamapulse-reports" class="read-more stretched-link">Pelajari Lebih Lanjut <i class="bi bi-arrow-right"></i></a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+<!---------------------------------------------------------------- Section 3 Fitur ------------------------------------------------------------------------>
+
+<!---------------------------------------------------------------- Section 4 Detail mood trakker ------------------------------------------------------------------------>
+<section class="features-details section">
+  <div class="container">
+    <!-- Section 1: Mood Tracker -->
+    <div id="mood-trakker" class="row gy-4 justify-content-between features-item">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Mood Tracker</h2>
+      </div>
+      <div class="col-lg-5 d-flex align-items-center" data-aos="fade-up" data-aos-delay="100">
+        <div class="content">
+          <h3>Lacak dan Kelola Mood Anda dengan Mudah</h3>
+          <p>Pantau suasana hati setiap hari untuk memahami emosi Anda lebih baik</p>
+          <ul>
+            <li><i class="bi bi-calendar3"></i> Lihat Mood Anda di Kalender Bulanan</li>
+            <li><i class="bi bi-bar-chart-line"></i> Dapatkan Laporan Lengkap untuk Menganalisis Tren Mood Anda</li>
+            <li><i class="bi bi-activity"></i> Pantau Kemajuan Mental Anda</li>
+          </ul>
+          <a href="#" class="btn more-btn">Learn More</a>
+        </div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+        <img src="assets/img/mood-tracker.png" class="img-fluid" alt="">
+      </div>
+    </div>
+
+    <!-- Section 2: Task Log -->
+    <div id="trakker-pengerjaan-tugas-akhir" class="row gy-4 justify-content-between features-item">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Task Log</h2>
+      </div>
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+        <img src="assets/img/taks-log.png" class="img-fluid" alt="">
+      </div>
+      <div class="col-lg-5 d-flex align-items-center" data-aos="fade-up" data-aos-delay="200">
+        <div class="content">
+          <h3>Capai Target, Tingkatkan Efisiensi</h3>
+          <p>Tetapkan target waktu untuk setiap tugas, pantau durasi pengerjaannya, dan evaluasi produktivitas Anda.</p>
+          <ul>
+            <li><i class="bi bi-calendar-check"></i> Tetapkan Target Waktu Pengerjaan Tugas</li>
+            <li><i class="bi bi-stopwatch"></i> Hentikan Waktu Saat Tugas Selesai</li>
+            <li><i class="bi bi-graph-up"></i> Dapatkan Laporan Rata-rata Waktu Produktivitas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Kalender Mood -->
+    <div id="view-mood-calender" class="row gy-4 justify-content-between features-item">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Kalender Mood</h2>
+      </div>
+      <div class="col-lg-5 d-flex align-items-center" data-aos="fade-up" data-aos-delay="100">
+        <div class="content">
+          <h3>Pantau & Kelola Mood Anda di Kalender Bulanan</h3>
+          <p>Telusuri dan kelola mood harian Anda dengan mudah melalui tampilan kalender yang interaktif.</p>
+          <ul>
+            <li><i class="bi bi-calendar3"></i> Pilih Bulan untuk Melihat Rekam Mood Anda</li>
+            <li><i class="bi bi-pencil-square"></i> Ubah Mood dan Catatan Jika Masih dalam Hari yang Sama</li>
+            <li><i class="bi bi-bar-chart-line"></i> Pantau Konsistensi dan Tren Mood Anda Setiap Bulan</li>
+          </ul>
+          <a href="#" class="btn more-btn">Learn More</a>
+        </div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+        <img src="assets/img/calender.png" class="img-fluid" alt="">
+      </div>
+    </div>
+
+    <!-- Section 4: Catatan Harian -->
+    <div id="notes" class="row gy-4 justify-content-between features-item">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Catatan Harian</h2>
+      </div>
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+        <img src="assets/img/notes.png" class="img-fluid" alt="">
+      </div>
+      <div class="col-lg-5 d-flex align-items-center" data-aos="fade-up" data-aos-delay="200">
+        <div class="content">
+          <h3>Ekspresikan Emosi Anda dengan Catatan</h3>
+          <p>Tuliskan Perasaan Anda dengan Aman dan Terkontrol</p>
+          <ul>
+            <li><i class="bi bi-pencil"></i> Tulis Perasaan Anda dengan Bebas dan Tanpa Batas</li>
+            <li><i class="bi bi-shield-lock"></i> Semua Catatan Anda Dilindungi dan Tidak Akan Dibagikan</li>
+            <li><i class="bi bi-calendar2-day"></i> Catat Emosi Anda Setiap Hari dengan Jaminan Kerahasiaan</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Laporan Mood Tracker -->
+    <div id="laporan-mood" class="row gy-4 justify-content-between features-item">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Laporan Mood Tracker</h2>
+      </div>
+      <div class="col-lg-5 d-flex align-items-center" data-aos="fade-up" data-aos-delay="100">
+        <div class="content">
+          <h3>Analisis Tren Mood Anda dengan Mudah</h3>
+          <p>Analisis tren mood dengan visual yang memudahkan.</p>
+          <ul>
+            <li><i class="bi bi-bar-chart"></i> Lihat Infografik Mood yang Jelas dan Informatif</li>
+            <li><i class="bi bi-calendar3"></i> Pilih Laporan Mingguan atau Bulanan untuk Melihat Pola Mood Anda</li>
+            <li><i class="bi bi-search"></i> Pantau Perkembangan Mood Anda dengan Visual yang Memudahkan Analisis</li>
+          </ul>
+          <a href="#" class="btn more-btn">Learn More</a>
+        </div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+        <img src="assets/img/laporan-mood.png" class="img-fluid" alt="">
+      </div>
+    </div>
+
+    <!-- Section 6: Laporan Task Log -->
+    <div id="laporan-pengerjaan-tugas-akhir" class="row gy-4 justify-content-between features-item">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Laporan Task Log</h2>
+      </div>
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+        <img src="assets/img/task-log.png" class="img-fluid" alt="">
+      </div>
+      <div class="col-lg-5 d-flex align-items-center" data-aos="fade-up" data-aos-delay="200">
+        <div class="content">
+          <h3>Tingkatkan Produktivitas Anda</h3>
+          <p>Lihat waktu yang dihabiskan untuk tugas Anda melalui infografik</p>
+          <ul>
+            <li><i class="bi bi-bar-chart-line"></i> Laporan Infografik untuk Mengukur Produktivitas Pengerjaan Tugas</li>
+            <li><i class="bi bi-calendar3"></i> Pilih Laporan dalam Format Mingguan atau Bulanan</li>
+            <li><i class="bi bi-clock"></i> Analisis Waktu yang Dihabiskan untuk Menyelesaikan Tugas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
   </main>
 
   <footer id="footer" class="footer position-relative light-background">
-
     <div class="container footer-top">
       <div class="row gy-4">
+        <!-- Informasi Utama -->
         <div class="col-lg-4 col-md-6 footer-about">
           <a href="index.html" class="logo d-flex align-items-center">
             <span class="sitename">GamaPulse</span>
           </a>
           <div class="footer-contact pt-3">
-            <p>A108 Adam Street</p>
-            <p>New York, NY 535022</p>
-            <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-            <p><strong>Email:</strong> <span>info@example.com</span></p>
+            <p>Jl. Kaliurang KM 10</p>
+            <p>Yogyakarta, Indonesia 55284</p>
+            <p class="mt-3"><strong>Phone:</strong> <span>+62 857 1234 5678</span></p>
+            <p><strong>Email:</strong> <span>support@gamapulse.com</span></p>
           </div>
-          <div class="social-links d-flex mt-4">
-            <a href=""><i class="bi bi-twitter-x"></i></a>
-            <a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-linkedin"></i></a>
-          </div>
+          {{-- <div class="social-links d-flex mt-4">
+            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          </div> --}}
         </div>
 
+        <!-- Navigasi Cepat -->
         <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Useful Links</h4>
+          <h4>Navigasi Cepat</h4>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
+            <li><a href="#">Beranda</a></li>
+            <li><a href="#">Tentang Kami</a></li>
             <li><a href="#">Fitur</a></li>
-            <li><a href="#">Detail</a></li>
+            <li><a href="#">Panduan</a></li>
           </ul>
         </div>
 
+        <!-- Layanan Kami -->
         <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Our Services</h4>
+          <h4>Layanan Kami</h4>
           <ul>
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
-            <li><a href="#">Graphic Design</a></li>
+            <li><a href="#">Mood Tracker</a></li>
+            <li><a href="#">Catatan Harian</a></li>
+            <li><a href="#">Task Log</a></li>
+            <li><a href="#">Mood Calendar</a></li>
+            <li><a href="#">Laporan</a></li>
           </ul>
         </div>
       </div>
     </div>
 
-    <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">QuickStart</strong><span>All Rights Reserved</span></p>
+    <!-- Hak Cipta -->
+    {{-- <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">GamaPulse</strong><span> All Rights Reserved</span></p>
       <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> Dist<a href="https://themewagon.com">ThemeWagon
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> | Adapted by <a href="https://themewagon.com">ThemeWagon</a>
       </div>
-    </div>
-
+    </div> --}}
   </footer>
-    @if(session('alert'))
-    <script>
-        // Menampilkan alert dengan JavaScript
-        alert("{{ session('alert') }}");
-    </script>
-    @endif
+
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

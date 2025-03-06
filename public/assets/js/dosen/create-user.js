@@ -9,7 +9,7 @@ function createUserForm() {
             tanggal_lahir: null,
             phone: null,
             Password: '',
-            role: 'role_1'
+            role: ''
         }],
         createdUsers: [],
         showCreatedUsers: false,
@@ -25,7 +25,7 @@ function createUserForm() {
                 tanggal_lahir: null,
                 phone: null,
                 Password: '',
-                role: 'role_1'
+                role: ''
             });
         },
 
@@ -33,91 +33,10 @@ function createUserForm() {
             this.users.splice(index, 1);
         },
 
-        async submitForm() {
-            // Validasi yang lebih ketat
-            const isValid = this.users.every(user =>
-                user.email &&
-                user.password &&
-                user.name &&
-                user.nim &&
-                user.role
-            );
+        submitForm() {
+            this.createdUsers = [...this.users];
+            this.showCreatedUsers = true;
 
-            if (!isValid) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Validation Error',
-                    text: 'Please fill all required fields for each user'
-                });
-                return;
-            }
-
-            try {
-                // Pastikan payload sesuai dengan struktur yang diharapkan backend
-                const payload = {
-                    users: this.users.map(user => ({
-                        email: user.email,
-                        password: user.password,
-                        name: user.name,
-                        nim: user.nim,
-                        prodi: user.prodi || null,
-                        tanggal_lahir: user.tanggal_lahir || null,
-                        phone: user.phone || null,
-                        role: user.role
-                    }))
-                };
-
-                const response = await fetch('/dosen/users', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify(payload)
-                });
-
-                const data = await response.json();
-
-                console.log(response)
-                console.log(data);
-                console.log(data.status);
-
-                if (data.status === 'success') {
-                    this.createdUsers = [...this.users];
-                    this.showCreatedUsers = true;
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: data.message
-                    });
-
-                    // Reset form after successful submission
-                    this.users = [{
-                        email: '',
-                        password: '',
-                        name: '',
-                        nim: '',
-                        prodi: null,
-                        tanggal_lahir: null,
-                        phone: null,
-                        role: ''
-                    }];
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: data.message
-                    });
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Server Error',
-                    text: 'Failed to create users. Please try again.'
-                });
-            }
         },
 
         downloadTemplate() {
@@ -130,7 +49,7 @@ function createUserForm() {
                     prodi: 'nama prodi',
                     tanggal_lahir: 'YYYY-MM-DD',
                     phone: '1234567890',
-                    role: 'role_1'
+                    role: 'role 1'
                 }
             ];
 

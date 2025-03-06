@@ -3,3 +3,9 @@
         margin-top: 30px;
     }
  }
+
+
+.mood-button.selected {
+    background-color: #3399ab;
+    color: white;
+}

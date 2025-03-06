@@ -6,4 +6,34 @@
     .edit-role {
         font-size: 8px;
     }
- }
+}
+
+.selected {
+    border: 2px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Posisi menu aksi muncul di samping dan tengah dari tombol titik tiga */
+.action-menu {
+    display: none;  /* Menyembunyikan menu secara default */
+    position: absolute;
+    top: 50%;  /* Menempatkan di tengah secara vertikal */
+    left: 100%;  /* Menempatkan di sebelah kanan tombol titik tiga */
+    transform: translateY(-50%);  /* Memastikan menu berada di tengah secara vertikal */
+    z-index: 100;  /* Pastikan menu berada di atas elemen lainnya */
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    min-width: 200px;  /* Tentukan lebar minimum menu */
+}
+
+.action-menu .menu-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.action-menu .menu-item:hover {
+    background-color: #f0f0f0;
+}

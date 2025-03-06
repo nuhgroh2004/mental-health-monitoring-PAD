@@ -275,3 +275,176 @@ window.addEventListener('resize', () => {
     chart.resize();
   }
 });
+
+function updateAverageMoodChart() {
+  const ctx = document.getElementById('averageMoodChart').getContext('2d');
+
+  const data = {
+      labels: ['Marah', 'Sedih', 'Biasa', 'Senang'],
+      datasets: [{
+          label: 'Rata-rata Mood All Time (%)',
+          data: [averageMood[1], averageMood[2], averageMood[3], averageMood[4]],
+          backgroundColor: ['#e57373', '#ffb74d', '#fff59d', '#81c784'],
+          borderColor: ['#e57373', '#ffb74d', '#fff59d', '#81c784'],
+          borderWidth: 1
+      }]
+  };
+
+  const chartConfig = {
+      type: 'bar',
+      data: data,
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+              legend: {
+                  position: 'top',
+              },
+              title: {
+                  display: true,
+                  text: 'Rata-rata Mood All Time (%)',
+                  font: {
+                      size: 16
+                  }
+              }
+          },
+          scales: {
+              y: {
+                  beginAtZero: true,
+                  title: {
+                      display: true,
+                      text: 'Persentase Mood (%)'
+                  },
+                  ticks: {
+                      callback: function(value) {
+                          return value + '%';
+                      }
+                  }
+              }
+          }
+      }
+  };
+
+  new Chart(ctx, chartConfig);
+}
+
+function updateChart() {
+  const ctx = document.getElementById('chart').getContext('2d');
+  if (chart) {
+      chart.destroy();
+  }
+
+  const selectedMonth = parseInt(document.getElementById('selectedMonth').value);
+  const selectedWeek = document.getElementById('selectedWeek').value;
+  const year = new Date().getFullYear();
+
+  const { moodData, tugasData } = processChartData(
+      chartData,
+      year,
+      selectedMonth,
+      currentReportType === 'weekly' ? selectedWeek : null
+  );
+
+  const data = currentTab === 'mood' ?
+      moodData[currentReportType] :
+      tugasData[currentReportType];
+
+  const chartConfig = {
+      type: currentTab === 'mood' ? 'bar' : 'line',
+      data: data,
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+              legend: {
+                  position: 'top',
+              },
+              title: {
+                  display: true,
+                  text: `${currentTab === 'mood' ? 'Grafik Mood' : 'Progress Tugas Akhir'} ${currentReportType === 'monthly' ? 'Bulanan' : 'Mingguan'}`,
+                  font: {
+                      size: 16
+                  }
+              },
+              tooltip: {
+                  callbacks: {
+                      label: function(context) {
+                          if (currentTab === 'mood') {
+                              if (context.raw === null) return null;
+                              return `Mood: ${context.dataset.label}`;
+                          } else {
+                              let label = context.dataset.label || '';
+                              if (label) {
+                                  label += ': ';
+                              }
+                              label += context.parsed.y + ' jam';
+                              return label;
+                          }
+                      }
+                  }
+              }
+          },
+          scales: {
+              x: {
+                  stacked: currentTab === 'mood',
+                  title: {
+                      display: true,
+                      text: currentReportType === 'monthly' ? 'Tanggal' : 'Hari'
+                  }
+              },
+              y: {
+                  stacked: currentTab === 'mood',
+                  beginAtZero: true,
+                  title: {
+                      display: true,
+                      text: currentTab === 'mood' ? 'Tingkat Mood' : 'Jam'
+                  },
+                  max: currentTab === 'mood'
+                      ? Math.max(5, ...chartData.labels.map(day => {
+                          const dayMood = chartData.mood[day];
+                          return dayMood ? dayMood.mood_intensity : 0;
+                      }))
+                      : undefined, // Ambil nilai terbesar, tapi minimal 5
+                  ticks: currentTab === 'mood' ? {
+                      stepSize: 1,
+                      callback: function(value) {
+                          return value;
+                      }
+                  } : undefined
+              }
+          }
+      }
+  };
+
+  chart = new Chart(ctx, chartConfig);
+
+  // Update grafik rata-rata mood all time
+  updateAverageMoodChart();
+}
+
+function updateReportType() {
+  currentReportType = document.getElementById('reportType').value;
+  document.getElementById('reportTypeTitle').textContent =
+      currentReportType === 'monthly' ? 'Bulanan' : 'Mingguan';
+  document.getElementById('weekContainer').classList.toggle('hidden',
+      currentReportType === 'monthly');
+  updateChart();
+}
+
+function updatePeriod() {
+  const selectedMonth = parseInt(document.getElementById('selectedMonth').value);
+  const year = new Date().getFullYear();
+  window.location.href = `${window.location.pathname}?month=${selectedMonth}&year=${year}`;
+}
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+  updateChart();
+  updateAverageMoodChart();
+});
+
+window.addEventListener('resize', () => {
+  if (chart) {
+      chart.resize();
+  }
+});
