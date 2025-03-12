@@ -18,10 +18,11 @@ return new class extends Migration
             $table->string('prodi');
             $table->date('tanggal_lahir');
             $table->string('nomor_hp', 11);
-            $table->enum('mahasiswa_role', ['role_1', 'role_2']);
+            $table->unsignedBigInteger('mahasiswa_role_id');
             $table->timestamps();
 
             $table->primary('mahasiswa_id');
+            $table->foreign('mahasiswa_role_id')->references('mahasiswa_role_id')->on('mahasiswa_role')->onDelete('cascade');
         });
     }
 

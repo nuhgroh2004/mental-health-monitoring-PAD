@@ -57,4 +57,9 @@ class Mahasiswa extends Authenticatable
     {
         return $this->hasMany(ProgressTracker::class, 'mahasiswa_id', 'mahasiswa_id');
     }
+
+    public function mahasiswarole()
+    {
+        return $this->hasOne(MahasiswaRole::class, 'mahasiswa_role_id', 'mahasiswa_role_id');
+    }
 }
