@@ -62,4 +62,10 @@ class Mahasiswa extends Authenticatable
     {
         return $this->hasOne(MahasiswaRole::class, 'mahasiswa_role_id', 'mahasiswa_role_id');
     }
+
+    public function role()
+{
+    return $this->belongsTo(MahasiswaRole::class, 'mahasiswa_role_id', 'mahasiswa_role_id');
+}
+
 }

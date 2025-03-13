@@ -17,7 +17,7 @@
         <td class="px-6 py-3">{{ $mahasiswa->tanggal_lahir }}</td>
         <td class="px-6 py-3">{{ $mahasiswa->email }}</td>
         <td class="px-6 py-3">{{ $mahasiswa->nomor_hp }}</td>
-        <td class="px-6 py-3">{{ $mahasiswa->mahasiswa_role }}</td>
+        <td class="px-6 py-3">{{ $mahasiswa->role->name }}</td>
         <td class="px-6 py-3 relative">
             <div class="absolute top-1/2 right-4 transform -translate-y-1/2">
                 <button onclick="toggleActionMenu(this)" class="p-1 hover:bg-gray-100 rounded-full">

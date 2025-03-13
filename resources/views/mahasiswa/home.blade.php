@@ -60,12 +60,8 @@
 
                                 <!-- Level Buttons -->
                                 <div class="flex justify-center space-x-2 mb-6">
-                                    @if($userRole === 'role_1')
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="{{ $i }}">{{ $i }}</button>
-                                        @endfor
-                                    @elseif($userRole === 'role_2')
-                                        @for ($i = 1; $i <= 10; $i++)
+                                    @if(isset($minIntensity) && isset($maxIntensity))
+                                        @for ($i = $minIntensity; $i <= $maxIntensity; $i++)
                                             <button class="level-btn w-12 h-12 rounded-full border-2 hover:bg-blue-100 transition-colors" data-level="{{ $i }}">{{ $i }}</button>
                                         @endfor
                                     @else

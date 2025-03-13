@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mahasiswa;
 use App\Http\Controllers\Controller;
 
 use App\Models\MoodTracker;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,8 +14,13 @@ class MoodController extends Controller
     {
 
         $user = auth()->user()->load('mahasiswa'); // Ambil data mahasiswa
+        $dataMahasiswa = Mahasiswa::with('role')->find($user->mahasiswa->mahasiswa_id);
         // dd(auth()->user());
-        return view('mahasiswa.home', ['user' => auth()->user()]);
+        return view('mahasiswa.home', [
+            'user' => auth()->user(),
+            'minIntensity' => $dataMahasiswa->role->min_intensity,
+            'maxIntensity' => $dataMahasiswa->role->max_intensity
+        ]);
     }
 
     public function showNotes()
