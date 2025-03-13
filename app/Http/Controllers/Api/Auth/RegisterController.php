@@ -63,6 +63,7 @@ class RegisterController extends Controller
             'tanggal_lahir' => $validated['tanggal_lahir'],
             'nomor_hp' => $validated['phone_number'],
             'NIM' => $validated['nim'],
+            'mahasiswa_role_id' => '1',
         ]);
 
         $token = $user->createToken('API Token')->plainTextToken;

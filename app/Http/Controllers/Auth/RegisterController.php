@@ -111,7 +111,7 @@ class RegisterController extends Controller
             'NIM' => $request->nim,
             'tanggal_lahir' => $request->tanggal_lahir,
             'nomor_hp' => $request->phone_number,
-            'mahasiswa_role' => 'role_1',
+            'mahasiswa_role_id' => '1',
         ]);
 
         // Login otomatis
