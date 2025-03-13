@@ -25,7 +25,7 @@ class mahasiswaSeeder extends Seeder
             'prodi' => 'Teknik Informatika',
             'tanggal_lahir' => '2000-01-01',
             'nomor_hp' => '12345678901',
-            'mahasiswa_role' => 'role_1'
+            'mahasiswa_role_id' => '1'
         ]);
 
         // Buat 5 mahasiswa role_1

@@ -11,17 +11,17 @@ class moodSeeder extends Seeder
 {
     public function run()
     {
-        // Ambil 1 mahasiswa role_1
-        $mahasiswaRole1 = Mahasiswa::where('mahasiswa_role', 'role_1')
+        // Ambil 1 mahasiswa role 1
+        $mahasiswaRole1 = Mahasiswa::where('mahasiswa_role_id', 1)
             ->first();
 
-        // Ambil 1 mahasiswa role_2
-        $mahasiswaRole2 = Mahasiswa::where('mahasiswa_role', 'role_2')
+        // Ambil 1 mahasiswa role 2
+        $mahasiswaRole2 = Mahasiswa::where('mahasiswa_role_id', 2)
             ->first();
 
         $mahasiswas = [
-            ['mahasiswa' => $mahasiswaRole1, 'role' => 'role_1'],
-            ['mahasiswa' => $mahasiswaRole2, 'role' => 'role_2']
+            ['mahasiswa' => $mahasiswaRole1, 'role' => '1'],
+            ['mahasiswa' => $mahasiswaRole2, 'role' => '2']
         ];
 
         $days = 90;
@@ -31,15 +31,21 @@ class moodSeeder extends Seeder
             $mahasiswa = $data['mahasiswa'];
             $role = $data['role'];
 
-        for ($i = 0; $i < $days; $i++) {
-            $date = $today->copy()->subDays($i);
+            for ($i = 0; $i < $days; $i++) {
+                $date = $today->copy()->subDays($i);
 
-            MoodTracker::factory()
-                ->forDate($date)
-                ->forMahasiswaRole($role)
-                ->create([
-                    'mahasiswa_id' => $mahasiswa->mahasiswa_id
-                ]);
+                // Generate data mood
+                $mood = MoodTracker::factory()
+                    ->forDate($date)
+                    ->forMahasiswaRole($role)
+                    ->make([
+                        'mahasiswa_id' => $mahasiswa->mahasiswa_id
+                    ]);
+
+                // Jika mood_level null, skip penyimpanan data
+                if ($mood->mood_level !== null) {
+                    $mood->save();
+                }
             }
         }
     }

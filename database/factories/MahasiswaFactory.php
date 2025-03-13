@@ -16,7 +16,7 @@ class MahasiswaFactory extends Factory
             'prodi' => $this->faker->randomElement(['Teknik Informatika', 'Sistem Informasi', 'Teknik Elektro']),
             'tanggal_lahir' => $this->faker->date('Y-m-d', '-18 years'), // Minimal 18 tahun ke atas
             'nomor_hp' => $this->faker->regexify('\d{11}'), // Nomor HP sepanjang 11 digit
-            'mahasiswa_role' => 'role_1',
+            'mahasiswa_role_id' => '1',
         ];
     }
 
@@ -25,7 +25,7 @@ class MahasiswaFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'mahasiswa_role' => 'role_2',
+                'mahasiswa_role_id' => '2',
             ];
         });
     }

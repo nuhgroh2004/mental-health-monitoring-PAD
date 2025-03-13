@@ -17,7 +17,7 @@ class Mahasiswa extends Authenticatable
         'NIM',
         'tanggal_lahir',
         'nomor_hp',
-        'mahasiswa_role'
+        'mahasiswa_role_id'
     ];
 
     public function moodProgressData($startDate)

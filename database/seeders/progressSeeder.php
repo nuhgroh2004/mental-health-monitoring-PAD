@@ -12,11 +12,11 @@ class progressSeeder extends Seeder
     public function run()
     {
         // Ambil 1 mahasiswa role_1
-        $mahasiswaRole1 = Mahasiswa::where('mahasiswa_role', 'role_1')
+        $mahasiswaRole1 = Mahasiswa::where('mahasiswa_role_id', '1')
             ->first();
 
         // Ambil 1 mahasiswa role_2
-        $mahasiswaRole2 = Mahasiswa::where('mahasiswa_role', 'role_2')
+        $mahasiswaRole2 = Mahasiswa::where('mahasiswa_role_id', '2')
             ->first();
 
         $mahasiswas = [$mahasiswaRole1, $mahasiswaRole2];
