@@ -21,13 +21,13 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
                 </svg>
-                {{ date('d/m/Y') }}
+                    {{ \Illuminate\Support\Str::limit($mood->created_at, 10, '') }}
             </div>
             <div class="flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
                 </svg>
-                {{ date('H:i') }}
+                {{ \Illuminate\Support\Str::substr($mood->created_at, -8) }}
             </div>
         </div>
 
@@ -54,7 +54,7 @@
                     @php
                         $maxIntensity = $userRole === 'role_1' ? 5 : 10;
                         $intensityPercent = ($mood->mood_intensity / $maxIntensity) * 100;
-                        
+
                         // Menentukan warna berdasarkan intensitas
                         if ($mood->mood_intensity <= 2 || ($userRole === 'role_2' && $mood->mood_intensity <= 4)) {
                             $color = 'bg-blue-200 text-blue-700';
@@ -67,7 +67,7 @@
                             $ringColor = 'ring-blue-700';
                         }
                     @endphp
-                    
+
                     <span class="font-semibold text-gray-600 inline-block mr-2">Intensitas:</span>
                     <span class="inline-flex items-center justify-center {{ $color }} rounded-full w-5 h-5 text-lg font-bold ring-2 {{ $ringColor }} shadow-md">
                         {{ $mood->mood_intensity }}
