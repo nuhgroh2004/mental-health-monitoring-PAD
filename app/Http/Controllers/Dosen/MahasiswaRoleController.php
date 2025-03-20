@@ -12,7 +12,8 @@ class MahasiswaRoleController extends Controller
     // Menampilkan semua role yang tersedia
     public function index()
     {
-        return response()->json(MahasiswaRole::all());
+        $roles = MahasiswaRole::whereNotIn('mahasiswa_role_id', [1, 2])->get();
+        return response()->json($roles);
     }
 
     // Membuat role baru

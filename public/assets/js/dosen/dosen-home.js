@@ -143,50 +143,108 @@ function handleEditRole(mahasiswaId) {
 
 // Create HTML content for the modal
 function createMoodConfigHTML(savedCustomTemplates) {
-    const customTemplateButtonsHTML = savedCustomTemplates.map(role => `
-        <button id="template-${role.mahasiswa_role_id}"
-                data-role-id="${role.mahasiswa_role_id}"
-                data-min="${role.min_intensity}"
-                data-max="${role.max_intensity}"
-                class="template-btn bg-blue-600 text-white py-3 px-5 rounded-lg hover:bg-blue-700 transition-colors">
-            ${role.name} (Skala ${role.min_intensity}-${role.max_intensity})
-        </button>
-    `).join('');
+    const customTemplateButtonsHTML = createCustomTemplateButtons(savedCustomTemplates);
 
     return `
-        <div class="template-container flex flex-wrap justify-center gap-2 mb-4">
-            ${customTemplateButtonsHTML}
+        <div class="mx-auto max-w-md p-4 rounded-lg bg-gray-50 shadow-inner">
+            <div class="space-y-6">
+                <div class="text-center">
+                    <div class="flex items-center justify-center mb-3">
+                        <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <h3 class="font-semibold text-lg text-gray-800">Rentang Intensitas Mood</h3>
+                    </div>
+
+                    <p class="text-sm text-gray-600 mb-3">
+                        Silakan pilih template rentang mood atau buat kustom Anda sendiri.
+                    </p>
+
+                    <!-- Template Selection: Built-in and Custom Templates -->
+                    <div class="template-container flex flex-wrap justify-center gap-2 mb-4">
+                        <div class="built-in-templates flex flex-wrap justify-center gap-2">
+                            <button id="template-1-5" data-role-id="1"
+                                class="template-btn bg-blue-600 text-white py-3 px-5 rounded-lg hover:bg-blue-700 transition-colors">
+                                Skala 1-5
+                            </button>
+                            <button id="template-1-10" data-role-id="2"
+                                class="template-btn bg-blue-600 text-white py-3 px-5 rounded-lg hover:bg-blue-700 transition-colors">
+                                Skala 1-10
+                            </button>
+                        </div>
+
+                        <div id="custom-templates-container" class="custom-templates flex flex-wrap justify-center gap-2">
+                            ${customTemplateButtonsHTML}
+                        </div>
+
+                        <button id="template-custom" class="template-btn bg-white text-blue-600 py-3 px-5 rounded-lg border border-blue-600 transition-colors hover:bg-blue-600 hover:text-white">
+                            Kustom Baru
+                        </button>
+                    </div>
+
+                    <div id="active-template" class="text-sm font-medium text-blue-600 mb-4">
+                        Template Aktif: Skala 1-5
+                    </div>
+
+                    <div class="flex flex-col items-center justify-center space-y-4 mb-4">
+                        <div class="text-center w-full">
+                            <label for="minMood" class="block text-sm font-medium text-gray-700 mb-1">Nilai Minimum</label>
+                            <div class="flex justify-center">
+                                <input type="number" id="minMood"
+                                    class="swal2-input py-2 px-4 w-48 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-center"
+                                    placeholder="1" min="1" max="100" value="1">
+                            </div>
+                        </div>
+
+                        <div class="text-center w-full">
+                            <label for="maxMood" class="block text-sm font-medium text-gray-700 mb-1">Nilai Maksimum</label>
+                            <div class="flex justify-center">
+                                <input type="number" id="maxMood"
+                                    class="swal2-input py-2 px-4 w-48 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-center"
+                                    placeholder="5" min="1" max="100" value="5">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-center mt-2 mb-1">
+                        <button id="save-custom-template" class="h-10 px-3 py-1.5 bg-green-500 text-white text-sm rounded-md hover:bg-green-600 transition-colors flex items-center">
+                            Simpan Template Kustom
+                        </button>
+                    </div>
+
+                    <div id="rangeError" class="text-red-500 text-sm mt-3 hidden p-2 bg-red-50 rounded-md border border-red-200 mx-auto max-w-xs">
+                        <div class="flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zm-1 9a1 1 0 01-1-1v-4a1 1 0 112 0v4a1 1 0 01-1 1z" clip-rule="evenodd"></path>
+                            </svg>
+                            Rentang tidak valid. Min harus < Max (1-100).
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <button id="template-custom" class="template-btn bg-white text-blue-600 py-3 px-5 rounded-lg border border-blue-600 transition-colors hover:bg-blue-600 hover:text-white">
-            Kustom Baru
-        </button>
-
-        <div class="flex flex-col items-center justify-center space-y-4 mb-4">
-            <input type="number" id="minMood" class="swal2-input" placeholder="Min" min="1" max="100">
-            <input type="number" id="maxMood" class="swal2-input" placeholder="Max" min="1" max="100">
-        </div>
-
-        <button id="save-custom-template" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700">
-            Simpan Template Kustom
-        </button>
     `;
 }
 
 
+
 // Create the HTML for custom template buttons
 function createCustomTemplateButtons(savedCustomTemplates) {
-    if (!savedCustomTemplates.length) return '';
+    if (!savedCustomTemplates || savedCustomTemplates.length === 0) return '';
 
     return savedCustomTemplates.map((template, index) => `
-        <div class="custom-template-item relative group">
-            <button id="template-${template.min}-${template.max}" data-min="${template.min}" data-max="${template.max}"
+        <div class="custom-template-item relative group inline-block">
+            <button id="template-${template.mahasiswa_role_id}"
+                data-role-id="${template.mahasiswa_role_id}"
+                data-min="${template.min_intensity}"
+                data-max="${template.max_intensity}"
                 class="custom-template-btn bg-indigo-100 text-indigo-800 py-2 px-4 rounded-lg
                 hover:bg-indigo-200 transition-colors mx-1">
-                Skala ${template.min}-${template.max}
+                ${template.name} Skala ${template.min_intensity}-${template.max_intensity}
             </button>
-            <button data-index="${index}" class="delete-template-btn absolute -top-2 -right-2 bg-red-500
-                text-white rounded-full w-5 h-5 flex items-center justify-center">
+            <button data-role-id="${template.mahasiswa_role_id}"
+                class="delete-template-btn absolute -top-2 -right-2 bg-red-500 text-white
+                rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-600 transition">
                 <span class="text-xs">×</span>
             </button>
         </div>
@@ -199,62 +257,32 @@ function setupMoodConfigModal(mahasiswaId) {
 
     let selectedRole = null;
 
-    // Jika tombol "Simpan Template Kustom" diklik, buat role baru
-    document.getElementById("save-custom-template").addEventListener("click", function() {
-        const name = prompt("Masukkan nama role baru:");
-        const minIntensity = parseInt(document.getElementById("minMood").value);
-        const maxIntensity = parseInt(document.getElementById("maxMood").value);
-
-        if (!name || isNaN(minIntensity) || isNaN(maxIntensity) || minIntensity >= maxIntensity) {
-            Swal.fire("Error", "Mohon masukkan nama role dan rentang intensitas yang valid.", "error");
-            return;
-        }
-
-        fetch('/dosen/roles/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ name, min_intensity: minIntensity, max_intensity: maxIntensity })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                Swal.fire("Berhasil!", "Role berhasil ditambahkan.", "success")
-                    .then(() => location.reload());
-            } else {
-                Swal.fire("Gagal", "Terjadi kesalahan saat menyimpan role.", "error");
-            }
-        })
-        .catch(error => {
-            console.error("Error saat menyimpan role:", error);
-            Swal.fire("Gagal", "Terjadi kesalahan server.", "error");
-        });
-    });
-
-    // Tambahkan event listener untuk memilih role dari daftar yang sudah ada
-    document.querySelectorAll(".template-btn").forEach(button => {
+    // Tambahkan event listener untuk memilih role
+    document.querySelectorAll(".template-btn, .custom-template-btn").forEach(button => {
         button.addEventListener("click", function() {
-
-            document.querySelectorAll(".template-btn").forEach(btn => btn.classList.remove("selected"));
+            document.querySelectorAll(".template-btn, .custom-template-btn").forEach(btn => btn.classList.remove("selected"));
             this.classList.add("selected");
 
             selectedRole = this.getAttribute("data-role-id");
+
+            // Simpan role yang dipilih ke tombol "Simpan"
+            document.getElementById("save-custom-template").setAttribute("data-selected-role", selectedRole);
+
             console.log("Role dipilih:", selectedRole);
         });
     });
 
     // Event listener untuk menyimpan role
     document.getElementById("save-custom-template").addEventListener("click", function() {
-        if (!selectedRole) {
+        let finalSelectedRole = this.getAttribute("data-selected-role"); // Ambil role yang dipilih terakhir
+        console.log("Mengupdate mahasiswa:", mahasiswaId, "dengan role:", finalSelectedRole);
+
+        if (!finalSelectedRole) {
             Swal.fire("Error", "Pilih role terlebih dahulu sebelum menyimpan!", "error");
             return;
         }
 
-        console.log("Mengupdate mahasiswa:", mahasiswaId, "dengan role:", selectedRole);
-
-        submitRoleUpdate(mahasiswaId, selectedRole)
+        submitRoleUpdate(mahasiswaId, finalSelectedRole)
             .then(result => {
                 if (result.success) {
                     Swal.fire("Berhasil!", "Role mahasiswa diperbarui.", "success")
@@ -262,10 +290,7 @@ function setupMoodConfigModal(mahasiswaId) {
                 } else {
                     Swal.fire("Gagal", result.message, "error");
                 }
-                
-            document.getElementById("minMood").value = this.getAttribute("data-min");
-            document.getElementById("maxMood").value = this.getAttribute("data-max");
-        });
+            });
     });
 }
 
@@ -698,29 +723,10 @@ function validateRange(minInput, maxInput, errorDiv) {
 
 // Handle form submission
 function handleMoodConfigSubmit(mahasiswaId) {
-    const minMood = document.getElementById("minMood").value;
-    const maxMood = document.getElementById("maxMood").value;
-
-    // Validate range
-    if (parseInt(minMood) >= parseInt(maxMood) ||
-        parseInt(minMood) < 1 ||
-        parseInt(maxMood) > 100) {
-        Swal.showValidationMessage("Rentang mood tidak valid. Min harus < Max dan nilai harus 1-100.");
-        return false;
-    }
-
-    // Create configuration object
-    const config = {
-        range: {
-            min: parseInt(minMood),
-            max: parseInt(maxMood)
-        }
-    };
-
     console.log("handleMoodConfigSubmit dipanggil untuk mahasiswaId:", mahasiswaId);
 
-    // Ambil role yang dipilih
-    let selectedRole = document.querySelector(".template-btn.selected")?.getAttribute("data-role-id");
+    // Ambil role yang dipilih dari button "Simpan"
+    let selectedRole = document.getElementById("save-custom-template").getAttribute("data-selected-role");
 
     console.log("Role yang dipilih:", selectedRole); // Debugging
 
@@ -729,12 +735,10 @@ function handleMoodConfigSubmit(mahasiswaId) {
         return false;
     }
 
-    // Store current selection in localStorage for this mahasiswa
-    localStorage.setItem(`mood_settings_${mahasiswaId}`, JSON.stringify(config));
-
-    // Send the request to update the role
-    return submitRoleUpdate(mahasiswaId, selectedRole, config);
+    // Kirim request ke server
+    return submitRoleUpdate(mahasiswaId, selectedRole);
 }
+
 
 // Submit role update to the server
 function submitRoleUpdate(mahasiswaId, selectedRole) {
