@@ -26,5 +26,12 @@ class mahasiswaRoleSeeder extends Seeder
             "min_intensity" => "1",
             "max_intensity" => "10"
         ]);
+
+        MahasiswaRole::create([
+            "mahasiswa_role_id" => "3",
+            "name" => "Contoh 3-4",
+            "min_intensity" => "3",
+            "max_intensity" => "4"
+        ]);
     }
 }

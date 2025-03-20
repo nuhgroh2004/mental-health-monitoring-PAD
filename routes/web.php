@@ -20,6 +20,7 @@ use App\Http\Controllers\Dosen\DosenHomeController;
 use App\Http\Controllers\Dosen\DosenNotifController;
 use App\Http\Controllers\OTPController;
 use App\Http\Controllers\Dosen\DosenCreateUserController;
+use App\Http\Controllers\dosen\MahasiswaRoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,7 +69,12 @@ Route::middleware(['dosen'])->group(function () {
         Route::get('/home', [DosenHomeController::class, 'index'])->name('dosen.home');
         Route::get('/search', [DosenHomeController::class, 'search'])->name('dosen.search');
         Route::get('/mahasiswa/delete/{id}', [DosenHomeController::class, 'destroy'])->name('dosen.delete');
-        Route::post('/edit-role/{id}', [DosenHomeController::class, 'editRole']);
+
+        Route::get('/roles', [MahasiswaRoleController::class, 'index']); // Get daftar role
+        Route::post('/roles/create', [MahasiswaRoleController::class, 'store']); // Buat role baru
+        Route::post('/edit-role/{id}', [MahasiswaRoleController::class, 'updateMahasiswaRole']); // Ubah role mahasiswa
+        Route::delete('/roles/{id}/delete', [MahasiswaRoleController::class, 'deleteRole']); // Hapus role
+
         Route::post('/mahasiswa/{mahasiswaId}/izin', [DosenHomeController::class, 'sendPermissionRequest'])->name('dosen.izin');
 
         Route::get('/create-user', [DosenCreateUserController::class, 'create'])->name('dosen.create-user');
