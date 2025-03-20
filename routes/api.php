@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\Mahasiswa\MahasiswaController;
 use App\Http\Controllers\Api\Mahasiswa\MahasiswaNotifController;
 use App\Http\Controllers\Api\Mahasiswa\MoodController;
 use App\Http\Controllers\api\Mahasiswa\ProgressTrackerController;
+use App\Http\Controllers\Api\Mahasiswa\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,9 @@ Route::middleware(['auth:sanctum', 'mahasiswa'])->group(function() {
 
     Route::get('/mahasiswa/notifikasi', [MahasiswaNotifController::class, 'index']);
     Route::put('/mahasiswa/notifikasi/{id}', [MahasiswaNotifController::class, 'update']);
+
+    Route::get('/mahasiswa/report', [ReportController::class, 'getReportData']);
+
 });
 
 
