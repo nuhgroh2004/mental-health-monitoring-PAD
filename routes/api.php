@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\Mahasiswa\MahasiswaNotifController;
 use App\Http\Controllers\Api\Mahasiswa\MoodController;
 use App\Http\Controllers\api\Mahasiswa\ProgressTrackerController;
 use App\Http\Controllers\Api\Mahasiswa\ReportController;
+use App\Http\Controllers\Api\Mahasiswa\MoodCalendarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,9 @@ Route::middleware(['auth:sanctum', 'mahasiswa'])->group(function() {
 
     Route::get('/mahasiswa/report', [ReportController::class, 'getReportData']);
 
+    Route::get('/mahasiswa/calendar', [MoodCalendarController::class, 'calendar']);
+    Route::post('/mahasiswa/mood-by-date', [MoodCalendarController::class, 'showEditMoodsDanNotes']);
+    Route::put('/mahasiswa/update-mood-note/{id}', [MoodCalendarController::class, 'updateMoodNote']);
 });
 
 
