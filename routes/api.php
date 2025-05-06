@@ -51,7 +51,7 @@ Route::middleware(['auth:sanctum', 'mahasiswa'])->group(function() {
     Route::get('/mahasiswa/report', [ReportController::class, 'getReportData']);
 
     Route::get('/mahasiswa/calendar', [MoodCalendarController::class, 'calendar']);
-    Route::post('/mahasiswa/mood-by-date', [MoodCalendarController::class, 'showEditMoodsDanNotes']);
+    Route::get('/mahasiswa/edit-mood-notes', [MoodCalendarController::class, 'showEditMoodsDanNotes']);
     Route::put('/mahasiswa/update-mood-note/{id}', [MoodCalendarController::class, 'updateMoodNote']);
 });
 
