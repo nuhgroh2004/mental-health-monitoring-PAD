@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('NIM', 20)->unique();
             $table->string('prodi');
             $table->date('tanggal_lahir');
-            $table->string('nomor_hp', 11);
+            $table->string('nomor_hp', 12);
             $table->unsignedBigInteger('mahasiswa_role_id');
             $table->timestamps();
 

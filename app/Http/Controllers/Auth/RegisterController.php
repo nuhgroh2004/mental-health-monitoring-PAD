@@ -39,7 +39,7 @@ class RegisterController extends Controller
             ],
             'prodi' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date_format:Y-m-d',
-            'phone_number' => 'nullable|string|size:11|regex:/^[0-9]+$/',
+            'phone_number' => 'nullable|string|digits_between:10,12|regex:/^[0-9]+$/',
             'nim' => [
                 'required',
                 'string',
@@ -75,7 +75,7 @@ class RegisterController extends Controller
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
             'tanggal_lahir.date_format' => 'Format tanggal lahir harus YYYY-MM-DD.',
 
-            'phone_number.size' => 'Nomor telepon harus 11 digit.',
+            'phone_number.digits_between' => 'Nomor telepon harus antara 10 sampai 12 digit.',
             'phone_number.regex' => 'Nomor telepon hanya boleh mengandung angka.',
 
             'nim.required' => 'NIM wajib diisi.',

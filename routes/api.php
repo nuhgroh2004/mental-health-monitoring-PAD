@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 
 use app\Http\Controllers\Api\Dosen\DosenController;
+use App\Http\Controllers\Api\Dosen\DosenCreateUserController;
 use App\Http\Controllers\Api\Dosen\DosenNotifCOntroller;
 use App\Http\Controllers\Api\Dosen\DosenHomeController;
 
@@ -60,6 +61,8 @@ Route::middleware(['auth:sanctum', 'mahasiswa'])->group(function() {
 Route::middleware(['auth:sanctum', 'dosen'])->group(function() {
     Route::get('/dosen/profil', [DosenController::class, 'showProfil']);
     Route::put('/dosen/update-profil', [DosenController::class, 'updateProfil']);
+
+    Route::post('/dosen/create-user/store', [DosenCreateUserController::class, 'store']);
 
     Route::get('/dosen/notifikasi', [DosenNotifCOntroller::class, 'showNotifications']);
     Route::get('/dosen/download-pdf/{id}', [DosenNotifController::class, 'downloadPDF']);

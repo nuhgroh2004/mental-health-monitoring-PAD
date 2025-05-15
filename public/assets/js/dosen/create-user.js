@@ -9,7 +9,8 @@ function createUserForm() {
             tanggal_lahir: null,
             phone: null,
             Password: '',
-            role: ''
+            role: null, // Diubah dari string kosong ke null
+            showPassword: false
         }],
         createdUsers: [],
         showCreatedUsers: false,
@@ -25,7 +26,8 @@ function createUserForm() {
                 tanggal_lahir: null,
                 phone: null,
                 Password: '',
-                role: ''
+                role: null, // Diubah dari string kosong ke null
+                showPassword: false
             });
         },
 
@@ -34,9 +36,66 @@ function createUserForm() {
         },
 
         submitForm() {
-            this.createdUsers = [...this.users];
-            this.showCreatedUsers = true;
+            // Ngambil token CSRF dari meta tag
+            const csrf_token = document.querySelector('meta[name="csrf-token"]').content;
 
+            // Validasi client-side sederhana
+            if (this.users.some(user => !user.role || !user.email || !user.password)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Harap isi semua field yang wajib diisi!',
+                });
+                return;
+            }
+
+            // Kirim data ke server
+            fetch('/dosen/create-user/store', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrf_token,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    users: this.users
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw err; });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'User berhasil ditambahkan',
+                        showConfirmButton: true,
+                    });
+                    this.$refs.userForm.reset();
+                    this.users = [{
+                        email: '',
+                        password: '',
+                        name: '',
+                        nim: '',
+                        prodi: null,
+                        tanggal_lahir: null,
+                        phone: null,
+                        role: null,
+                        showPassword: false
+                    }];
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal menambahkan user',
+                    text: error.message || 'Terjadi kesalahan server',
+                });
+            });
         },
 
         downloadTemplate() {

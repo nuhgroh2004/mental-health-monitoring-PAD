@@ -78,7 +78,7 @@ Route::middleware(['dosen'])->group(function () {
         Route::post('/mahasiswa/{mahasiswaId}/izin', [DosenHomeController::class, 'sendPermissionRequest'])->name('dosen.izin');
 
         Route::get('/create-user', [DosenCreateUserController::class, 'create'])->name('dosen.create-user');
-        Route::post('/users', [DosenCreateUserController::class, 'store']);
+        Route::post('/create-user/store', [DosenCreateUserController::class, 'store'])->name('dosen.create-user.store');
 
         Route::get('/notifikasi', [DosenNotifController::class, 'showNotifications'])->name('dosen.notifikasi');
         Route::get('dosen/download-pdf/{notificationId}', [DosenNotifController::class, 'downloadPDF'])->name('dosen.downloadPDF');
@@ -86,6 +86,8 @@ Route::middleware(['dosen'])->group(function () {
         Route::get('/profil', [DosenController::class, 'showProfil'])->name('dosen.profil');
         Route::post('/update-profil', [DosenController::class, 'updateProfil'])->name('dosen.updateProfil');
         Route::get('/edit-profil', [DosenController::class, 'bukaEdit'])->name('dosen.edit-profil');
+
+
     });
 });
 

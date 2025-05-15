@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Dosen;
+namespace App\Http\Controllers\Api\Dosen;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mahasiswa;
@@ -13,16 +13,6 @@ use Illuminate\Validation\Rule;
 
 class DosenCreateUserController extends Controller
 {
-    public function create()
-    {
-        $roles = MahasiswaRole::select([
-            'mahasiswa_role_id as id',
-            'name'
-         ])->get();
-
-    return view('dosen.create-user', compact('roles'));
-    }
-
     public function store(Request $request)
     {
         // Ambil semua role yang valid dari database
@@ -123,9 +113,23 @@ class DosenCreateUserController extends Controller
                     'mahasiswa_role_id' => $userData['role'],
                 ]);
 
+                $roleName = MahasiswaRole::where('mahasiswa_role_id', $userData['role'])->value('name');
+
+                $createdUsers[] = [
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role_id' => $userData['role'],
+                    'nama_role' => $roleName
+                ];
             }
 
             DB::commit();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'User berhasil ditambahkan',
+                'created_users' => $createdUsers
+            ], 200);
 
         } catch (\Exception $e) {
             DB::rollBack();

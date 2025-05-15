@@ -32,7 +32,7 @@ class RegisterController extends Controller
             ],
             'prodi' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date_format:Y-m-d',
-            'phone_number' => 'nullable|string|size:11|regex:/^[0-9]+$/',
+            'phone_number' => 'nullable|string|digits_between:10,12|regex:/^[0-9]+$/',
             'nim' => [
                 'required',
                 'string',
