@@ -22,7 +22,7 @@ class MoodController extends Controller
         $request->validate([
             'selectedEmotion' => 'required|string',
             'selectedIntensity' => 'required|string',
-            'notes' => 'required|string|max:1000',
+            'notes' => 'nullable|string|max:1000',
         ]);
 
         if (!isset($moodMap[$request->selectedEmotion])) {

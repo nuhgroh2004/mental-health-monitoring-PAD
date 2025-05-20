@@ -123,9 +123,24 @@ class DosenCreateUserController extends Controller
                     'mahasiswa_role_id' => $userData['role'],
                 ]);
 
+                $roleName = MahasiswaRole::where('mahasiswa_role_id', $userData['role'])->value('name');
+
+                $createdUsers[] = [
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role_id' => $userData['role'],
+                    'nama_role' => $roleName
+                ];
             }
 
             DB::commit();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'User berhasil ditambahkan',
+                'created_users' => $createdUsers
+            ], 200);
+
 
         } catch (\Exception $e) {
             DB::rollBack();
