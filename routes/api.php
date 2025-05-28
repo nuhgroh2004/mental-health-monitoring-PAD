@@ -62,7 +62,8 @@ Route::middleware(['auth:sanctum', 'dosen'])->group(function() {
     Route::get('/dosen/profil', [DosenController::class, 'showProfil']);
     Route::put('/dosen/update-profil', [DosenController::class, 'updateProfil']);
 
-    Route::post('/dosen/create-user/store', [DosenCreateUserController::class, 'store']);
+    Route::post('/dosen/create-user/store', [DosenCreateUserController::class, 'storeUserManualAPI']);
+    Route::post('/dosen/create-user/import', [DosenCreateUserController::class, 'importUserExcelAPI']);
 
     Route::get('/dosen/notifikasi', [DosenNotifCOntroller::class, 'showNotifications']);
     Route::get('/dosen/download-pdf/{id}', [DosenNotifController::class, 'downloadPDF']);

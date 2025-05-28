@@ -1,5 +1,24 @@
 function createUserForm() {
     return {
+        dragOver: false,
+        fileName: '',
+        selectedFile: null,
+
+        handleFileSelect(event) {
+            const file = event.target.files[0];
+            console.log('File Selected: ', file);
+            if (file) {
+                this.selectedFile = file;
+                this.fileName = file.name;
+            }
+        },
+
+        removeFile() {
+            this.selectedFile = null;
+            this.fileName = '';
+            this.$refs.fileInput.value = '';
+        },
+
         users: [{
             email: '',
             password: '',
@@ -9,7 +28,7 @@ function createUserForm() {
             tanggal_lahir: null,
             phone: null,
             Password: '',
-            role: null, // Diubah dari string kosong ke null
+            role: 1,
             showPassword: false
         }],
         createdUsers: [],
@@ -26,7 +45,7 @@ function createUserForm() {
                 tanggal_lahir: null,
                 phone: null,
                 Password: '',
-                role: null, // Diubah dari string kosong ke null
+                role: 1,
                 showPassword: false
             });
         },
@@ -107,8 +126,8 @@ function createUserForm() {
                     nim: 'XX/XXXXXX/AA/XXXXX',
                     prodi: 'nama prodi',
                     tanggal_lahir: 'YYYY-MM-DD',
-                    phone: '1234567890',
-                    role: 'role 1'
+                    phone: '12345678901 (10 sampai 12 digit)',
+                    role: '1'
                 }
             ];
 
@@ -139,46 +158,75 @@ function createUserForm() {
         },
 
         submitExcel() {
-            // Handle Excel file submission
-            const fileInput = this.$refs.fileInput;
-            const file = fileInput.files[0];
+            const file = this.selectedFile;
 
-            function submitExcel(){
+            if (!file) {
                 Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Your work has been saved",
-                    showConfirmButton: false,
-                    timer: 1500
-                  });
-
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Silakan pilih file Excel terlebih dahulu!',
+                });
+                return;
             }
 
+            console.log('Preparing to submit file:', file.name); // Debug log
 
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const sheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[sheetName];
-                    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+            const formData = new FormData();
+            formData.append('file', file);
+            // console.log('FormData created:', formData); // Debug log
 
-                    this.createdUsers = jsonData.map(user => ({
-                        ...user,
-                        prodi: user.prodi || null,
-                        tanggal_lahir: user.tanggal_lahir || null,
-                        phone: user.phone || null
-                    }));
+            // Ngambil token CSRF dari meta tag
+            const csrf_token = document.querySelector('meta[name="csrf-token"]').content;
+            // console.log('CSRF Token:', csrf_token); // Debug log
 
+            // Kirim file ke server
+            fetch('/dosen/import-users', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrf_token,
+                    'Accept': 'application/json'
+                },
+                body: formData
+            })
+            .then(response => {
+                console.log('Raw response:', response); // Debug raw response
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        console.error('Server error:', err); // Debug error
+                        throw err;
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response data:', data); // Debug success
+                if (data.status === 'success') {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Import berhasil!',
+                        text: `Berhasil mengimpor ${data.imported_users.length} user`,
+                        showConfirmButton: true,
+                    });
+
+                    this.createdUsers = data.imported_users;
                     this.showCreatedUsers = true;
-                    this.excelCreationSuccess = true;
-                    setTimeout(() => {
-                        this.excelCreationSuccess = false;
-                    }, 3000);
-                };
-                reader.readAsArrayBuffer(file);
-            }
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Import sebagian berhasil',
+                        text: data.message,
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error); // Debug error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal mengimport data',
+                    text: error.message || 'Terjadi kesalahan saat mengimport data',
+                });
+            });
         }
     };
 }

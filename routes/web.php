@@ -78,7 +78,8 @@ Route::middleware(['dosen'])->group(function () {
         Route::post('/mahasiswa/{mahasiswaId}/izin', [DosenHomeController::class, 'sendPermissionRequest'])->name('dosen.izin');
 
         Route::get('/create-user', [DosenCreateUserController::class, 'create'])->name('dosen.create-user');
-        Route::post('/create-user/store', [DosenCreateUserController::class, 'store'])->name('dosen.create-user.store');
+        Route::post('/create-user/store', [DosenCreateUserController::class, 'storeUserManual'])->name('dosen.create-user.store');
+        Route::post('/import-users', [DosenCreateUserController::class, 'importUserExcel'])->name('dosen.importUsers');
 
         Route::get('/notifikasi', [DosenNotifController::class, 'showNotifications'])->name('dosen.notifikasi');
         Route::get('dosen/download-pdf/{notificationId}', [DosenNotifController::class, 'downloadPDF'])->name('dosen.downloadPDF');

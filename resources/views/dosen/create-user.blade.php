@@ -183,20 +183,7 @@
                 </button>
             </div>
 
-            <div x-data="{
-                dragOver: false,
-                fileName: '',
-                handleFileSelect(event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        this.fileName = file.name;
-                    }
-                },
-                removeFile() {
-                    this.fileName = '';
-                    this.$refs.fileInput.value = null;
-                }
-             }"
+            <div
              @dragover.prevent="dragOver = true"
              @dragleave.prevent="dragOver = false"
              @drop.prevent="dragOver = false"
@@ -228,6 +215,7 @@
                         </button>
                     </div>
                 </template>
+
             </div>
 
             <button @click="submitExcel" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform duration-300 ease-in-out transform hover:scale-105 mb-8">

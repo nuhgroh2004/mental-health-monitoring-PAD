@@ -7,8 +7,12 @@ use App\Models\Mahasiswa;
 use App\Models\MahasiswaRole;
 use App\Models\User;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class DosenCreateUserController extends Controller
@@ -23,7 +27,7 @@ class DosenCreateUserController extends Controller
     return view('dosen.create-user', compact('roles'));
     }
 
-    public function store(Request $request)
+    public function storeUserManual(Request $request)
     {
         // Ambil semua role yang valid dari database
         $validRoles = MahasiswaRole::pluck('mahasiswa_role_id')->toArray();
@@ -150,4 +154,121 @@ class DosenCreateUserController extends Controller
             ], 500);
         }
     }
+
+    public function importUserExcel(Request $request)
+    {
+        if (!$request->hasFile('file')) {
+            return response()->json(['status' => 'error', 'message' => 'Tidak ada file yang diupload'], 400);
+        }
+
+        $file = $request->file('file');
+
+        try {
+            $spreadsheet = IOFactory::load($file->getPathname());
+            $sheet = $spreadsheet->getActiveSheet();
+            $rows = $sheet->toArray();
+
+            $importedUsers = [];
+            $failedRows = [];
+
+            for ($i = 1; $i < count($rows); $i++) {
+                $row = $rows[$i];
+                $errors = [];
+
+                // Ambil kolom
+                $email = trim($row[0] ?? '');
+                $password = $row[1] ?? '';
+                $name = trim($row[2] ?? '');
+                $nim = trim($row[3] ?? '');
+                $prodi = trim($row[4] ?? '');
+                $tanggalLahirRaw = $row[5] ?? '';
+                $phone = preg_replace('/[^0-9]/', '', $row[6] ?? '');
+
+                // Validasi kolom satu per satu
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $errors[] = 'Email tidak valid';
+                } elseif (User::where('email', $email)->exists()) {
+                    $errors[] = 'Email sudah digunakan';
+                }
+
+                if (strlen($password) < 6) {
+                    $errors[] = 'Password minimal 6 karakter';
+                }
+
+                if (strlen($name) === 0) {
+                    $errors[] = 'Nama tidak boleh kosong';
+                }
+
+                if (strlen($nim) > 20) {
+                    $errors[] = 'NIM maksimal 20 karakter';
+                }
+
+                if (strlen($prodi) === 0) {
+                    $errors[] = 'Prodi wajib diisi';
+                }
+
+                try {
+                    if (is_numeric($tanggalLahirRaw)) {
+                        $tanggalLahir = Date::excelToDateTimeObject($tanggalLahirRaw)->format('Y-m-d');
+                    } else {
+                        $tanggalLahir = Carbon::parse($tanggalLahirRaw)->format('Y-m-d');
+                    }
+                } catch (\Exception $e) {
+                    $errors[] = 'Format tanggal lahir tidak valid';
+                }
+
+                if (!preg_match('/^[0-9]{10,12}$/', $phone)) {
+                    $errors[] = 'Nomor HP harus 10-12 digit angka';
+                }
+
+                // Kalau ada error, log dan skip
+                if (!empty($errors)) {
+                    $failedRows[] = [
+                        'row' => $i + 1,
+                        'errors' => $errors
+                    ];
+                    continue;
+                }
+
+                try {
+                    // Buat user
+                    $user = User::create([
+                        'name' => $name,
+                        'email' => $email,
+                        'password' => Hash::make($password),
+                        'role' => 'Mahasiswa',
+                    ]);
+
+                    Mahasiswa::create([
+                        'mahasiswa_id' => $user->user_id,
+                        'NIM' => $nim,
+                        'prodi' => $prodi,
+                        'tanggal_lahir' => $tanggalLahir,
+                        'nomor_hp' => $phone,
+                        'mahasiswa_role_id' => 1,
+                    ]);
+
+                    $importedUsers[] = $user;
+                } catch (\Exception $e) {
+                    $failedRows[] = [
+                        'row' => $i + 1,
+                        'errors' => ['Gagal menyimpan ke database: ' . $e->getMessage()]
+                    ];
+                    continue;
+                }
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'imported_users' => $importedUsers,
+                'failed_rows' => $failedRows,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal memproses file: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
 }
