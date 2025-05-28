@@ -10,7 +10,7 @@ use app\Http\Controllers\Api\Dosen\DosenController;
 use App\Http\Controllers\Api\Dosen\DosenCreateUserController;
 use App\Http\Controllers\Api\Dosen\DosenNotifCOntroller;
 use App\Http\Controllers\Api\Dosen\DosenHomeController;
-
+use App\Http\Controllers\Api\dosen\MahasiswaRoleController;
 use App\Http\Controllers\Api\Mahasiswa\MahasiswaController;
 use App\Http\Controllers\Api\Mahasiswa\MahasiswaNotifController;
 use App\Http\Controllers\Api\Mahasiswa\MoodController;
@@ -64,6 +64,11 @@ Route::middleware(['auth:sanctum', 'dosen'])->group(function() {
 
     Route::post('/dosen/create-user/store', [DosenCreateUserController::class, 'storeUserManualAPI']);
     Route::post('/dosen/create-user/import', [DosenCreateUserController::class, 'importUserExcelAPI']);
+
+    Route::get('/dosen/roles', [MahasiswaRoleController::class, 'index']);
+    Route::post('/dosen/roles/create', [MahasiswaRoleController::class, 'store']);
+    Route::put('/dosen/edit-role-mahasiswa/{id}', [MahasiswaRoleController::class, 'updateMahasiswaRole']);
+    Route::delete('/dosen/roles/{id}/delete', [MahasiswaRoleController::class, 'deleteRole']);
 
     Route::get('/dosen/notifikasi', [DosenNotifCOntroller::class, 'showNotifications']);
     Route::get('/dosen/download-pdf/{id}', [DosenNotifController::class, 'downloadPDF']);

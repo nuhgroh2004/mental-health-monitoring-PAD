@@ -72,7 +72,7 @@ Route::middleware(['dosen'])->group(function () {
 
         Route::get('/roles', [MahasiswaRoleController::class, 'index']); // Get daftar role
         Route::post('/roles/create', [MahasiswaRoleController::class, 'store']); // Buat role baru
-        Route::post('/edit-role/{id}', [MahasiswaRoleController::class, 'updateMahasiswaRole']); // Ubah role mahasiswa
+        Route::post('/edit-role-mahasiswa/{id}', [MahasiswaRoleController::class, 'updateMahasiswaRole']); // Ubah role mahasiswa
         Route::delete('/roles/{id}/delete', [MahasiswaRoleController::class, 'deleteRole']); // Hapus role
 
         Route::post('/mahasiswa/{mahasiswaId}/izin', [DosenHomeController::class, 'sendPermissionRequest'])->name('dosen.izin');
