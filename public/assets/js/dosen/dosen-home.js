@@ -117,28 +117,25 @@ function handleDelete(mahasiswaId) {
 // fungsi edit role mahasiswa
 // Refactored handleEditRole function
 function handleEditRole(mahasiswaId) {
-    console.log("handleEditRole dipanggil untuk mahasiswaId:", mahasiswaId);
+    // Get saved custom templates from localStorage
+    const savedCustomTemplates = JSON.parse(localStorage.getItem('customMoodTemplates') || '[]');
 
-    fetch('/dosen/roles')
-        .then(response => response.json())
-        .then(savedCustomTemplates => {
-            console.log("Data role yang diterima:", savedCustomTemplates);
-
-            Swal.fire({
-                title: "Konfigurasi Rentang Intensitas Mood",
-                html: createMoodConfigHTML(savedCustomTemplates),
-                width: 600,
-                showConfirmButton: true,
-                showCancelButton: true,
-                confirmButtonText: "Simpan",
-                cancelButtonText: "Batal",
-                didOpen: () => setupMoodConfigModal(mahasiswaId),
-                preConfirm: () => handleMoodConfigSubmit(mahasiswaId)
-            }).then(handleMoodConfigResult);
-        })
-        .catch(error => {
-            console.error("Terjadi kesalahan saat mengambil role:", error);
-        });
+    Swal.fire({
+        title: "Konfigurasi Rentang Intensitas Mood",
+        html: createMoodConfigHTML(savedCustomTemplates),
+        width: 600,
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Simpan",
+        cancelButtonText: "Batal",
+        customClass: {
+            confirmButton: "btn btn-success w-32 mx-2 bg-green-600 hover:bg-green-700",
+            cancelButton: "btn btn-danger w-32 mx-2 bg-red-600 hover:bg-red-700",
+            popup: "swal-wide-popup",
+        },
+        didOpen: () => setupMoodConfigModal(mahasiswaId),
+        preConfirm: () => handleMoodConfigSubmit(mahasiswaId)
+    }).then(handleMoodConfigResult);
 }
 
 // Create HTML content for the modal
@@ -163,12 +160,10 @@ function createMoodConfigHTML(savedCustomTemplates) {
                     <!-- Template Selection: Built-in and Custom Templates -->
                     <div class="template-container flex flex-wrap justify-center gap-2 mb-4">
                         <div class="built-in-templates flex flex-wrap justify-center gap-2">
-                            <button id="template-1-5" data-role-id="1"
-                                class="template-btn bg-blue-600 text-white py-3 px-5 rounded-lg hover:bg-blue-700 transition-colors">
+                            <button id="template-1-5" class="template-btn bg-blue-600 text-white py-3 px-5 rounded-lg hover:bg-blue-700 transition-colors">
                                 Skala 1-5
                             </button>
-                            <button id="template-1-10" data-role-id="2"
-                                class="template-btn bg-blue-600 text-white py-3 px-5 rounded-lg hover:bg-blue-700 transition-colors">
+                            <button id="template-1-10" class="template-btn bg-blue-600 text-white py-3 px-5 rounded-lg hover:bg-blue-700 transition-colors">
                                 Skala 1-10
                             </button>
                         </div>
@@ -208,6 +203,7 @@ function createMoodConfigHTML(savedCustomTemplates) {
 
                     <div class="flex items-center justify-center mt-2 mb-1">
                         <button id="save-custom-template" class="h-10 px-3 py-1.5 bg-green-500 text-white text-sm rounded-md hover:bg-green-600 transition-colors flex items-center">
+
                             Simpan Template Kustom
                         </button>
                     </div>
@@ -226,25 +222,19 @@ function createMoodConfigHTML(savedCustomTemplates) {
     `;
 }
 
-
-
 // Create the HTML for custom template buttons
 function createCustomTemplateButtons(savedCustomTemplates) {
-    if (!savedCustomTemplates || savedCustomTemplates.length === 0) return '';
+    if (!savedCustomTemplates.length) return '';
 
     return savedCustomTemplates.map((template, index) => `
-        <div class="custom-template-item relative group inline-block">
-            <button id="template-${template.mahasiswa_role_id}"
-                data-role-id="${template.mahasiswa_role_id}"
-                data-min="${template.min_intensity}"
-                data-max="${template.max_intensity}"
+        <div class="custom-template-item relative group">
+            <button id="template-${template.min}-${template.max}" data-min="${template.min}" data-max="${template.max}"
                 class="custom-template-btn bg-indigo-100 text-indigo-800 py-2 px-4 rounded-lg
                 hover:bg-indigo-200 transition-colors mx-1">
-                ${template.name} Skala ${template.min_intensity}-${template.max_intensity}
+                Skala ${template.min}-${template.max}
             </button>
-            <button data-role-id="${template.mahasiswa_role_id}"
-                class="delete-template-btn absolute -top-2 -right-2 bg-red-500 text-white
-                rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-600 transition">
+            <button data-index="${index}" class="delete-template-btn absolute -top-2 -right-2 bg-red-500
+                text-white rounded-full w-5 h-5 flex items-center justify-center">
                 <span class="text-xs">×</span>
             </button>
         </div>
@@ -252,48 +242,10 @@ function createCustomTemplateButtons(savedCustomTemplates) {
 }
 
 // Set up the modal and attach event handlers
-function setupMoodConfigModal(mahasiswaId) {
-    console.log("Modal untuk edit role dibuka, mahasiswaId:", mahasiswaId);
-
-    let selectedRole = null;
-
-    // Tambahkan event listener untuk memilih role
-    document.querySelectorAll(".template-btn, .custom-template-btn").forEach(button => {
-        button.addEventListener("click", function() {
-            document.querySelectorAll(".template-btn, .custom-template-btn").forEach(btn => btn.classList.remove("selected"));
-            this.classList.add("selected");
-
-            selectedRole = this.getAttribute("data-role-id");
-
-            // Simpan role yang dipilih ke tombol "Simpan"
-            document.getElementById("save-custom-template").setAttribute("data-selected-role", selectedRole);
-
-            console.log("Role dipilih:", selectedRole);
-        });
-    });
-
-    // Event listener untuk menyimpan role
-    document.getElementById("save-custom-template").addEventListener("click", function() {
-        let finalSelectedRole = this.getAttribute("data-selected-role"); // Ambil role yang dipilih terakhir
-        console.log("Mengupdate mahasiswa:", mahasiswaId, "dengan role:", finalSelectedRole);
-
-        if (!finalSelectedRole) {
-            Swal.fire("Error", "Pilih role terlebih dahulu sebelum menyimpan!", "error");
-            return;
-        }
-
-        submitRoleUpdate(mahasiswaId, finalSelectedRole)
-            .then(result => {
-                if (result.success) {
-                    Swal.fire("Berhasil!", "Role mahasiswa diperbarui.", "success")
-                        .then(() => location.reload());
-                } else {
-                    Swal.fire("Gagal", result.message, "error");
-                }
-            });
-    });
+function setupMoodConfigModal() {
+    addCustomStyles();
+    initializeUIElements();
 }
-
 
 // Add custom CSS styles for the modal
 function addCustomStyles() {
@@ -723,47 +675,67 @@ function validateRange(minInput, maxInput, errorDiv) {
 
 // Handle form submission
 function handleMoodConfigSubmit(mahasiswaId) {
-    console.log("handleMoodConfigSubmit dipanggil untuk mahasiswaId:", mahasiswaId);
+    const minMood = document.getElementById("minMood").value;
+    const maxMood = document.getElementById("maxMood").value;
 
-    // Ambil role yang dipilih dari button "Simpan"
-    let selectedRole = document.getElementById("save-custom-template").getAttribute("data-selected-role");
-
-    console.log("Role yang dipilih:", selectedRole); // Debugging
-
-    if (!selectedRole) {
-        Swal.fire("Error", "Silakan pilih role sebelum menyimpan!", "error");
+    // Validate range
+    if (parseInt(minMood) >= parseInt(maxMood) ||
+        parseInt(minMood) < 1 ||
+        parseInt(maxMood) > 100) {
+        Swal.showValidationMessage("Rentang mood tidak valid. Min harus < Max dan nilai harus 1-100.");
         return false;
     }
 
-    // Kirim request ke server
-    return submitRoleUpdate(mahasiswaId, selectedRole);
+    // Create configuration object
+    const config = {
+        range: {
+            min: parseInt(minMood),
+            max: parseInt(maxMood)
+        }
+    };
+
+    // Determine if it's closer to role_1 or role_2 based on the range
+    const selectedRole = config.range.max <= 5 ? "role_1" : "role_2";
+
+    // Store current selection in localStorage for this mahasiswa
+    localStorage.setItem(`mood_settings_${mahasiswaId}`, JSON.stringify(config));
+
+    // Send the request to update the role
+    return submitRoleUpdate(mahasiswaId, selectedRole, config);
 }
 
-
 // Submit role update to the server
-function submitRoleUpdate(mahasiswaId, selectedRole) {
-        // Cek data yang dikirim sebelum fetch
-        console.log("Mengirim data untuk update role:");
-        console.log("Mahasiswa ID:", mahasiswaId);
-        console.log("Selected Role ID:", selectedRole);
-
+function submitRoleUpdate(mahasiswaId, selectedRole, config) {
     return fetch(`/dosen/edit-role/${mahasiswaId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') || ''
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
         },
-        body: JSON.stringify({ mahasiswa_role_id: selectedRole })
+        body: JSON.stringify({
+            role: selectedRole,
+            config: config
+        })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
-        if (!data.success) throw new Error(data.message);
-        return { success: true, message: data.message };
+        return {
+            success: true,
+            message: data.message || "Role berhasil diubah!"
+        };
     })
     .catch(error => {
         console.error("Error:", error);
-        return { success: false, message: "Terjadi kesalahan saat mengubah role." };
+        return {
+            success: false,
+            message: "Terjadi kesalahan saat mengubah role. Silakan coba lagi."
+        };
     });
 }
 
@@ -839,4 +811,3 @@ function handlePermissionRequest(mahasiswaId) {
         }
     });
 }
-
