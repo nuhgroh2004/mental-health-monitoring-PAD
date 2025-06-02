@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\MahasiswaRole;
 use App\Models\Mahasiswa;
+use Illuminate\Support\Facades\Log;
 
 class MahasiswaRoleController extends Controller
 {
@@ -37,7 +38,9 @@ class MahasiswaRoleController extends Controller
     // Mengubah role mahasiswa
     public function updateMahasiswaRole(Request $request, $mahasiswa_id)
     {
-        \Log::info("Request update role:", $request->all()); // Debugging
+        Log::info("Request Role ID:", ['id' => $request->mahasiswa_role_id]);
+
+        Log::info("Request update role:", $request->all()); // Debugging
 
         $validated = $request->validate([
             'mahasiswa_role_id' => 'required|exists:mahasiswa_role,mahasiswa_role_id'

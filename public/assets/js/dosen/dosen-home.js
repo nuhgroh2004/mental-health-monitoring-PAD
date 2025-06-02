@@ -178,10 +178,10 @@ function createMoodConfigHTML(savedCustomTemplates) {
                     </div>
 
                     <div id="active-template" class="text-sm font-medium text-blue-600 mb-4">
-                        Template Aktif: Skala 1-5
+                        TODO= Ambil role aktif mahasiswa
                     </div>
 
-                    <div class="flex flex-col items-center justify-center space-y-4 mb-4">
+                    <div id="custom-input-section" class="hidden flex flex-col items-center justify-center space-y-4 mb-4">
                         <div class="text-center w-full">
                             <label for="minMood" class="block text-sm font-medium text-gray-700 mb-1">Nilai Minimum</label>
                             <div class="flex justify-center">
@@ -201,7 +201,7 @@ function createMoodConfigHTML(savedCustomTemplates) {
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-center mt-2 mb-1">
+                    <div id="custom-save-button" class="hidden flex items-center justify-center mt-2 mb-1">
                         <button id="save-custom-template" class="h-10 px-3 py-1.5 bg-green-500 text-white text-sm rounded-md hover:bg-green-600 transition-colors flex items-center">
 
                             Simpan Template Kustom
@@ -374,16 +374,25 @@ function setupTemplateButtons(elements) {
     const { template1to5, template1to10, templateCustom, minInput } = elements;
 
     template1to5.addEventListener("click", () => {
+        document.getElementById("custom-input-section").classList.add("hidden");
+        document.getElementById("custom-save-button").classList.add("hidden");
+
         setTemplate(1, 5, "Skala 1-5", elements);
         template1to5.classList.add("active");
     });
 
     template1to10.addEventListener("click", () => {
+        document.getElementById("custom-input-section").classList.add("hidden");
+        document.getElementById("custom-save-button").classList.add("hidden");
+
         setTemplate(1, 10, "Skala 1-10", elements);
         template1to10.classList.add("active");
     });
 
     templateCustom.addEventListener("click", () => {
+        document.getElementById("custom-input-section").classList.remove("hidden");
+        document.getElementById("custom-save-button").classList.remove("hidden");
+
         // Allow custom input by activating the button
         elements.activeTemplateText.textContent = "Template Aktif: Kustom Baru";
 
@@ -695,18 +704,18 @@ function handleMoodConfigSubmit(mahasiswaId) {
     };
 
     // Determine if it's closer to role_1 or role_2 based on the range
-    const selectedRole = config.range.max <= 5 ? "role_1" : "role_2";
+    const selectedRoleId = config.range.max <= 5 ? 1 : 2;
 
     // Store current selection in localStorage for this mahasiswa
     localStorage.setItem(`mood_settings_${mahasiswaId}`, JSON.stringify(config));
 
     // Send the request to update the role
-    return submitRoleUpdate(mahasiswaId, selectedRole, config);
+    return submitRoleUpdate(mahasiswaId, selectedRoleId, config);
 }
 
 // Submit role update to the server
-function submitRoleUpdate(mahasiswaId, selectedRole, config) {
-    return fetch(`/dosen/edit-role/${mahasiswaId}`, {
+function submitRoleUpdate(mahasiswaId, selectedRoleId) {
+    return fetch(`edit-role-mahasiswa/${mahasiswaId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -714,8 +723,7 @@ function submitRoleUpdate(mahasiswaId, selectedRole, config) {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
         },
         body: JSON.stringify({
-            role: selectedRole,
-            config: config
+            mahasiswa_role_id: selectedRoleId
         })
     })
     .then(response => {
