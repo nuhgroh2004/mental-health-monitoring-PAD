@@ -37,7 +37,15 @@ class MahasiswaRoleController extends Controller
             'max_intensity' => $request->max_intensity
         ]);
 
-        return response()->json(['success' => true, 'role' => $role]);
+        return response()->json([
+        'success' => true,
+        'role' => [
+        'mahasiswa_role_id' => $role->mahasiswa_role_id,
+        'name' => $role->name,
+        'min_intensity' => $role->min_intensity,
+        'max_intensity' => $role->max_intensity
+    ]
+], 200, ['Content-Type' => 'application/json']);
     }
 
     // Mengubah role mahasiswa

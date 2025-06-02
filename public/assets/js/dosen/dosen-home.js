@@ -183,6 +183,14 @@ function createMoodConfigHTML(savedCustomTemplates) {
 
                     <div id="custom-input-section" class="hidden flex flex-col items-center justify-center space-y-4 mb-4">
                         <div class="text-center w-full">
+                            <label for="roleName" class="block text-sm font-medium text-gray-700 mb-1">Nama Role</label>
+                            <div class="flex justify-center">
+                                <input type="text" id="roleName"
+                                    class="swal2-input py-2 px-4 w-64 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-center"
+                                    placeholder="Contoh: Mood Tinggi 8-10">
+                            </div>
+                        </div>
+                        <div class="text-center w-full">
                             <label for="minMood" class="block text-sm font-medium text-gray-700 mb-1">Nilai Minimum</label>
                             <div class="flex justify-center">
                                 <input type="number" id="minMood"
@@ -267,6 +275,10 @@ function setupMoodConfigModal(mahasiswaId) {
 
 function renderRoleButton(role, index) {
     const container = document.getElementById("custom-templates-container");
+        if (!container) {
+            console.error("Element #custom-templates-container tidak ditemukan!");
+            return;
+        }
 
     const div = document.createElement('div');
     div.className = 'custom-template-item relative group';
@@ -311,6 +323,7 @@ function renderRoleButton(role, index) {
         e.stopPropagation();
         handleDeleteDatabaseRole(role.mahasiswa_role_id, div);
     });
+
 
     container.appendChild(div);
 }
@@ -573,7 +586,11 @@ function deleteTemplateAndUpdateUI(templateIndex, template, elements) {
     localStorage.setItem('customMoodTemplates', JSON.stringify(existingTemplates));
 
     // Remove the template from the UI
-    const templateItem = document.querySelector(`#template-${template.min}-${template.max}`).closest('.custom-template-item');
+    const templateBtn = document.querySelector(`#template-${template.min}-${template.max}`);
+    if (templateBtn) {
+        const templateItem = templateBtn.closest('.custom-template-item');
+        if (templateItem) templateItem.remove();
+    }
     if (templateItem) templateItem.remove();
 
     // Update data-index attributes for remaining delete buttons
@@ -595,6 +612,7 @@ function setupSaveTemplateHandler(elements) {
     const { saveCustomTemplateBtn, minInput, maxInput, errorDiv } = elements;
 
     saveCustomTemplateBtn.addEventListener("click", () => {
+        saveNewRoleToDatabase();
         const min = parseInt(minInput.value) || 1;
         const max = parseInt(maxInput.value) || 5;
 
@@ -608,68 +626,67 @@ function setupSaveTemplateHandler(elements) {
 
 // Save a custom template
 // Save a custom template
-function saveCustomTemplate(min, max, elements) {
-    // Get existing templates from localStorage
-    const existingTemplates = JSON.parse(localStorage.getItem('customMoodTemplates') || '[]');
+// function saveCustomTemplate(min, max, elements) {
+//     // Get existing templates from localStorage
+//     const existingTemplates = JSON.parse(localStorage.getItem('customMoodTemplates') || '[]');
 
-    // Check if template already exists
-    const templateExists = existingTemplates.some(template =>
-        template.min === min && template.max === max);
+//     // Check if template already exists
+//     const templateExists = existingTemplates.some(template =>
+//         template.min === min && template.max === max);
 
-    if (templateExists) {
-        // Show centered animation for duplicate template
-        Swal.fire({
-            position: 'center',
-            icon: 'warning',
-            title: 'Template Sudah Ada',
-            text: `Template dengan Skala ${min}-${max} sudah tersimpan sebelumnya.`,
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            customClass: {
-                popup: 'animated faster fadeInUp'
-            }
-        });
-        return;
-    }
+//     if (templateExists) {
+//         // Show centered animation for duplicate template
+//         Swal.fire({
+//             position: 'center',
+//             icon: 'warning',
+//             title: 'Template Sudah Ada',
+//             text: `Template dengan Skala ${min}-${max} sudah tersimpan sebelumnya.`,
+//             showConfirmButton: false,
+//             timer: 1500,
+//             timerProgressBar: true,
+//             customClass: {
+//                 popup: 'animated faster fadeInUp'
+//             }
+//         });
+//         return;
+//     }
 
-    // Add new template
-    existingTemplates.push({ min, max });
+//     // Add new template
+//     existingTemplates.push({ min, max });
 
-    // Save to localStorage
-    localStorage.setItem('customMoodTemplates', JSON.stringify(existingTemplates));
+//     // Save to localStorage
+//     localStorage.setItem('customMoodTemplates', JSON.stringify(existingTemplates));
 
-    // Add the new template to the UI immediately
-    addCustomTemplateToUI({ min, max }, existingTemplates.length - 1, elements);
+//     // Add the new template to the UI immediately
+//     addCustomTemplateToUI({ min, max }, existingTemplates.length - 1, elements);
 
-    // Show centered animation for successful save
-    Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Template Tersimpan',
-        text: `Template Skala ${min}-${max} berhasil disimpan.`,
-        showConfirmButton: false,
-        timer: 1500,
-        timerProgressBar: true,
-        customClass: {
-            popup: 'animated faster fadeInUp'
-        }
-    }).then(() => {
-        // After the animation, set this as the active template
-        setTemplate(min, max, `Skala ${min}-${max}`, elements);
+//     // Show centered animation for successful save
+//     Swal.fire({
+//         position: 'center',
+//         icon: 'success',
+//         title: 'Template Tersimpan',
+//         text: `Template Skala ${min}-${max} berhasil disimpan.`,
+//         showConfirmButton: false,
+//         timer: 1500,
+//         timerProgressBar: true,
+//         customClass: {
+//             popup: 'animated faster fadeInUp'
+//         }
+//     }).then(() => {
+//         // After the animation, set this as the active template
+//         setTemplate(min, max, `Skala ${min}-${max}`, elements);
 
-        // Find the button for this template and make it active
-        setTimeout(() => {
-            const templateBtn = document.getElementById(`template-${min}-${max}`);
-            if (templateBtn) {
-                resetActiveButtons();
-                templateBtn.classList.add('active');
-            }
-        }, 100); // Short delay to ensure DOM is updated
-    });
-}
+//         // Find the button for this template and make it active
+//         setTimeout(() => {
+//             const templateBtn = document.getElementById(`template-${min}-${max}`);
+//             if (templateBtn) {
+//                 resetActiveButtons();
+//                 templateBtn.classList.add('active');
+//             }
+//         }, 100); // Short delay to ensure DOM is updated
+//     });
+// }
 
-// Add a new custom template to the UI
 // Add a new custom template to the UI
 function addCustomTemplateToUI(template, index, elements) {
     const templateDiv = document.createElement('div');
@@ -828,6 +845,74 @@ function handleDeleteDatabaseRole(roleId, roleElementDiv) {
         }
     });
 }
+
+function saveNewRoleToDatabase() {
+    const roleNameInput = document.getElementById('roleName');
+    const minInput = document.getElementById('minMood');
+    const maxInput = document.getElementById('maxMood');
+    const errorDiv = document.getElementById("rangeError");
+
+    const name = roleNameInput?.value.trim();
+    const min = parseInt(minInput?.value);
+    const max = parseInt(maxInput?.value);
+
+    if (!name) {
+        Swal.fire("Error", "Nama role harus diisi.", "error");
+        return;
+    }
+
+    if (!validateRange(minInput, maxInput, errorDiv)) {
+        return;
+    }
+
+    fetch('/dosen/roles/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+        },
+        body: JSON.stringify({
+            name: name,
+            min_intensity: min,
+            max_intensity: max
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success && data.role) {
+            Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: `${name} berhasil disimpan ke database.`,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            customClass: {
+                popup: 'animated faster fadeInUp'
+            }
+        });
+
+
+            // Tambahkan ke UI langsung
+            renderRoleButton(data.role);
+
+            // Reset input
+            if (roleNameInput) roleNameInput.value = '';
+            if (minInput) minInput.value = 1;
+            if (maxInput) maxInput.value = 5;
+
+            hideCustomInputSection();
+        } else {
+            Swal.fire("Gagal", data.message || "Gagal membuat role.", "error");
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        Swal.fire("Gagal", "Terjadi kesalahan saat menghubungi server.", "error");
+    });
+}
+
 
 // Submit role update to the server
 function submitRoleUpdate(mahasiswaId, selectedRoleId) {
