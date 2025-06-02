@@ -44,8 +44,8 @@ class MahasiswaRoleController extends Controller
         'name' => $role->name,
         'min_intensity' => $role->min_intensity,
         'max_intensity' => $role->max_intensity
-    ]
-], 200, ['Content-Type' => 'application/json']);
+        ]
+    ], 200, ['Content-Type' => 'application/json']);
     }
 
     // Mengubah role mahasiswa

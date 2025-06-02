@@ -12,11 +12,13 @@ class MahasiswaRoleController extends Controller
     // Menampilkan semua role yang tersedia
     public function index()
     {
-        $roles = MahasiswaRole::whereNotIn('mahasiswa_role_id', [1, 2])->get();
-         return response()->json([
-            'success' => true,
-            'data' => $roles
-        ]);
+        $roles = MahasiswaRole::whereNotIn('mahasiswa_role_id', [1, 2])->get([
+        'mahasiswa_role_id',
+        'name',
+        'min_intensity',
+        'max_intensity'
+    ]);
+        return response()->json($roles);
     }
 
     // Membuat role baru
@@ -34,10 +36,16 @@ class MahasiswaRoleController extends Controller
             'max_intensity' => $request->max_intensity
         ]);
 
-        return response()->json(['success' => true, 'role' => $role]);
-    }
-
-    // Mengubah role mahasiswa
+        return response()->json([
+        'success' => true,
+        'role' => [
+        'mahasiswa_role_id' => $role->mahasiswa_role_id,
+        'name' => $role->name,
+        'min_intensity' => $role->min_intensity,
+        'max_intensity' => $role->max_intensity
+        ]
+    ], 200, ['Content-Type' => 'application/json']);
+    }    // Mengubah role mahasiswa
     public function updateMahasiswaRole(Request $request, $mahasiswa_id)
     {
 
