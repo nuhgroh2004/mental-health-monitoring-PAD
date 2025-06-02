@@ -178,7 +178,7 @@ function createMoodConfigHTML(savedCustomTemplates) {
                     </div>
 
                     <div id="active-template" class="text-sm font-medium text-blue-600 mb-4">
-                        TODO= Ambil role aktif mahasiswa
+                        Silahkan pilih role
                     </div>
 
                     <div id="custom-input-section" class="hidden flex flex-col items-center justify-center space-y-4 mb-4">
@@ -242,10 +242,81 @@ function createCustomTemplateButtons(savedCustomTemplates) {
 }
 
 // Set up the modal and attach event handlers
-function setupMoodConfigModal() {
+function setupMoodConfigModal(mahasiswaId) {
     addCustomStyles();
     initializeUIElements();
+
+    // Fetch saved custom (localStorage) templates
+    const savedCustomTemplates = JSON.parse(localStorage.getItem('customMoodTemplates') || '[]');
+
+    // Fetch roles dari server (semua role selain ID 1 dan 2)
+    fetch('/dosen/roles', {
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(roles => {
+        // Render role ke UI
+        roles.forEach((role, index) => {
+            renderRoleButton(role, index);
+        });
+    })
+    .catch(error => console.error('Gagal mengambil data role:', error));
 }
+
+function renderRoleButton(role, index) {
+    const container = document.getElementById("custom-templates-container");
+
+    const div = document.createElement('div');
+    div.className = 'custom-template-item relative group';
+    div.innerHTML = `
+        <button id="server-template-${role.min_intensity}-${role.max_intensity}"
+                data-role-id="${role.mahasiswa_role_id}"
+                data-min="${role.min_intensity}"
+                data-max="${role.max_intensity}"
+                class="custom-template-btn bg-indigo-100 text-indigo-800 py-2 px-4 rounded-lg hover:bg-indigo-200 transition-colors mx-1">
+            ${role.name}
+        </button>
+        <button data-role-id="${role.mahasiswa_role_id}"
+                class="delete-template-btn absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
+            <span class="text-xs">×</span>
+        </button>
+    `;
+
+    const button = div.querySelector("button.custom-template-btn");
+    button.addEventListener('click', function () {
+        const min = parseInt(this.dataset.min);
+        const max = parseInt(this.dataset.max);
+        const roleId = parseInt(this.dataset.roleId);
+
+        selectedRoleFromDatabase = roleId;
+
+        const elements = {
+            minInput: document.getElementById("minMood"),
+            maxInput: document.getElementById("maxMood"),
+            activeTemplateText: document.getElementById("active-template")
+        };
+
+        hideCustomInputSection();
+
+        setTemplate(min, max, role.name, elements); // Ganti label di indikator template
+        resetActiveButtons();
+        this.classList.add("active");
+    });
+
+    // Tombol hapus
+    const deleteBtn = div.querySelector('.delete-template-btn');
+    deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleDeleteDatabaseRole(role.mahasiswa_role_id, div);
+    });
+
+    container.appendChild(div);
+}
+
+
+
 
 // Add custom CSS styles for the modal
 function addCustomStyles() {
@@ -369,42 +440,48 @@ function initializeUIElements() {
     validateRange(elements.minInput, elements.maxInput, elements.errorDiv);
 }
 
+function hideCustomInputSection() {
+    const inputSection = document.getElementById("custom-input-section");
+    const saveButton = document.getElementById("custom-save-button");
+
+    if (inputSection) inputSection.classList.add("hidden");
+    if (saveButton) saveButton.classList.add("hidden");
+}
+
+function showCustomInputSection() {
+    const inputSection = document.getElementById("custom-input-section");
+    const saveButton = document.getElementById("custom-save-button");
+
+    if (inputSection) inputSection.classList.remove("hidden");
+    if (saveButton) saveButton.classList.remove("hidden");
+}
+
 // Set up template button handlers
 function setupTemplateButtons(elements) {
     const { template1to5, template1to10, templateCustom, minInput } = elements;
 
     template1to5.addEventListener("click", () => {
-        document.getElementById("custom-input-section").classList.add("hidden");
-        document.getElementById("custom-save-button").classList.add("hidden");
-
+        hideCustomInputSection();
         setTemplate(1, 5, "Skala 1-5", elements);
         template1to5.classList.add("active");
     });
 
     template1to10.addEventListener("click", () => {
-        document.getElementById("custom-input-section").classList.add("hidden");
-        document.getElementById("custom-save-button").classList.add("hidden");
-
+        hideCustomInputSection();
         setTemplate(1, 10, "Skala 1-10", elements);
         template1to10.classList.add("active");
     });
 
     templateCustom.addEventListener("click", () => {
-        document.getElementById("custom-input-section").classList.remove("hidden");
-        document.getElementById("custom-save-button").classList.remove("hidden");
-
-        // Allow custom input by activating the button
+        showCustomInputSection();
         elements.activeTemplateText.textContent = "Template Aktif: Kustom Baru";
-
-        // Reset active state on all buttons
         resetActiveButtons();
         templateCustom.classList.add("active");
-
-        // Focus on min input for better UX
         minInput.focus();
         minInput.select();
     });
 }
+
 
 // Set up input handlers for min and max values
 function setupInputHandlers(elements) {
@@ -421,7 +498,7 @@ function setupInputHandlers(elements) {
             const min = parseInt(minInput.value) || 1;
             const max = parseInt(maxInput.value) || 5;
 
-            activeTemplateText.textContent = `Template Aktif: Kustom (${min}-${max})`;
+            activeTemplateText.textContent = `Role terpilihh: Skala (${min}-${max})`;
             resetActiveButtons();
             templateCustom.classList.add("active");
         });
@@ -434,7 +511,7 @@ function setupInputHandlers(elements) {
             const min = parseInt(minInput.value) || 1;
             const max = parseInt(maxInput.value) || 5;
 
-            activeTemplateText.textContent = `Template Aktif: Kustom (${min}-${max})`;
+            activeTemplateText.textContent = `Role terpilihh: Skala (${min}-${max})`;
             validateRange(minInput, maxInput, errorDiv);
         });
     });
@@ -653,7 +730,7 @@ function setTemplate(min, max, templateName, elements) {
     maxInput.value = max;
 
     // Update active template indicator
-    activeTemplateText.textContent = `Template Aktif: ${templateName}`;
+    activeTemplateText.textContent = `Role terpilih: ${templateName}`;
 
     // Reset active state on all buttons
     resetActiveButtons();
@@ -684,38 +761,77 @@ function validateRange(minInput, maxInput, errorDiv) {
 
 // Handle form submission
 function handleMoodConfigSubmit(mahasiswaId) {
-    const minMood = document.getElementById("minMood").value;
-    const maxMood = document.getElementById("maxMood").value;
+    const minMood = parseInt(document.getElementById("minMood").value);
+    const maxMood = parseInt(document.getElementById("maxMood").value);
 
-    // Validate range
-    if (parseInt(minMood) >= parseInt(maxMood) ||
-        parseInt(minMood) < 1 ||
-        parseInt(maxMood) > 100) {
+    if (minMood >= maxMood || minMood < 1 || maxMood > 100) {
         Swal.showValidationMessage("Rentang mood tidak valid. Min harus < Max dan nilai harus 1-100.");
         return false;
     }
 
-    // Create configuration object
-    const config = {
-        range: {
-            min: parseInt(minMood),
-            max: parseInt(maxMood)
+    if (selectedRoleFromDatabase) {
+        return submitRoleUpdate(mahasiswaId, selectedRoleFromDatabase);
+    } else {
+        Swal.showValidationMessage("Silakan pilih role dari daftar yang tersedia.");
+        return false;
+    }
+}
+
+function handleDeleteDatabaseRole(roleId, roleElementDiv) {
+    Swal.fire({
+        title: 'Hapus Role Ini?',
+        text: 'Semua mahasiswa dengan role ini akan di-set ke role default.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal',
+        customClass: {
+            confirmButton: 'btn btn-danger mx-2',
+            cancelButton: 'btn btn-secondary mx-2'
         }
-    };
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/dosen/roles/${roleId}/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: data.message
+                    });
 
-    // Determine if it's closer to role_1 or role_2 based on the range
-    const selectedRoleId = config.range.max <= 5 ? 1 : 2;
-
-    // Store current selection in localStorage for this mahasiswa
-    localStorage.setItem(`mood_settings_${mahasiswaId}`, JSON.stringify(config));
-
-    // Send the request to update the role
-    return submitRoleUpdate(mahasiswaId, selectedRoleId, config);
+                    // Hapus elemen dari UI
+                    roleElementDiv.remove();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Gagal menghapus role.'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Kesalahan',
+                    text: 'Terjadi kesalahan server saat menghapus.'
+                });
+            });
+        }
+    });
 }
 
 // Submit role update to the server
 function submitRoleUpdate(mahasiswaId, selectedRoleId) {
-    return fetch(`edit-role-mahasiswa/${mahasiswaId}`, {
+    return fetch(`/dosen/edit-role-mahasiswa/${mahasiswaId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -727,17 +843,13 @@ function submitRoleUpdate(mahasiswaId, selectedRoleId) {
         })
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
+        if (!response.ok) throw new Error('Network response was not ok');
         return response.json();
     })
-    .then(data => {
-        return {
-            success: true,
-            message: data.message || "Role berhasil diubah!"
-        };
-    })
+    .then(data => ({
+        success: true,
+        message: data.message || "Role mahasiswa berhasil diperbarui!"
+    }))
     .catch(error => {
         console.error("Error:", error);
         return {
@@ -746,6 +858,7 @@ function submitRoleUpdate(mahasiswaId, selectedRoleId) {
         };
     });
 }
+
 
 // Handle the result of the modal
 function handleMoodConfigResult(result) {
