@@ -10,14 +10,40 @@ use App\Models\Mahasiswa;
 class MahasiswaRoleController extends Controller
 {
     // Menampilkan semua role yang tersedia
-    public function index()
+    public function index(Request $request)
     {
+        $mahasiswaId = $request->query('mahasiswa_id');
+
+        // Jika ada parameter mahasiswa_id, kembalikan role milik mahasiswa tersebut
+        if ($mahasiswaId) {
+            $mahasiswa = Mahasiswa::with('role')->find($mahasiswaId);
+
+            if (!$mahasiswa || !$mahasiswa->role) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Mahasiswa atau role tidak ditemukan'
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'role' => [
+                    'mahasiswa_role_id' => $mahasiswa->role->mahasiswa_role_id,
+                    'name' => $mahasiswa->role->name,
+                    'min_intensity' => $mahasiswa->role->min_intensity,
+                    'max_intensity' => $mahasiswa->role->max_intensity
+                ]
+            ]);
+        }
+
+        // Jika tidak ada mahasiswa_id, kembalikan semua role kecuali ID 1 dan 2
         $roles = MahasiswaRole::whereNotIn('mahasiswa_role_id', [1, 2])->get([
-        'mahasiswa_role_id',
-        'name',
-        'min_intensity',
-        'max_intensity'
-    ]);
+            'mahasiswa_role_id',
+            'name',
+            'min_intensity',
+            'max_intensity'
+        ]);
+
         return response()->json($roles);
     }
 
@@ -45,7 +71,9 @@ class MahasiswaRoleController extends Controller
         'max_intensity' => $role->max_intensity
         ]
     ], 200, ['Content-Type' => 'application/json']);
-    }    // Mengubah role mahasiswa
+    }
+
+    // Mengubah role mahasiswa
     public function updateMahasiswaRole(Request $request, $mahasiswa_id)
     {
 

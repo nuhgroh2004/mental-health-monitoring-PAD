@@ -4,6 +4,7 @@ namespace app\Http\Controllers\Api\Dosen;
 use App\Http\Controllers\Controller;
 
 use App\Models\Dosen;
+use App\Models\Mahasiswa;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;

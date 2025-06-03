@@ -24,7 +24,10 @@ class DosenHomeController extends Controller
 
         $no = $batas * ($dataMahasiswa->currentPage() - 1);
 
-        return view('dosen.home', compact('batas', 'no', 'dataMahasiswa'));
+        return response()->json([
+            'status' => 'completed',
+            'results' => $dataMahasiswa
+        ]);
     }
 
     public function search(Request $request)
@@ -103,7 +106,5 @@ class DosenHomeController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Mahasiswa berhasil dihapus']);
     }
-
-    // ❗️ TODO: Fitur Edit Role Mahasiswa
 }
 

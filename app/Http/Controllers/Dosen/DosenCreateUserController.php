@@ -127,13 +127,17 @@ class DosenCreateUserController extends Controller
                     'mahasiswa_role_id' => $userData['role'],
                 ]);
 
-                $roleName = MahasiswaRole::where('mahasiswa_role_id', $userData['role'])->value('name');
+                $roleName = MahasiswaRole::where('mahasiswa_role_id', $userData['role'])->value('name') ?? '-';
 
                 $createdUsers[] = [
-                    'name' => $user->name,
                     'email' => $user->email,
-                    'role_id' => $userData['role'],
-                    'nama_role' => $roleName
+                    'password' => $userData['password'], // kirim plaintext password
+                    'name' => $user->name,
+                    'nim' => $userData['nim'],
+                    'prodi' => $userData['prodi'],
+                    'tanggal_lahir' => $userData['tanggal_lahir'],
+                    'phone' => $userData['phone'],
+                    'role_name' => $roleName,
                 ];
             }
 
@@ -144,7 +148,6 @@ class DosenCreateUserController extends Controller
                 'message' => 'User berhasil ditambahkan',
                 'created_users' => $createdUsers
             ], 200);
-
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -177,14 +180,15 @@ class DosenCreateUserController extends Controller
 
                 // Ambil kolom
                 $email = trim($row[0] ?? '');
-                $password = $row[1] ?? '';
+                $password = trim($row[1] ?? '');
                 $name = trim($row[2] ?? '');
                 $nim = trim($row[3] ?? '');
                 $prodi = trim($row[4] ?? '');
                 $tanggalLahirRaw = $row[5] ?? '';
                 $phone = preg_replace('/[^0-9]/', '', $row[6] ?? '');
+                $roleId = intval($row[7] ?? 1); // default role 1
 
-                // Validasi kolom satu per satu
+                // Validasi manual
                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $errors[] = 'Email tidak valid';
                 } elseif (User::where('email', $email)->exists()) {
@@ -199,8 +203,8 @@ class DosenCreateUserController extends Controller
                     $errors[] = 'Nama tidak boleh kosong';
                 }
 
-                if (strlen($nim) > 20) {
-                    $errors[] = 'NIM maksimal 20 karakter';
+                if (strlen($nim) === 0 || Mahasiswa::where('NIM', $nim)->exists()) {
+                    $errors[] = 'NIM kosong atau sudah digunakan';
                 }
 
                 if (strlen($prodi) === 0) {
@@ -221,7 +225,6 @@ class DosenCreateUserController extends Controller
                     $errors[] = 'Nomor HP harus 10-12 digit angka';
                 }
 
-                // Kalau ada error, log dan skip
                 if (!empty($errors)) {
                     $failedRows[] = [
                         'row' => $i + 1,
@@ -230,6 +233,7 @@ class DosenCreateUserController extends Controller
                     continue;
                 }
 
+                DB::beginTransaction();
                 try {
                     // Buat user
                     $user = User::create([
@@ -239,17 +243,32 @@ class DosenCreateUserController extends Controller
                         'role' => 'Mahasiswa',
                     ]);
 
+                    // Buat mahasiswa
                     Mahasiswa::create([
                         'mahasiswa_id' => $user->user_id,
                         'NIM' => $nim,
                         'prodi' => $prodi,
                         'tanggal_lahir' => $tanggalLahir,
                         'nomor_hp' => $phone,
-                        'mahasiswa_role_id' => 1,
+                        'mahasiswa_role_id' => $roleId,
                     ]);
 
-                    $importedUsers[] = $user;
+                    $roleName = MahasiswaRole::where('mahasiswa_role_id', $roleId)->value('name') ?? '-';
+
+                    $importedUsers[] = [
+                        'email' => $user->email,
+                        'password' => $password, // kirim plaintext sementara
+                        'name' => $user->name,
+                        'nim' => $nim,
+                        'prodi' => $prodi,
+                        'tanggal_lahir' => $tanggalLahir,
+                        'phone' => $phone,
+                        'role_name' => $roleName,
+                    ];
+
+                    DB::commit();
                 } catch (\Exception $e) {
+                    DB::rollBack();
                     $failedRows[] = [
                         'row' => $i + 1,
                         'errors' => ['Gagal menyimpan ke database: ' . $e->getMessage()]

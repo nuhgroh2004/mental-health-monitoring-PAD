@@ -94,6 +94,10 @@ function createUserForm() {
                         title: 'User berhasil ditambahkan',
                         showConfirmButton: true,
                     });
+
+                    this.createdUsers = data.created_users; 
+                    this.showCreatedUsers = true;
+
                     this.$refs.userForm.reset();
                     this.users = [{
                         email: '',
