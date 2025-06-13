@@ -42,6 +42,7 @@ Route::post('/register/dosen', [RegisterController::class, 'storeDosen']);
 Route::middleware(['auth:sanctum', 'mahasiswa'])->group(function() {
     Route::get('/mahasiswa/profil', [MahasiswaController::class, 'showProfil']);
     Route::put('/mahasiswa/update-profil', [MahasiswaController::class, 'updateProfil']);
+    Route::get('/dosen/roles', [MahasiswaRoleController::class, 'index']);
 
     Route::post('/mahasiswa/store-mood', [MoodController::class, 'storeMood']);
     Route::post('/mahasiswa/progress/store', [ProgressTrackerController::class, 'store']);
@@ -56,7 +57,7 @@ Route::middleware(['auth:sanctum', 'mahasiswa'])->group(function() {
     Route::put('/mahasiswa/update-mood-note/{id}', [MoodCalendarController::class, 'updateMoodNote']);
 });
 
-
+ 
 
 Route::middleware(['auth:sanctum', 'dosen'])->group(function() {
     Route::get('/dosen/profil', [DosenController::class, 'showProfil']);
@@ -65,7 +66,7 @@ Route::middleware(['auth:sanctum', 'dosen'])->group(function() {
     Route::post('/dosen/create-user/store', [DosenCreateUserController::class, 'storeUserManualAPI']);
     Route::post('/dosen/create-user/import', [DosenCreateUserController::class, 'importUserExcelAPI']);
 
-    Route::get('/dosen/roles', [MahasiswaRoleController::class, 'index']);
+    // Route::get('/dosen/roles', [MahasiswaRoleController::class, 'index']);
     Route::post('/dosen/roles/create', [MahasiswaRoleController::class, 'store']);
     Route::put('/dosen/edit-role-mahasiswa/{id}', [MahasiswaRoleController::class, 'updateMahasiswaRole']);
     Route::delete('/dosen/roles/{id}/delete', [MahasiswaRoleController::class, 'deleteRole']);

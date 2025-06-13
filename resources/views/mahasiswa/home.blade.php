@@ -86,7 +86,7 @@
                         <!-- <button id="reset-btn" class="mt-4 px-6 py-2 bg-[#76aeb8] "> -->
                     .
                         </button>
-                    </div>
+                    </div>  
                 </div>
             </div>
 

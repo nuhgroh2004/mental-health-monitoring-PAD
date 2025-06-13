@@ -98,3 +98,4 @@ class MoodCalendarController extends Controller
         ]);
     }
 }
+
