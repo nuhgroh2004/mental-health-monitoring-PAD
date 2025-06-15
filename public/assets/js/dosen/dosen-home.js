@@ -138,7 +138,6 @@ function handleEditRole(mahasiswaId) {
     }).then(handleMoodConfigResult);
 }
 
-// Create HTML content for the modal
 function createMoodConfigHTML(savedCustomTemplates) {
     const customTemplateButtonsHTML = createCustomTemplateButtons(savedCustomTemplates);
 
@@ -159,7 +158,7 @@ function createMoodConfigHTML(savedCustomTemplates) {
 
                     <!-- Template Selection: Built-in and Custom Templates -->
                     <div class="template-container flex flex-wrap justify-center gap-2 mb-4">
-                        <div class="built-in-templates flex flex-wrap justify-center gap-2">
+                        <div class="built-in-templates flex flex-wrap justify-center gap-2" style="display: none;">
                             <button id="template-1-5" class="template-btn bg-blue-600 text-white py-3 px-5 rounded-lg hover:bg-blue-700 transition-colors">
                                 Skala 1-5
                             </button>
@@ -211,7 +210,6 @@ function createMoodConfigHTML(savedCustomTemplates) {
 
                     <div id="custom-save-button" class="hidden flex items-center justify-center mt-2 mb-1">
                         <button id="save-custom-template" class="h-10 px-3 py-1.5 bg-green-500 text-white text-sm rounded-md hover:bg-green-600 transition-colors flex items-center">
-
                             Simpan Template Kustom
                         </button>
                     </div>
