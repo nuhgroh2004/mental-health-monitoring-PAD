@@ -795,7 +795,7 @@ function handleMoodConfigSubmit(mahasiswaId) {
 function handleDeleteDatabaseRole(roleId, roleElementDiv) {
     Swal.fire({
         title: 'Hapus Role Ini?',
-        text: 'Semua mahasiswa dengan role ini akan di-set ke role default.',
+        text: 'Semua mahasiswa dengan role ini akan di-set ke role yang tersedia.',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Ya, Hapus!',
@@ -820,10 +820,11 @@ function handleDeleteDatabaseRole(roleId, roleElementDiv) {
                         icon: 'success',
                         title: 'Berhasil',
                         text: data.message
+                    }).then(() => {
+                        location.reload();
                     });
 
-                    // Hapus elemen dari UI
-                    roleElementDiv.remove();
+
                 } else {
                     Swal.fire({
                         icon: 'error',
