@@ -65,7 +65,7 @@
                 <!-- Catatan -->
                 <div class="mb-6">
                     <label for="notes" class="block text-[#76aeb8] text-base font-bold mb-1">Catatan:</label>
-                    <textarea id="notes" name="notes" required
+                    <textarea id="notes" name="notes" 
                               class="w-full px-4 py-2 border border-[#76aeb8] rounded-md focus:outline-none focus:ring-2 focus:ring-[#76aeb8] focus:border-[#76aeb8] resize-none text-base h-[200px]"></textarea>
                 </div>
 
