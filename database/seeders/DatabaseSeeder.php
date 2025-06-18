@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
             mahasiswaRoleSeeder::class,
             mahasiswaSeeder::class,
             dosenSeeder::class,
-            moodSeeder::class,
+            MoodSeeder::class,
             progressSeeder::class,
         ]);
     }
