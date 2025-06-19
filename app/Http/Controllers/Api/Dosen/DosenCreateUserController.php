@@ -13,41 +13,45 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Facades\Validator;
 
 class DosenCreateUserController extends Controller
 {
     public function storeUserManualAPI(Request $request)
     {
         $validRoles = MahasiswaRole::pluck('mahasiswa_role_id')->toArray();
+        $errors = [];
+        $createdUsers = [];
 
-        $rules = [
-            'users' => 'required|array|min:1',
-            'users.*.name' => 'required|string|max:255',
-            'users.*.email' => [
-                'required', 'email', 'max:255', 'unique:users,email',
-                'regex:/^[a-zA-Z0-9._%+-]+@mail\.ugm\.ac\.id$/',
-            ],
-            'users.*.prodi' => 'required|string|max:255',
-            'users.*.tanggal_lahir' => 'required|date_format:Y-m-d',
-            'users.*.phone' => 'nullable|string|digits_between:10,12|regex:/^[0-9]+$/',
-            'users.*.nim' => [
-                'required', 'string', 'max:20', 'unique:mahasiswa,NIM',
-                'regex:/^\d{2}\/\d{6}\/[A-Za-z]{2}\/\d{5}$/',
-            ],
-            'users.*.password' => [
-                'required', 'string', 'min:8',
-                'regex:/^(?=.*[A-Za-z])(?=.*\d).+$/',
-            ],
-            'users.*.role' => ['required', Rule::in($validRoles)],
-        ];
+        foreach ($request->users as $index => $userData) {
+            $validator = Validator::make($userData, [
+                'name' => 'required|string|max:255',
+                'email' => [
+                    'required', 'email', 'max:255', 'unique:users,email',
+                    'regex:/^[a-zA-Z0-9._%+-]+@mail\.ugm\.ac\.id$/',
+                ],
+                'prodi' => 'required|string|max:255',
+                'tanggal_lahir' => 'required|date_format:Y-m-d',
+                'phone' => 'nullable|string|digits_between:10,12|regex:/^[0-9]+$/',
+                'nim' => [
+                    'required', 'string', 'max:20', 'unique:mahasiswa,NIM',
+                    'regex:/^\d{2}\/\d{6}\/[A-Za-z]{2}\/\d{5}$/',
+                ],
+                'password' => [
+                    'required', 'string', 'min:8',
+                    'regex:/^(?=.*[A-Za-z])(?=.*\d).+$/',
+                ],
+                'role' => ['required', Rule::in($validRoles)],
+            ]);
 
-        $validatedData = $request->validate($rules);
+            if ($validator->fails()) {
+                $errors["user_$index"] = $validator->errors();
+                continue; // skip user invalid
+            }
 
-        DB::beginTransaction();
-        try {
-            $createdUsers = [];
-
-            foreach ($request->users as $userData) {
+            // Jika valid, simpan ke DB:
+            DB::beginTransaction();
+            try {
                 $user = User::create([
                     'name' => $userData['name'],
                     'email' => $userData['email'],
@@ -64,29 +68,12 @@ class DosenCreateUserController extends Controller
                     'mahasiswa_role_id' => $userData['role'],
                 ]);
 
-                $roleName = MahasiswaRole::where('mahasiswa_role_id', $userData['role'])->value('name');
-
-                $createdUsers[] = [
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'role_id' => $userData['role'],
-                    'nama_role' => $roleName,
-                ];
+                $createdUsers[] = $user;
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollBack();
+                $errors["user_$index"] = $e->getMessage();
             }
-
-            DB::commit();
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'User berhasil ditambahkan',
-                'created_users' => $createdUsers
-            ], 201);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
-            ], 500);
         }
     }
 

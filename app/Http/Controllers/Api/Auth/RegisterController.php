@@ -15,6 +15,7 @@ use App\Mail\SendEmail;
 use App\http\conroller\sendEmailController;
 use App\Models\OTP;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class RegisterController extends Controller
@@ -57,13 +58,15 @@ class RegisterController extends Controller
             'role' => 'Mahasiswa'
         ]);
 
+        $lowestRoleId = DB::table('mahasiswa_role')->min('mahasiswa_role_id');
+
         Mahasiswa::create([
             'mahasiswa_id' => $user->user_id,
             'prodi' => $validated['prodi'],
             'tanggal_lahir' => $validated['tanggal_lahir'],
             'nomor_hp' => $validated['phone_number'],
             'NIM' => $validated['nim'],
-            'mahasiswa_role_id' => '1',
+            'mahasiswa_role_id' => $lowestRoleId,
         ]);
 
         $token = $user->createToken('API Token')->plainTextToken;
