@@ -45,7 +45,7 @@ Route::middleware(['auth:sanctum', 'mahasiswa'])->group(function() {
     Route::get('/mahasiswa/roles', [MahasiswaRoleController::class, 'index']);
 
     Route::post('/mahasiswa/store-mood', [MoodController::class, 'storeMood']);
-    Route::post('/mahasiswa/progress/store', [ProgressTrackerController::class, 'store']);
+    Route::post('/mahasiswa/progress/store', [App\Http\Controllers\Api\Mahasiswa\ProgressTrackerController::class, 'store']);
 
     Route::get('/mahasiswa/notifikasi', [MahasiswaNotifController::class, 'index']);
     Route::put('/mahasiswa/notifikasi/{id}', [MahasiswaNotifController::class, 'update']);
