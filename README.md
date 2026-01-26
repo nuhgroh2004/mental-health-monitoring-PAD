@@ -350,9 +350,7 @@ npm run build
 
 Untuk melihat demo aplikasi GamaPuls, silakan tonton video berikut:
 
-[![GamaPuls Demo](https://img.youtube.com/vi/YOUR_YOUTUBE_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=YOUR_YOUTUBE_VIDEO_ID)
-
-[Link Video Demo di YouTube](https://www.youtube.com/watch?v=YOUR_YOUTUBE_VIDEO_ID)
+[Link Video Demo di YouTube](https://youtu.be/aC_SDalBh3o)
 
 ## Kontribusi
 
