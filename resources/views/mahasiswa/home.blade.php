@@ -22,7 +22,7 @@
             <!-- Top Bar (Visible on small screens) -->
             <div class="flex md:hidden bg-white p-4 items-center mt-[70px] rounded-lg m-4 h-[70px] shadow-lg" >
                 <div class="btn-mood w-[180px] h-[50px] rounded-lg mr-3 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">
-                    reset-btn<img class="w-[40px] h-[40px]" src="{{ asset('assets/svg/icon-mood-trakker.svg') }}" alt="Logo" class="">
+                    <img class="w-[40px] h-[40px]" src="{{ asset('assets/svg/icon-mood-trakker.svg') }}" alt="Logo" class="">
                     <span class="text-lg text-center ml-2">Mood Tracker</span>
                 </div>
                 <div class="btn-target w-[110px] h-[50px] rounded-lg ml-3 hover:bg-[#3ad1ff] transition-colors duration-300 flex items-center justify-center">

@@ -13,7 +13,7 @@ class MahasiswaRoleController extends Controller
     // Menampilkan semua role yang tersedia
     public function index()
     {
-        $roles = MahasiswaRole::whereNotIn('mahasiswa_role_id', [1, 2])->get([
+        $roles = MahasiswaRole::get([
         'mahasiswa_role_id',
         'name',
         'min_intensity',
@@ -70,14 +70,43 @@ class MahasiswaRoleController extends Controller
     // Menghapus role dan atur mahasiswa ke role default (1)
     public function deleteRole($role_id)
     {
+        // Hitung jumlah total role
+        $totalRoles = MahasiswaRole::count();
+
+        // Cek jika role hanya 1, tolak penghapusan
+        if ($totalRoles <= 1) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak dapat menghapus role karena hanya ada satu role yang tersedia.'
+            ], 400);
+        }
+
         $role = MahasiswaRole::findOrFail($role_id);
 
-        // Set semua mahasiswa dengan role ini ke role default (1)
-        Mahasiswa::where('mahasiswa_role_id', $role_id)->update(['mahasiswa_role_id' => 1]);
+        // Cari role_id terendah selain yang akan dihapus
+        $defaultRole = MahasiswaRole::where('mahasiswa_role_id', '!=', $role_id)
+            ->orderBy('mahasiswa_role_id', 'asc')
+            ->first();
 
+        // Jika tidak ada role lain, kembalikan error
+        if (!$defaultRole) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak ada role lain untuk dijadikan default.'
+            ], 400);
+        }
+
+        // Set semua mahasiswa dengan role ini ke role dengan ID terendah
+        Mahasiswa::where('mahasiswa_role_id', $role_id)
+            ->update(['mahasiswa_role_id' => $defaultRole->mahasiswa_role_id]);
+
+        // Hapus role
         $role->delete();
 
-        return response()->json(['success' => true, 'message' => 'Role berhasil dihapus dan mahasiswa diperbarui ke default.']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Role berhasil dihapus. Mahasiswa dipindahkan ke role "' . $defaultRole->name . '".'
+        ]);
     }
 
 

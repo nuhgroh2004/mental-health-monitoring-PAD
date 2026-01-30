@@ -49,12 +49,21 @@ class DosenHomeController extends Controller
         $no = $batas * ($dataMahasiswa->currentPage() - 1);
 
         if ($dataMahasiswa->isEmpty()) {
-            $error = "Mahasiswa tidak terdaftar.";
-            return view('dosen.partials.mahasiswaTable', compact('dataMahasiswa', 'no', 'error'));
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Mahasiswa tidak terdaftar.',
+                'data' => [],
+            ], 404);
         }
 
-        return view('dosen.partials.mahasiswaTable', compact('dataMahasiswa', 'no'));
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data mahasiswa ditemukan.',
+            'data' => $dataMahasiswa,
+            'no' => $no,
+        ], 200);
     }
+
 
     public function sendPermissionRequest(Request $request, $mahasiswaId)
     {
