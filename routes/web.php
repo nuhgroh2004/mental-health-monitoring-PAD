@@ -18,6 +18,7 @@ use App\Http\Controllers\Mahasiswa\MahasiswaNotifController;
 use App\Http\Controllers\Dosen\DosenController;
 use App\Http\Controllers\Dosen\DosenHomeController;
 use App\Http\Controllers\Dosen\DosenNotifController;
+use App\Http\Controllers\Dosen\DosenAdvancedFilterController;
 use App\Http\Controllers\OTPController;
 use App\Http\Controllers\Dosen\DosenCreateUserController;
 use App\Http\Controllers\dosen\MahasiswaRoleController;
@@ -88,6 +89,10 @@ Route::middleware(['dosen'])->group(function () {
         Route::post('/update-profil', [DosenController::class, 'updateProfil'])->name('dosen.updateProfil');
         Route::get('/edit-profil', [DosenController::class, 'bukaEdit'])->name('dosen.edit-profil');
 
+        // Advanced Filter Routes
+        Route::get('/advanced-filter', [DosenAdvancedFilterController::class, 'index'])->name('dosen.advanced-filter');
+        Route::post('/advanced-filter/apply', [DosenAdvancedFilterController::class, 'apply'])->name('dosen.advanced-filter.apply');
+        Route::get('/advanced-filter/options', [DosenAdvancedFilterController::class, 'getOptions'])->name('dosen.advanced-filter.options');
 
     });
 });
